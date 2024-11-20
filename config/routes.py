@@ -12,4 +12,4 @@ def get_root_routes():
 def add_routes(app):
     root_routes = get_root_routes()
     for route, view in root_routes.items():
-        app.route(f'/{route}', method=["GET", "POST"], callable=lambda view=view: template(view, output='output'))
+        app.route(f'/{route}', method=["GET", "POST"])(lambda view=view: template(view, output='output'))
