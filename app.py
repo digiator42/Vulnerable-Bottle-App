@@ -1,5 +1,5 @@
 from bottle import Bottle, run, template, static_file
-from config.settings import HOST, PORT, DEBUG
+from config.settings import HOST, PORT, DEBUG, RELOADER
 from utils.main import get_template
 
 app = Bottle()
@@ -10,7 +10,11 @@ def serve_static(file):
 
 @app.route('/')
 def main():
-    return template(get_template("base.html"))
+    return template("main")
+
+@app.get('/cmd')
+def cmd():
+    return template("cmd_injection")
 
 if __name__ == "__main__":
-    run(app, host=HOST, port=PORT, reloader=DEBUG)
+    run(app, host=HOST, port=PORT, debug=DEBUG, reloader=RELOADER)

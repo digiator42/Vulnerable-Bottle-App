@@ -24,8 +24,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="form-container">
-            <h1>Welcome</h1>
-            <p>This is the main body where fun begins.</p>
+            {{ !base }}
         </div>
     </div>
 </body>
