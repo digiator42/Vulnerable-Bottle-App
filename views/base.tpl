@@ -19,6 +19,7 @@
         <a href="/csrf">CSRF</a>
         <a href="/open_redirect">Open Redirect</a>
         <a href="/ssrf">Server-Side Request Forgery</a>
+        <a href="/directory_traversal">Directory Traversal</a>
     </div>
 
     <!-- Main Content -->
