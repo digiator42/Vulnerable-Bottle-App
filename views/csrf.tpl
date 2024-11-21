@@ -12,3 +12,9 @@
         <button type="submit">Transfer</button>
     </form>
 </div>
+
+<div>
+    <form action="/change-email" method="POST">
+        <input type="hidden" name="email" value="attacker@example.com">
+    </form>
+</div>
