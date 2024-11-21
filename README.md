@@ -11,7 +11,6 @@ Bottle is a lightweight micro web-framework for Python, that's why I chose it fo
 ├── config/
 │   ├── settings.py           
 │   ├── routes.py             
-│   └── triggers.py                  
 ├── templates/                
 │   ├── base.html             
 │   ├── index.html            
@@ -19,4 +18,6 @@ Bottle is a lightweight micro web-framework for Python, that's why I chose it fo
 │   └── error.html            
 ├── utils/
 │   └── main.py
+├──triggers
+│   └── triggers.py                  
 ```
