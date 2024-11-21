@@ -5,7 +5,6 @@
     <form method="POST" action="/cmd">
         <label for="command">Enter a Command:</label><br>
         <input type="text" id="command" name="command" placeholder="e.g., ls" required>
-        <br><br>
         <button type="submit">Run Command</button>
     </form>
 </div>
