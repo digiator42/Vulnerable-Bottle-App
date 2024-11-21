@@ -1,4 +1,4 @@
-% rebase('base.tpl', title='Page Title')
+% rebase('_base.tpl', title='Page Title')
 
 <div class="form-container">
     <h1>Cross-Site Scripting (XSS)</h1>

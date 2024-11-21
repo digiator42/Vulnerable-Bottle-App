@@ -1,4 +1,4 @@
-% rebase('base.tpl', title='Main')
+% rebase('_base.tpl', title='Main')
 
 <div class="form-container">
     <h1>Insecure File Access</h1>
