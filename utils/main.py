@@ -1,5 +1,11 @@
+import re
+import inspect
+from pathlib import Path
+from config.settings import ROOT_DIR
+from bottle import request
 
-
+PY_EXT: int = -3
+TPL_EXT: int = -4
 
 def get_template(template_name, **kwargs):
     """
@@ -17,3 +23,32 @@ def get_template(template_name, **kwargs):
     with open(f"templates/{template_name}") as f:
         template = f.read()
     return template.format(**kwargs)
+
+def get_user_input():
+    if request.method == "GET":
+        return request.GET.get("command", "")
+    return request.POST.get("command", "")
+
+def get_routes(ext: int=TPL_EXT):
+    """
+    Get all routes from the views directory
+    `only` tpls which are not starting with underscore
+    """
+    views_dir = Path(ROOT_DIR, 'views')
+    triggers_dir = Path(ROOT_DIR, 'triggers')
+    
+    files = views_dir.iterdir() if ext == TPL_EXT else triggers_dir.iterdir()
+    view_files = [f.name for f in files if f.is_file()]
+    routes = {file[:ext]: file for file in view_files if not file.startswith('_')}
+    return routes
+
+def get_trigger_functions(module):
+    """
+    Get all functions in a module that start with 'trigger_'.
+    """
+    trigger_pattern = re.compile(r"^trigger_")
+    return {
+        name: func
+        for name, func in inspect.getmembers(module, inspect.isfunction)
+        if trigger_pattern.match(name)
+    }
