@@ -17,4 +17,10 @@
     <form action="/change-email" method="POST">
         <input type="hidden" name="email" value="attacker@example.com">
     </form>
+    <div>
+        % if output:
+        <br>
+        <pre class="output">{{output}}</pre>
+        % end
+    </div>
 </div>

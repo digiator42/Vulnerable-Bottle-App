@@ -2,12 +2,15 @@
 
 <div class="form-container">
     <h1>Command Injection</h1>
-    <form method="POST" action="/trigger/cmd">
+    <form method="POST" action="/trigger/cmd/subprocess_cmd">
         <label for="command">Enter a Command:</label><br>
         <input type="text" id="command" name="command" placeholder="e.g., ls" required>
         <button type="submit">Run Command</button>
     </form>
-    % if output:
-        <h2>{{output}}:</h2>
-    % end
+    <div>
+        % if output:
+        <br>
+        <pre class="output">{{output}}</pre>
+        % end
+    </div>
 </div>

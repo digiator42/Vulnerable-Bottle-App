@@ -8,4 +8,10 @@
         <br><br>
         <button type="submit">Access File</button>
     </form>
+    <div>
+        % if output:
+        <br>
+        <pre class="output">{{output}}</pre>
+        % end
+    </div>
 </div>

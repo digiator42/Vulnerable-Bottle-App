@@ -11,4 +11,10 @@
         <br><br>
         <button type="submit">Login</button>
     </form>
+    <div>
+        % if output:
+        <br>
+        <pre class="output">{{output}}</pre>
+        % end
+    </div>
 </div>
