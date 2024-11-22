@@ -1,3 +1,5 @@
+import re
+import inspect
 from pathlib import Path
 from .settings import ROOT_DIR
 from bottle import template, template, static_file, request
@@ -28,6 +30,17 @@ def _get_routes(ext: int=TPL_EXT):
     routes = {file[:ext]: file for file in view_files if not file.startswith('_')}
     return routes
 
+def get_trigger_functions(module):
+    """
+    Get all functions in a module that start with 'trigger_'.
+    """
+    trigger_pattern = re.compile(r"^trigger_")
+    return {
+        name: func
+        for name, func in inspect.getmembers(module, inspect.isfunction)
+        if trigger_pattern.match(name)
+    }
+
 def add_routes(app):
     app.route('/static/<file:path>', callback=serve_static)
     app.route('/', callback=main_view)
@@ -38,11 +51,19 @@ def add_routes(app):
         app.route(f'/{route}', method=["GET", "POST"])(
             lambda view=view: template(view, output='output')
         )
+
     trigger_routes = _get_routes(PY_EXT)
+    
     for trigger, view in trigger_routes.items():
         trigger_module = __import__(f'triggers.{trigger}', fromlist=['trigger'])
-        app.route(f'/trigger/{trigger}', method=["GET", "POST"])(
-            lambda trigger_module=trigger_module: trigger_module.trigger(_get_user_input(request))
-        )
+
+        trigger_functions: dict[str, function] = get_trigger_functions(trigger_module)
+
+        for func_name, func in trigger_functions.items():
+            route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
+            print(f"Adding route: {route_path}")
+            app.route(route_path, method=["GET", "POST"])(
+                lambda func=func: func(_get_user_input(request))
+            )
     # for route in app.routes:
     #     print(route.rule)
