@@ -1,4 +1,5 @@
 import os
 
-def trigger_cmd_injection(user_input):
+def trigger(user_input):
     os.system(user_input)
+    return {"output": "output"}

@@ -15,10 +15,10 @@ def main_view():
 
 def _get_user_input(request):
     if request.method == "GET":
-        return request.GET.get("user_input", "")
-    return request.POST.get("user_input", "")
+        return request.GET.get("command", "")
+    return request.POST.get("command", "")
 
-def _get_root_routes(ext: int=TPL_EXT):
+def _get_routes(ext: int=TPL_EXT):
     """
     Get all routes from the views directory
     `only` tpls which are not starting with underscore
@@ -32,17 +32,17 @@ def add_routes(app):
     app.route('/static/<file:path>', callback=serve_static)
     app.route('/', callback=main_view)
     
-    root_routes = _get_root_routes()
+    root_routes = _get_routes()
 
     for route, view in root_routes.items():
         app.route(f'/{route}', method=["GET", "POST"])(
             lambda view=view: template(view, output='output')
         )
-    trigger_routes = _get_root_routes(PY_EXT)
+    trigger_routes = _get_routes(PY_EXT)
     for trigger, view in trigger_routes.items():
         trigger_module = __import__(f'triggers.{trigger}', fromlist=['trigger'])
         app.route(f'/trigger/{trigger}', method=["GET", "POST"])(
             lambda trigger_module=trigger_module: trigger_module.trigger(_get_user_input(request))
         )
-    for route in app.routes:
-        print(route.rule)
+    # for route in app.routes:
+    #     print(route.rule)
