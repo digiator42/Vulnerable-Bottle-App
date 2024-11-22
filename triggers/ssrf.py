@@ -1,7 +1,7 @@
 from bottle import request
 import requests
 
-def fetch():
+def trigger_fetch():
     url = request.query.url
     
     try:

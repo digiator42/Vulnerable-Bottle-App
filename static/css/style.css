@@ -48,6 +48,15 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.output {
+    background-color: rgb(238, 234, 234);
+    width: fit-content;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 h1 {
     margin-top: 0;
 }

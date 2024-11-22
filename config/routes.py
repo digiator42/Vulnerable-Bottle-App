@@ -13,7 +13,7 @@ def add_trigger_routes(app):
     then creates routes for each trigger function.
     """
     trigger_routes = get_routes(PY_EXT)
-    # use view as tpl to return trigger result afterwords
+
     for trigger, view in trigger_routes.items():
         trigger_module = __import__(f'triggers.{trigger}', fromlist=['trigger'])
 
@@ -21,8 +21,6 @@ def add_trigger_routes(app):
 
         for func_name, func in trigger_functions.items():
             route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
-            print(f"View route: {view}")
-            print(f"Adding route: {route_path}")
             app.route(route_path, method=["GET", "POST"])(
                 lambda view=view, func=func: template(
                     view[:PY_EXT], output=func(get_user_input())
@@ -36,7 +34,7 @@ def add_root_routes(app):
     root_routes = get_routes()
     for route, view in root_routes.items():
         app.route(f'/{route}', method=["GET", "POST"])(
-            lambda view=view: template(view, output='output')
+            lambda view=view: template(view, output='')
         )    
 
 def add_routes(app):

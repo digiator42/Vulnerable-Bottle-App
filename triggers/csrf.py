@@ -1,6 +1,6 @@
 from bottle import request
 
-def transfer():
+def trigger_transfer():
     if request.method == 'POST':
         amount = request.form['amount']
         recipient = request.form['recipient']

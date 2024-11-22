@@ -1,6 +1,6 @@
 from bottle import request, response
 
-def read_file():
+def trigger_read_file():
     filename = request.query.filename
     try:
         with open(filename, 'r') as file:
