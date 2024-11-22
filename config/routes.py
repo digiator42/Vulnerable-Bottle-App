@@ -21,9 +21,12 @@ def add_trigger_routes(app):
 
         for func_name, func in trigger_functions.items():
             route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
+            print(f"View route: {view}")
             print(f"Adding route: {route_path}")
             app.route(route_path, method=["GET", "POST"])(
-                lambda func=func: func(get_user_input())
+                lambda view=view, func=func: template(
+                    view[:PY_EXT], output=func(get_user_input())
+                )
             )
             
 def add_root_routes(app):

@@ -9,6 +9,6 @@
         <button type="submit">Submit</button>
     </form>
     % if output:
-        <p>output:</p>
+        <p>output:{{output}}</p>
     % end
 </div>

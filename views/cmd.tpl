@@ -7,4 +7,7 @@
         <input type="text" id="command" name="command" placeholder="e.g., ls" required>
         <button type="submit">Run Command</button>
     </form>
+    % if output:
+        <h2>{{output}}:</h2>
+    % end
 </div>

@@ -20,7 +20,7 @@ def get_template(template_name, **kwargs):
         KeyError: If a placeholder in the template is not provided in kwargs.
     """
     
-    with open(f"templates/{template_name}") as f:
+    with open(f"views/{template_name}.tpl") as f:
         template = f.read()
     return template.format(**kwargs)
 
