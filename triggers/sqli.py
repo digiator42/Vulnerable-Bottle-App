@@ -30,11 +30,12 @@ def create_admin_table():
     connection.close()
 
 def trigger_sql_injection(username):
+    print(f"SELECT * FROM users WHERE username = '{username}';")
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
     query = f"SELECT * FROM users WHERE username = '{username}';"
     cursor.execute(query)
-    result = cursor.fetchone()
+    result = cursor.fetchall()
     connection.close()
     if result:
         return result[1], result[3]
@@ -51,3 +52,7 @@ def get_db_info():
     
     connection.close()
     print(tables, '\n', users)
+
+print(trigger_sql_injection("105; DROP TABLE users"))
+print(trigger_sql_injection("' OR '1'='1 -- hacked"))
+# get_db_info()

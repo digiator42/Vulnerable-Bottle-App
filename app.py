@@ -1,4 +1,4 @@
-from bottle import Bottle, run, template, static_file
+from bottle import Bottle, run
 from config.settings import HOST, PORT, DEBUG, RELOADER
 from config.routes import add_routes
 from triggers.sqli import create_admin_table
