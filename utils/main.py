@@ -28,7 +28,6 @@ def get_user_input():
     if request.method == "GET":
         print('---------> ', 'request.GET')
         return request.GET.get("command", "") or request.GET.get("username", "")
-    # POST
     print('---------> ', 'request.POST')
     return request.POST.get("command", request.POST.get("username", ""))
 

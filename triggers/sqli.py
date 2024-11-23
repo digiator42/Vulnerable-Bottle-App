@@ -29,11 +29,10 @@ def create_admin_table():
     print('--------> ', result)
     connection.close()
 
-def trigger_sql_injection(user_input):
-    print('--------> ', user_input)
+def trigger_sql_injection(username):
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
-    query = f"SELECT * FROM users WHERE username = '{user_input}';"
+    query = f"SELECT * FROM users WHERE username = '{username}';"
     cursor.execute(query)
     result = cursor.fetchone()
     connection.close()
@@ -41,3 +40,14 @@ def trigger_sql_injection(user_input):
         return result[1], result[3]
     else:
         return None, None
+    
+def get_db_info():
+    connection = sqlite3.connect("data.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    cursor.execute("SELECT * FROM users;")
+    users = cursor.fetchall()
+    
+    connection.close()
+    print(tables, '\n', users)
