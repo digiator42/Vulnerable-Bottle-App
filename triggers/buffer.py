@@ -1,12 +1,13 @@
 import ctypes
+import random
 
-def trigger_buffer_overflow():
-    buffer = (ctypes.c_char * 10)()
+def trigger_buffer_overflow(user_input: int=10):
+    buffer = (ctypes.c_char * user_input)()
     
-    for i in range(10):
-        buffer[i] = b'A'    
+    for i in range(user_input):
+        buffer[i] = b'A' 
     try:
-        buffer[15] = b'B'
+        buffer[user_input + random.randint(-5, 2)] = b'B'
     except IndexError as e:
-        print("overflow:", e)
-    print("buffer:", bytes(buffer))
+        return ("overflow:", e)
+    return ("buffer:", bytes(buffer))
