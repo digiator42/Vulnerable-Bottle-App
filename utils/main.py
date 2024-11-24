@@ -32,11 +32,6 @@ def get_user_input():
             return request.GET.get(usr_input)
         if request.POST.get(usr_input):
             return request.POST.get(usr_input)
-    # if request.method == "GET":
-    #     print('---------> ', 'request.GET')
-    #     return request.GET.get("command", "") or request.GET.get("username", "")
-    # print('---------> ', 'request.POST')
-    # return request.POST.get("command", request.POST.get("username", ""))
 
 def get_routes(ext: int=TPL_EXT):
     """
