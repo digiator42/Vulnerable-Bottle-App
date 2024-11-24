@@ -6,3 +6,6 @@
     <input type="number" id="requests" name="requests" min="1" required>
     <button type="submit">Start Attack</button>
 </form>
+% if output:
+<pre>{{ output }}</pre>
+% end

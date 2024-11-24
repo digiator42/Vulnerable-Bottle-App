@@ -61,4 +61,4 @@ def get_trigger_functions(module):
     }
 
 
-print(get_template("xss", output='<script>alert(1)</script>')) # _home.tpl
+# print(get_template("xss", output='<script>alert(1)</script>')) # _home.tpl

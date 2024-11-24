@@ -15,6 +15,7 @@
         <a href="/cmd">Command Injection</a>
         <a href="/xss">Cross-Site Scripting (XSS)</a>
         <a href="/sqli">SQL Injection</a>
+        <a href="/admin">Admin Access</a>
         <a href="/file_read">Insecure File Access</a>
         <a href="/csrf">CSRF</a>
         <a href="/open_redirect">Open Redirect</a>
