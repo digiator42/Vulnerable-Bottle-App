@@ -8,3 +8,6 @@
     <input type="password" id="password" name="password" required><br><br>
     <button type="submit">Login</button>
 </form>
+% if output:
+    {{output}}
+% end

@@ -1,12 +1,8 @@
-from bottle import request, response
 
-def trigger_read_file():
-    filename = request.query.filename
+def trigger_read_file(file_path):
     try:
-        with open(filename, 'r') as file:
+        with open(file_path, 'r') as file:
             content = file.read()
-        response.content_type = 'text/plain'
         return content
     except Exception as e:
-        response.status = 500
         return str(e)
