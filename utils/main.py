@@ -7,6 +7,8 @@ from bottle import request
 PY_EXT: int = -3
 TPL_EXT: int = -4
 
+input = ['username', 'command', 'input']
+
 def get_template(template_name, **kwargs):
     """
     Reads a template file and formats it with the provided keyword arguments.
@@ -25,11 +27,16 @@ def get_template(template_name, **kwargs):
     return template.format(**kwargs)
 
 def get_user_input():
-    if request.method == "GET":
-        print('---------> ', 'request.GET')
-        return request.GET.get("command", "") or request.GET.get("username", "")
-    print('---------> ', 'request.POST')
-    return request.POST.get("command", request.POST.get("username", ""))
+    for usr_input in input:
+        if request.GET.get(usr_input):
+            return request.GET.get(usr_input)
+        if request.POST.get(usr_input):
+            return request.POST.get(usr_input)
+    # if request.method == "GET":
+    #     print('---------> ', 'request.GET')
+    #     return request.GET.get("command", "") or request.GET.get("username", "")
+    # print('---------> ', 'request.POST')
+    # return request.POST.get("command", request.POST.get("username", ""))
 
 def get_routes(ext: int=TPL_EXT):
     """
