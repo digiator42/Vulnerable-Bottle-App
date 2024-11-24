@@ -13,7 +13,7 @@ def xss_view(view, func):
     ), output='')
 
 def trigger_view(view, func):
-    return lambda view=view, func=func: get_template(
+    return lambda view=view, func=func: template(
         view[:PY_EXT], output=func(get_user_input())
     )
     
