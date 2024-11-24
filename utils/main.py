@@ -7,7 +7,10 @@ from bottle import request
 PY_EXT: int = -3
 TPL_EXT: int = -4
 
-input = ['username', 'command', 'input']
+input = [
+    'username', 'command', 'input', 'data', 'amount', 
+    'path', 'requests', 'filepath', 'file', 'url'
+]
 
 def get_template(template_name, **kwargs):
     """
@@ -56,3 +59,6 @@ def get_trigger_functions(module):
         for name, func in inspect.getmembers(module, inspect.isfunction)
         if trigger_pattern.match(name)
     }
+
+
+print(get_template("xss", output='<script>alert(1)</script>')) # _home.tpl

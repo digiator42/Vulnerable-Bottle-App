@@ -9,5 +9,5 @@
         <button type="submit">Submit</button>
     </form>
     <!-- for get_template -->
-    {output}
+    <div style="display:none;">{output}</div>
 </div>

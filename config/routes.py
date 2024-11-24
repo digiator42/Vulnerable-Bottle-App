@@ -1,5 +1,5 @@
 from bottle import template, template, static_file
-from utils.main import get_routes, get_trigger_functions, get_user_input, PY_EXT, get_template
+from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -10,7 +10,7 @@ def main_view():
 def xss_view(view, func):
     return lambda view=view, func=func: template(get_template(
         view[:PY_EXT], output=func(get_user_input())
-    ), output='')
+    ))
 
 def trigger_view(view, func):
     return lambda view=view, func=func: template(
