@@ -28,7 +28,10 @@ def trigger_sql_injection(username):
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
     query = f"SELECT * FROM users WHERE username = '{username}';"
-    cursor.execute(query)
+    try:
+        cursor.execute(query)
+    except sqlite3.OperationalError as e:
+        return str(e)
     result = cursor.fetchall()
     connection.close()
     if result:
