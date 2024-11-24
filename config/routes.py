@@ -1,5 +1,5 @@
 from bottle import template, template, static_file
-from utils.main import get_routes, get_trigger_functions, get_user_input, PY_EXT
+from utils.main import get_routes, get_trigger_functions, get_user_input, PY_EXT, get_template
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -7,6 +7,16 @@ def serve_static(file: str):
 def main_view():
     return template("_home")
 
+def xss_view(view, func):
+    return lambda view=view, func=func: template(get_template(
+        view[:PY_EXT], output=func(get_user_input())
+    ), output='')
+
+def trigger_view(view, func):
+    return lambda view=view, func=func: get_template(
+        view[:PY_EXT], output=func(get_user_input())
+    )
+    
 def add_trigger_routes(app):
     """
     Adds trigger routes., imports trigger modules and their functions,
@@ -21,11 +31,10 @@ def add_trigger_routes(app):
 
         for func_name, func in trigger_functions.items():
             route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
-            app.route(route_path, method=["GET", "POST"])(
-                lambda view=view, func=func: template(
-                    view[:PY_EXT], output=func(get_user_input())
-                )
-            )
+            if func_name == 'trigger_xss':
+                app.route(route_path, method=["GET", "POST"])(xss_view(view, func))
+                continue
+            app.route(route_path, method=["GET", "POST"])(trigger_view(view, func))
             
 def add_root_routes(app):
     """
