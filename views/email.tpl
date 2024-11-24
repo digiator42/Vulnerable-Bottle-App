@@ -1,3 +1,5 @@
+% rebase('_base.tpl', title='Main')
+
 <h1>Send Email</h1>
 <form action="/email/email_injection" method="post">
     <label for="to">To:</label>

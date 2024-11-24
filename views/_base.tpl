@@ -20,6 +20,14 @@
         <a href="/open_redirect">Open Redirect</a>
         <a href="/ssrf">Server-Side Request Forgery</a>
         <a href="/directory_traversal">Directory Traversal</a>
+        <a href="/buffer">Buffer Overflow</a>
+        <a href="/crypto">Crypto</a>
+        <a href="/deserialization">deserialization</a>
+        <a href="/dos">DOS Simulation</a>
+        <a href="/email">Email Injection</a>
+        <a href="/jwt">JWT</a>
+        <a href="/lfi">Local File Injection</a>
+        <a href="/rfi">Remote File Injection</a>
     </div>
 
     <!-- Main Content -->

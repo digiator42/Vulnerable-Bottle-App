@@ -1,3 +1,5 @@
+% rebase('_base.tpl', title='Page Title')
+
 <h1>Trigger Crypto</h1>
 <form action="/trigger/crypto/crypto" method="post">
     <label for="data">Enter Data:</label>

@@ -1,3 +1,5 @@
+% rebase('_base.tpl', title='Main')
+
 <h1>Buffer Overflow Vulnerability</h1>
 <form action="/trigger/buffer/buffer" method="post">
     <label for="input">Enter Input:</label>

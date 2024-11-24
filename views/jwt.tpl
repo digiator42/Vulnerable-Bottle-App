@@ -1,3 +1,5 @@
+% rebase('_base.tpl', title='Main')
+
 <h1>JWT Form</h1>
 <form action="/trigger/jwt/jwt" method="post">
     <label for="username">Username:</label>

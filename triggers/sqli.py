@@ -1,10 +1,5 @@
 import sqlite3
 
-def check_sql_injection(user_input):
-    if "'" in user_input:
-        return True
-    return False
-
 def create_admin_table():
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
@@ -30,7 +25,6 @@ def create_admin_table():
     connection.close()
 
 def trigger_sql_injection(username):
-    print(f"SELECT * FROM users WHERE username = '{username}';")
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
     query = f"SELECT * FROM users WHERE username = '{username}';"
@@ -52,7 +46,3 @@ def get_db_info():
     
     connection.close()
     print(tables, '\n', users)
-
-print(trigger_sql_injection("105; DROP TABLE users"))
-print(trigger_sql_injection("' OR '1'='1 -- hacked"))
-# get_db_info()
