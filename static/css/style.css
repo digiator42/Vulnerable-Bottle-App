@@ -11,9 +11,10 @@ body {
     background-color: #333;
     color: white;
     width: 20%;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .sidebar h2 {
@@ -23,6 +24,7 @@ body {
 
 .sidebar a {
     color: white;
+    font-size: small;
     text-decoration: none;
     padding: 10px;
     border-radius: 5px;
