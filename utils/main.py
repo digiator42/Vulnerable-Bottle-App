@@ -59,6 +59,3 @@ def get_trigger_functions(module):
         for name, func in inspect.getmembers(module, inspect.isfunction)
         if trigger_pattern.match(name)
     }
-
-
-# print(get_template("xss", output='<script>alert(1)</script>')) # _home.tpl
