@@ -26,8 +26,8 @@ def login():
             request.environ['beaker.session']['logged_in'] = username
             return redirect('/')
         else:
-            return "Invalid credentials. Please try again."
-    return template('_login')
+            return template("_login", output="Invalid credentials. Please try again.")
+    return template('_login', output="")
 
 @app.route('/logout')
 def logout():
