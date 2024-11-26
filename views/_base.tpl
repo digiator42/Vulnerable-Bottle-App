@@ -30,11 +30,14 @@
         <a href="/lfi">Local File Injection</a>
         <a href="/rfi">Remote File Injection</a>
     </div>
-
+    
     <!-- Main Content -->
     <div class="main-content">
         <div class="form-container">
             {{ !base }}
+        </div>
+        <div class="logout-div">
+            <a type="button" href="/logout">Logout</a>
         </div>
     </div>
 </body>

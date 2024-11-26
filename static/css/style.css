@@ -59,6 +59,29 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+
+.logout-div {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    background-color: #dc3545 !important;
+    border: none !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.logout-div a {
+    color: white;
+    text-decoration: none;
+}
+
+.login input[type="submit"]:hover {
+    background-color: #ff3b2f;
+}
+
 h1 {
     margin-top: 0;
 }
