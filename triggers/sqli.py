@@ -21,7 +21,6 @@ def create_admin_table():
     connection.commit()
     cursor.execute("SELECT * FROM users WHERE password = ?", ('admin',))
     result = cursor.fetchone()
-    print('--------> ', result)
     connection.close()
 
 def trigger_sql_injection(username):

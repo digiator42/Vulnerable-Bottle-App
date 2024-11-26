@@ -8,8 +8,9 @@ USERS = {
 def login_required(func):
     def wrapper(*args, **kwargs):
         session = request.environ.get('beaker.session')
-        print("----------> ", session)
-        if not session:
+
+        user = 'logged_in' in session
+        if not user:
             return redirect('/login')
         return func(*args, **kwargs)
     return wrapper
