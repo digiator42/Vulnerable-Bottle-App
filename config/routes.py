@@ -1,5 +1,7 @@
-from bottle import template, template, static_file
+from bottle import template, template, static_file, request, redirect
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
+from .login import login_required
+from config.login import USERS
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -16,6 +18,9 @@ def trigger_view(view, func):
     return lambda view=view, func=func: template(
         view[:PY_EXT], output=func(get_user_input())
     )
+
+def root_view(view):
+    return lambda view=view: template(view, output='')
     
 def add_trigger_routes(app):
     """
@@ -32,9 +37,9 @@ def add_trigger_routes(app):
         for func_name, func in trigger_functions.items():
             route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
             if func_name == 'trigger_xss':
-                app.route(route_path, method=["GET", "POST"])(xss_view(view, func))
+                app.route(route_path, method=["GET", "POST"])(login_required(xss_view(view, func)))
                 continue
-            app.route(route_path, method=["GET", "POST"])(trigger_view(view, func))
+            app.route(route_path, method=["GET", "POST"])(login_required(trigger_view(view, func)))
             
 def add_root_routes(app):
     """
@@ -42,14 +47,15 @@ def add_root_routes(app):
     """
     root_routes = get_routes()
     for route, view in root_routes.items():
+        # loggin_route = login_required(view)
         app.route(f'/{route}', method=["GET", "POST"])(
-            lambda view=view: template(view, output='')
-        )    
+            login_required(root_view(view))
+        )
 
 def add_routes(app):
-    app.route('/static/<file:path>', callback=serve_static)
-    app.route('/', callback=main_view)
-    
+    app.route('/static/<file:path>', callback=login_required(serve_static))
+    app.route('/', callback=login_required(main_view))
+
     add_root_routes(app)
     add_trigger_routes(app)
     # for route in app.routes:
