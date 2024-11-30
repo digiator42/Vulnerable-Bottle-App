@@ -1,6 +1,7 @@
 from bottle import template, template, static_file, request, redirect
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
 from .login import login, logout
+from .settings import DEFAULT_LEVEL
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -24,7 +25,7 @@ def root_view(view):
 def session_middleware():
     session = request.environ.get('beaker.session')
     
-    if not request.path.startswith('/login'):
+    if not request.path.startswith('/login') and not request.path.startswith('/static'):
         user = 'logged_in' in session
         if not user:
             return redirect('/login')
@@ -32,6 +33,9 @@ def session_middleware():
     selected_level = request.query.get('level')
     if selected_level:
         session['level'] = selected_level
+        session.save()
+    if 'level' not in session:
+        session['level'] = DEFAULT_LEVEL
         session.save()
     
 def add_trigger_routes(app):
