@@ -9,4 +9,4 @@ if __name__ == "__main__":
             print(result)
         except subprocess.CalledProcessError as e:
             print(f"Subprocess error: {e}")
-            time.sleep(1)
+            time.sleep(3)

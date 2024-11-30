@@ -34,12 +34,38 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="form-container">
+
             {{ !base }}
+            <div class="dropdown-container">
+                <label for="dropdown">Level:</label>
+                <select id="dropdown" class="styled-dropdown">
+                    <option value="?level=weak">Weak</option>
+                    <option value="?level=medium">Medium</option>
+                </select>
+            </div>
+
         </div>
         <div class="logout-div">
             <a type="button" href="/logout">Logout</a>
         </div>
     </div>
 </body>
+<script>
+    const dropdown = document.getElementById("dropdown");
+    const level = localStorage.getItem("level");
+    
+    if (level) {
+        dropdown.value = level;
+    }
+    dropdown.addEventListener("change", function () {
+        const levelOption = this.value;
+
+        localStorage.setItem("level", levelOption);
+
+        if (levelOption) {
+            window.location.href = levelOption;
+        }
+    });
+</script>
 
 </html>

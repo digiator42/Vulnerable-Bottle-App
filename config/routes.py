@@ -57,9 +57,9 @@ def add_root_routes(app):
 def add_routes(app):
     app.route('/static/<file:path>', callback=serve_static)
     app.route('/', callback=login_required(main_view))
-    app.route('/login', method=['GET', 'POST'])(login)
+    app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)
-
+    
     add_root_routes(app)
     add_trigger_routes(app)
     # for route in app.routes:

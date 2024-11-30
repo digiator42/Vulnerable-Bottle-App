@@ -59,18 +59,110 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.levels ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-.logout-div {
-    position: relative !important;
-    bottom: 10px !important;
-    right: 10px !important;
-    background-color: #dc3545 !important;
+.levels:hover ul {
+    display: block;
+    color: white;
+}
+
+.levels ul li {
+    padding: 10px;
+    color: white;
+}
+
+.levels ul li:hover {
+    background-color: #c4c4c4;
+}
+
+.levels {
+    position: absolute !important;
+    top: 10px !important;
+    right: 100px !important;
+    background-color: #393536 !important;
     border: none !important;
     color: white !important;
     padding: 10px 20px !important;
     border-radius: 5px !important;
     cursor: pointer !important;
-    transition: background-color 0.3s ease !important;
+}
+
+/* Dropdown container styling */
+.dropdown-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-container label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.styled-dropdown {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.styled-dropdown:hover,
+.styled-dropdown:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.styled-dropdown::after {
+    content: "▼";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.styled-dropdown option {
+    padding: 10px;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.logout-div {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .logout-div a {
