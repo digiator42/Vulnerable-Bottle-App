@@ -2,7 +2,8 @@ import re
 import inspect
 from pathlib import Path
 from config.settings import ROOT_DIR
-from bottle import request
+from bottle import request, response
+import json
 
 PY_EXT: int = -3
 TPL_EXT: int = -4
@@ -59,3 +60,36 @@ def get_trigger_functions(module):
         for name, func in inspect.getmembers(module, inspect.isfunction)
         if trigger_pattern.match(name)
     }
+
+class JsonResponse:
+    def __init__(self, data: dict, status: int = 200) -> None:
+        """
+        Initialize a JSON response using Bottle's response object.
+        Args:
+            data (dict): The data to be returned as JSON.
+            status (int): The HTTP status code of the response.
+        """
+        self.data = data
+        self.status = status
+
+        # Set the content type and status code in the bottle response
+        response.content_type = 'application/json'
+        response.status = self.status
+
+    def render(self) -> str:
+        """
+        Converts the data to JSON format.
+        Returns:
+            str: JSON string.
+        """
+        return json.dumps(self.data)
+    
+    def __str__(self) -> str:
+        """
+        Representation of the HTTP response as a string.
+        """
+        return (
+            f"HTTP/1.1 {self.status}\n"
+            f"Content-Type: {response.content_type}\n\n"
+            f"{self.render()}"
+        )
