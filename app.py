@@ -2,15 +2,8 @@ from bottle import Bottle, run
 from config.settings import HOST, PORT, DEBUG, RELOADER
 from config.routes import add_routes
 from triggers.sqli import create_admin_table
-from config.login import USERS
 from beaker.middleware import SessionMiddleware
-
-session_opts = {
-    'session.type': 'file',
-    'session.data_dir': './data',
-    'session.auto': True,
-    'session.cookie_expires': True,
-}
+from config.settings import session_opts
 
 app = Bottle()
 

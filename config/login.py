@@ -15,7 +15,6 @@ def login_required(func):
         return func(*args, **kwargs)
     return wrapper
 
-# @app.route('/login', method=['GET', 'POST'])
 def login():
     if request.environ.get('beaker.session').get('logged_in'):
         return redirect('/')
@@ -31,7 +30,6 @@ def login():
             return template("_login", output="Invalid credentials. Please try again.")
     return template('_login', output="")
 
-# @app.route('/logout')
 def logout():
     session = request.environ['beaker.session']
     session.delete()

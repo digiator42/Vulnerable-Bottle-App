@@ -1,4 +1,4 @@
-from bottle import template, template, static_file, request, redirect, response
+from bottle import template, template, static_file, request
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
 from .login import login_required, login, logout
 
@@ -36,9 +36,13 @@ def add_trigger_routes(app):
         for func_name, func in trigger_functions.items():
             route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
             if func_name == 'trigger_xss':
-                app.route(route_path, method=["GET", "POST"])(login_required(xss_view(view, func)))
+                app.route(route_path, method=["GET", "POST"])(
+                    login_required(xss_view(view, func))
+                )
                 continue
-            app.route(route_path, method=["GET", "POST"])(login_required(trigger_view(view, func)))
+            app.route(route_path, method=["GET", "POST"])(
+                login_required(trigger_view(view, func))
+            )
             
 def add_root_routes(app):
     """
@@ -46,7 +50,6 @@ def add_root_routes(app):
     """
     root_routes = get_routes()
     for route, view in root_routes.items():
-        # loggin_route = login_required(view)
         app.route(f'/{route}', method=["GET", "POST"])(
             login_required(root_view(view))
         )
