@@ -5,16 +5,6 @@ USERS = {
     'user1': 'mypassword'
 }
 
-def login_required(func):
-    def wrapper(*args, **kwargs):
-        session = request.environ.get('beaker.session')
-
-        user = 'logged_in' in session
-        if not user:
-            return redirect('/login')
-        return func(*args, **kwargs)
-    return wrapper
-
 def login():
     if request.environ.get('beaker.session').get('logged_in'):
         return redirect('/')
