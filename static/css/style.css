@@ -61,7 +61,7 @@ body {
 
 
 .logout-div {
-    position: absolute !important;
+    position: relative !important;
     bottom: 10px !important;
     right: 10px !important;
     background-color: #dc3545 !important;

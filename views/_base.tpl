@@ -11,7 +11,7 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <h2>List</h2>
+        <h2>Vulnerabilities</h2>
         <a href="/cmd">Command Injection</a>
         <a href="/xss">Cross-Site Scripting (XSS)</a>
         <a href="/sqli">SQL Injection</a>
@@ -30,7 +30,7 @@
         <a href="/lfi">Local File Injection</a>
         <a href="/rfi">Remote File Injection</a>
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content">
         <div class="form-container">

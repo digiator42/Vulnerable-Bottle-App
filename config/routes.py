@@ -1,6 +1,6 @@
 from bottle import template, template, static_file, request, redirect, response
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
-from .login import login_required
+from .login import login_required, login, logout
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -54,6 +54,8 @@ def add_root_routes(app):
 def add_routes(app):
     app.route('/static/<file:path>', callback=serve_static)
     app.route('/', callback=login_required(main_view))
+    app.route('/login', method=['GET', 'POST'])(login)
+    app.route('/logout', callback=logout)
 
     add_root_routes(app)
     add_trigger_routes(app)
