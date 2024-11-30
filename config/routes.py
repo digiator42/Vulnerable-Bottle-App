@@ -6,7 +6,7 @@ def serve_static(file: str):
     return static_file(file, root='./static')
 
 def main_view():
-    return template("_home")
+    return template("_home", username=request.environ.get('beaker.session')['username'])
 
 def xss_view(view, func):
     return lambda view=view, func=func: template(get_template(

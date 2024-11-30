@@ -6,3 +6,4 @@ instance/
 standards*
 data*
 venv/
+.env
