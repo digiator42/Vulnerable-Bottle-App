@@ -4,7 +4,6 @@ from config.routes import add_routes
 from triggers.sqli import create_admin_table
 from config.login import USERS
 from beaker.middleware import SessionMiddleware
-from config.login import LOGIN_URL
 
 session_opts = {
     'session.type': 'file',
