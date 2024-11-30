@@ -4,6 +4,7 @@ from config.routes import add_routes
 from triggers.sqli import create_admin_table
 from config.login import USERS
 from beaker.middleware import SessionMiddleware
+from config.login import LOGIN_URL
 
 session_opts = {
     'session.type': 'file',
@@ -19,15 +20,19 @@ create_admin_table()
 
 @app.route('/login', method=['GET', 'POST'])
 def login():
+    if request.environ.get('beaker.session').get('logged_in'):
+        return redirect('/')
     if request.method == 'POST':
         username = request.forms.get('username')
         password = request.forms.get('password')
         if username in USERS and USERS[username] == password:
-            request.environ['beaker.session']['logged_in'] = username
+            request.environ['beaker.session']['logged_in'] = True
+            response.set_cookie('session_id', request.environ['beaker.session'].id)
+            request.environ['beaker.session']['username'] = username
             return redirect('/')
         else:
             return template("_login", output="Invalid credentials. Please try again.")
-    return template('_login', output="")
+    return template('_login', output="", login_url=LOGIN_URL)
 
 @app.route('/logout')
 def logout():
