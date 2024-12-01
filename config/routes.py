@@ -1,3 +1,4 @@
+from typing import Callable, Dict
 from bottle import template, template, static_file, request, redirect
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
 from .login import login, logout
@@ -6,6 +7,26 @@ from .settings import DEFAULT_LEVEL
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
+
+def _render_template(view: str, func: Callable):
+    """
+    Renders a template with valid output of a function.
+    """
+    user_input = get_user_input()
+    if _valid_user_input(user_input):
+        output = func(user_input)
+    else:
+        output = 'invalid input'
+    return template(view[:PY_EXT], output=output)
+
+def _valid_user_input(user_input: str):
+    """
+    Validates user input.
+    """
+    input = user_input.strip() if user_input else None
+    if not input:
+        return False
+    return True
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -19,9 +40,7 @@ def xss_view(view, func):
     ))
 
 def trigger_view(view, func):
-    return lambda view=view, func=func: template(
-        view[:PY_EXT], output=func(get_user_input())
-    )
+    return lambda: _render_template(view, func)
 
 def root_view(view):
     return lambda view=view: template(view, output='')
@@ -49,7 +68,7 @@ def add_trigger_routes(app):
     for trigger, view in TRIGGER_ROUTES.items():
         trigger_module = __import__(f'triggers.{trigger}', fromlist=['trigger'])
 
-        trigger_functions: dict[str, function] = get_trigger_functions(trigger_module)
+        trigger_functions: Dict[str, Callable] = get_trigger_functions(trigger_module)
 
         for func_name, func in trigger_functions.items():
             route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"

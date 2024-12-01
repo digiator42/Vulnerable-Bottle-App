@@ -31,6 +31,9 @@ def get_template(template_name, **kwargs):
     return template.format(**kwargs)
 
 def get_user_input():
+    """
+    Get user input from the request object.
+    """
     for usr_input in input:
         if request.GET.get(usr_input):
             return request.GET.get(usr_input)
