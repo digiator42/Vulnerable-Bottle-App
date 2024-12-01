@@ -59,44 +59,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.levels ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: none;
-    position: absolute;
-    background-color: transparent;
-    color: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.levels:hover ul {
-    display: block;
-    color: white;
-}
-
-.levels ul li {
-    padding: 10px;
-    color: white;
-}
-
-.levels ul li:hover {
-    background-color: #c4c4c4;
-}
-
-.levels {
-    position: absolute !important;
-    top: 10px !important;
-    right: 100px !important;
-    background-color: #393536 !important;
-    border: none !important;
-    color: white !important;
-    padding: 10px 20px !important;
-    border-radius: 5px !important;
-    cursor: pointer !important;
-}
-
 /* Dropdown container styling */
 .dropdown-container {
     position: absolute;

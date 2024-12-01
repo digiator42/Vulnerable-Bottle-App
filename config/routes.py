@@ -3,6 +3,10 @@ from utils.main import get_routes, get_trigger_functions, get_user_input, get_te
 from .login import login, logout
 from .settings import DEFAULT_LEVEL
 
+
+TRIGGER_ROUTES = get_routes(PY_EXT)
+ROOT_ROUTES = get_routes()
+
 def serve_static(file: str):
     return static_file(file, root='./static')
 
@@ -30,8 +34,7 @@ def session_middleware():
         if not user:
             return redirect('/login')
 
-    selected_level = request.query.get('level')
-    if selected_level:
+    if selected_level := request.query.get('level'):
         session['level'] = selected_level
         session.save()
     if 'level' not in session:
@@ -43,9 +46,7 @@ def add_trigger_routes(app):
     Adds trigger routes., imports trigger modules and their functions,
     then creates routes for each trigger function.
     """
-    trigger_routes = get_routes(PY_EXT)
-
-    for trigger, view in trigger_routes.items():
+    for trigger, view in TRIGGER_ROUTES.items():
         trigger_module = __import__(f'triggers.{trigger}', fromlist=['trigger'])
 
         trigger_functions: dict[str, function] = get_trigger_functions(trigger_module)
@@ -61,8 +62,7 @@ def add_root_routes(app):
     """
     Add routes for all views in the views directory.
     """
-    root_routes = get_routes()
-    for route, view in root_routes.items():
+    for route, view in ROOT_ROUTES.items():
         app.route(f'/{route}', method=["GET", "POST"])(root_view(view))
 
 def add_routes(app):
