@@ -23,7 +23,7 @@
         <a href="/directory_traversal">Directory Traversal</a>
         <a href="/buffer">Buffer Overflow</a>
         <a href="/crypto">Crypto</a>
-        <a href="/deserialization">deserialization</a>
+        <a href="/deserialization">Deserialization</a>
         <a href="/dos">DOS Simulation</a>
         <a href="/email">Email Injection</a>
         <a href="/jwt">JWT</a>
