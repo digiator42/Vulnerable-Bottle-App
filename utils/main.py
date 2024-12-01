@@ -42,8 +42,8 @@ def get_user_input():
 
 def get_routes(ext: int=TPL_EXT):
     """
-    Get all routes from the views directory
-    `only` tpls which are not starting with underscore
+    Get all routes from the views, triggers directory
+    `only` .tpl, .py which are not starting with underscore
     """
     views_dir = Path(ROOT_DIR, 'views')
     triggers_dir = Path(ROOT_DIR, 'triggers')

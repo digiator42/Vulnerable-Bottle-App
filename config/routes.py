@@ -10,7 +10,7 @@ ROOT_ROUTES = get_routes()
 
 def _render_template(view: str, func: Callable):
     """
-    Renders a template with valid output of a function.
+    Renders a template with valid output of a trigger function.
     """
     user_input = get_user_input()
     if _valid_user_input(user_input):
@@ -62,7 +62,7 @@ def session_middleware():
     
 def add_trigger_routes(app):
     """
-    Adds trigger routes., imports trigger modules and their functions,
+    Adds trigger routes, imports trigger modules and their functions,
     then creates routes for each trigger function.
     """
     for trigger, view in TRIGGER_ROUTES.items():
