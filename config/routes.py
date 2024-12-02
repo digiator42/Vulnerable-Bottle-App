@@ -37,8 +37,8 @@ def main_view():
 def xss_view(view, func):
     
     def get_xss_template():
-        xss_tag = f'<p>Hello {xss_ouput if xss_ouput else ""}</p>'
         xss_ouput = func(get_user_input())
+        xss_tag = f'<p>Hello {xss_ouput if xss_ouput else ""}</p>'
         xss_output = BeautifulSoup(xss_tag, 'html.parser')
         
         xss_template = get_template(view[:PY_EXT])
