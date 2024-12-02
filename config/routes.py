@@ -2,7 +2,7 @@ from typing import Callable, Dict
 from bottle import template, template, static_file, request, redirect
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
 from .login import login, logout
-from .settings import DEFAULT_LEVEL
+from .settings import DEFAULT_LEVEL, LEVELS
 from bs4 import BeautifulSoup
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
@@ -35,7 +35,10 @@ def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
 
 def xss_view(view, func):
-    
+    """
+    gets xss template and concatenate xss tag with user input,
+    and trigger JS scripts
+    """
     def get_xss_template():
         xss_ouput = func(get_user_input())
         xss_tag = f'<p>Hello {xss_ouput if xss_ouput else ""}</p>'
@@ -65,9 +68,11 @@ def session_middleware():
         if not user:
             return redirect('/login')
 
-    if selected_level := request.query.get('level'):
+    selected_level = request.query.get('level')
+    if selected_level in LEVELS:
         session['level'] = selected_level
         session.save()
+
     if 'level' not in session:
         session['level'] = DEFAULT_LEVEL
         session.save()
