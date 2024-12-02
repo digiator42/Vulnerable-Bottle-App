@@ -3,7 +3,7 @@ from bottle import template, template, static_file, request, redirect
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
 from .login import login, logout
 from .settings import DEFAULT_LEVEL
-
+from bs4 import BeautifulSoup
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
@@ -35,9 +35,21 @@ def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
 
 def xss_view(view, func):
-    return lambda view=view, func=func: template(get_template(
-        view[:PY_EXT], output=func(get_user_input())
-    ))
+    
+    def get_xss_template():
+        xss_tag = f'<p>Hello {xss_ouput if xss_ouput else ""}</p>'
+        xss_ouput = func(get_user_input())
+        xss_output = BeautifulSoup(xss_tag, 'html.parser')
+        
+        xss_template = get_template(view[:PY_EXT])
+        soup = BeautifulSoup(xss_template, 'html.parser')
+        
+        xss_form = soup.find('form')
+        xss_form.insert_after(xss_output)
+        
+        return template(str(soup))
+    
+    return get_xss_template
 
 def trigger_view(view, func):
     return lambda: _render_template(view, func)

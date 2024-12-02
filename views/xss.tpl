@@ -8,6 +8,4 @@
         <br><br>
         <button type="submit">Submit</button>
     </form>
-    <!-- for get_template -->
-    <div style="display:none;">{output}</div>
 </div>
