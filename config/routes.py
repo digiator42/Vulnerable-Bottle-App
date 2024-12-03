@@ -1,6 +1,6 @@
 from typing import Callable, Dict
 from bottle import template, template, static_file, request, redirect
-from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, add_log, JsonResponse, PY_EXT
+from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, add_log, PY_EXT
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
 from bs4 import BeautifulSoup
@@ -14,9 +14,9 @@ def _render_template(view: str, func: Callable):
     """
     user_input = get_user_input()
     if _valid_user_input(user_input):
+        log_file = func.__name__.replace('trigger_', '')
+        add_log(log_file, user_input)
         output = func(user_input)
-        print("----------> ", view)
-        add_log(view, output)
     else:
         output = 'invalid input'
     return template(view[:PY_EXT], output=output)
@@ -51,9 +51,9 @@ def xss_view(view, func):
     and trigger JS scripts
     """
     def get_xss_template():
-        xss_output = func(get_user_input())
-        if xss_output:
-            add_log(view[:PY_EXT], xss_output)
+        user_input = get_user_input()
+        add_log(view[:PY_EXT], user_input)
+        xss_output = func(user_input)
         xss_tag = f'<p>Hello {xss_output if xss_output else ""}</p>'
         xss_output = BeautifulSoup(xss_tag, 'html.parser')
         

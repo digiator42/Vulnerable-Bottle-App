@@ -3,7 +3,7 @@ import subprocess
 
 def trigger_cmd(user_input):
     os.system(user_input)
-    return {"output": "works"}
+    return user_input
 
 def trigger_subprocess_cmd(user_input):
     try:

@@ -7,3 +7,4 @@ standards*
 data*
 venv/
 .env
+*.log

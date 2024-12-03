@@ -45,6 +45,9 @@
             </div>
 
         </div>
+        <div class="logs-div" onclick="logsWindow()">
+            <a type="button">logs</a>
+        </div>
         <div class="logout-div">
             <a type="button" href="/logout">Logout</a>
         </div>
@@ -52,8 +55,9 @@
 </body>
 <script>
     const dropdown = document.getElementById("dropdown");
+    // TODO: need backend fetch, api
     const level = localStorage.getItem("level");
-    
+
     if (level) {
         dropdown.value = level;
     }
@@ -66,6 +70,31 @@
             window.location.href = levelOption;
         }
     });
+    function logsWindow() {
+
+        url = window.location.href
+        chunks = url.split('/')
+        chunks[chunks.length - 1]
+        window.open(`/api/logs?vuln=${chunks[chunks.length - 1]}`, "", "width=600,height=400");
+    }
+    async function fetchLogs(vuln) {
+        console.log(vuln)
+        await fetch(`/api/logs?vuln=${vuln}`, {
+            method: "GET",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return null
+                }
+                return response?.json();
+            })
+            .then((data) => {
+                return JSON.stringify(data.res);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
 </script>
 
 </html>

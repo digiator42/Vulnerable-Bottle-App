@@ -96,3 +96,7 @@ class JsonResponse:
             f"Content-Type: {response.content_type}\n\n"
             f"{self.render()}"
         )
+        
+def add_log(vuln, input):
+    with open(f'./logs/{vuln}.log', 'a') as f:
+        f.write(input + '\n')
