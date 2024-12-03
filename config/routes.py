@@ -38,10 +38,11 @@ def _valid_user_input(input: Dict):
     print("--------------> ", input)
     if input:
         for user_input in input.values():
-            valid_input = user_input.strip() if user_input else None
+            valid_input = user_input.strip()
             if not valid_input:
                 return False
         return True
+
     return False
 
 def serve_static(file: str):
@@ -57,12 +58,12 @@ def xss_view(view, func):
     """
     def get_xss_template():
         user_input = get_user_input()
-        
+        xss_output = ''
         if _valid_user_input(user_input):
             add_log(view[:PY_EXT], user_input)
+            xss_output = func(user_input)
             
-        xss_output = func(user_input)
-        xss_tag = f'<p>Hello {xss_output if xss_output else ""}</p>'
+        xss_tag = f'<p>Hello {xss_output}</p>'
         xss_output = BeautifulSoup(xss_tag, 'html.parser')
         
         xss_template = get_template(view[:PY_EXT])
