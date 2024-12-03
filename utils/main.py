@@ -77,6 +77,7 @@ def get_api_functions(module):
     return {
         name: func
         for name, func in inspect.getmembers(module, inspect.isfunction)
+        if not name == 'template'
     }
 
 class JsonResponse:

@@ -9,7 +9,7 @@ def logs():
             return template('_logs', output=logs, vuln=vuln)
     except Exception as _:
         return template('_logs', output=f'No logs for {vuln} yet', vuln=vuln)
-    
+
 def security_level():
     session = request.environ.get('beaker.session')
     level =  session.get('level')
