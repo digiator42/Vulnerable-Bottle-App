@@ -39,6 +39,7 @@
             <div class="dropdown-container">
                 <label for="dropdown">Level:</label>
                 <select id="dropdown" class="styled-dropdown">
+                    <option value="" disabled selected>Select Level</option>
                     <option value="?level=weak">Weak</option>
                     <option value="?level=medium">Medium</option>
                 </select>
