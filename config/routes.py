@@ -1,6 +1,6 @@
 from typing import Callable, Dict
 from bottle import template, template, static_file, request, redirect
-from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, PY_EXT
+from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, add_log, JsonResponse, PY_EXT
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
 from bs4 import BeautifulSoup
@@ -15,6 +15,8 @@ def _render_template(view: str, func: Callable):
     user_input = get_user_input()
     if _valid_user_input(user_input):
         output = func(user_input)
+        print("----------> ", view)
+        add_log(view, output)
     else:
         output = 'invalid input'
     return template(view[:PY_EXT], output=output)
@@ -34,14 +36,25 @@ def serve_static(file: str):
 def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
 
+def logs():
+    try:
+        vuln = request.query.get('vuln')
+        with open(f'./logs/{vuln}.log', 'r') as f:
+            logs = f.read()
+            return template('_logs', output=logs, vuln=vuln)
+    except Exception as e:
+        return str(e)
+    
 def xss_view(view, func):
     """
     gets xss template and concatenate xss tag with user input,
     and trigger JS scripts
     """
     def get_xss_template():
-        xss_ouput = func(get_user_input())
-        xss_tag = f'<p>Hello {xss_ouput if xss_ouput else ""}</p>'
+        xss_output = func(get_user_input())
+        if xss_output:
+            add_log(view[:PY_EXT], xss_output)
+        xss_tag = f'<p>Hello {xss_output if xss_output else ""}</p>'
         xss_output = BeautifulSoup(xss_tag, 'html.parser')
         
         xss_template = get_template(view[:PY_EXT])
@@ -109,6 +122,7 @@ def add_routes(app):
     app.route('/', callback=main_view)
     app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)
+    app.route('/api/logs', callback=logs)
     
     app.hook('before_request')(session_middleware)
     
