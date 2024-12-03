@@ -1,10 +1,9 @@
 from typing import Callable, Dict
 from bottle import template, template, static_file, request, redirect
-from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, add_log, PY_EXT
+from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, add_log, get_api_functions, PY_EXT
 from bs4 import BeautifulSoup
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
-from .api import logs, security_level
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
@@ -44,7 +43,8 @@ def xss_view(view, func):
     """
     def get_xss_template():
         user_input = get_user_input()
-        add_log(view[:PY_EXT], user_input)
+        if _valid_user_input(user_input):
+            add_log(view[:PY_EXT], user_input)
         xss_output = func(user_input)
         xss_tag = f'<p>Hello {xss_output if xss_output else ""}</p>'
         xss_output = BeautifulSoup(xss_tag, 'html.parser')
@@ -81,7 +81,13 @@ def session_middleware():
     if 'level' not in session:
         session['level'] = DEFAULT_LEVEL
         session.save()
-    
+
+def add_api_routes(app):
+    api_module = __import__(f'config.api', fromlist=['api'])
+    api_functions: Dict[str, Callable] = get_api_functions(api_module)
+    for name, func in api_functions.items():
+        app.route(f'/api/{name}', callback=func)
+
 def add_trigger_routes(app):
     """
     Adds trigger routes, imports trigger modules and their functions,
@@ -114,12 +120,13 @@ def add_routes(app):
     app.route('/', callback=main_view)
     app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)
-    app.route('/api/logs', callback=logs)
-    app.route('/api/security_level', callback=security_level)
+    # app.route('/api/logs', callback=logs)
+    # app.route('/api/security_level', callback=security_level)
     
     app.hook('before_request')(session_middleware)
     
     add_root_routes(app)
     add_trigger_routes(app)
+    add_api_routes(app)
     # for route in app.routes:
     #     print(route.rule)

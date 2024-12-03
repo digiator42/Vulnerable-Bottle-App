@@ -64,6 +64,15 @@ def get_trigger_functions(module):
         if trigger_pattern.match(name)
     }
 
+def get_api_functions(module):
+    """
+    Get all functions in a api module.
+    """
+    return {
+        name: func
+        for name, func in inspect.getmembers(module, inspect.isfunction)
+    }
+
 class JsonResponse:
     def __init__(self, data: dict, status: int = 200) -> None:
         """
