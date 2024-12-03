@@ -46,6 +46,9 @@
             </div>
 
         </div>
+        <div class="code-div" onclick="codeWindow()">
+            <a type="button">code</a>
+        </div>
         <div class="logs-div" onclick="logsWindow()">
             <a type="button">logs</a>
         </div>
@@ -55,4 +58,17 @@
     </div>
 </body>
 <script src="/static/js/main.js" type="module"></script>
+<script>
+    url = window.location.href;
+    chunks = url.split('/');
+    chunks[chunks.length - 1];
+    
+    function logsWindow() {
+        window.open(`/api/logs?vuln=${chunks[chunks.length - 1]}`, "", "width=600,height=400");
+    }
+    function codeWindow() {
+        window.open(`/api/level_code?vuln=${chunks[chunks.length - 1]}`, "", "width=600,height=400");
+    }
+</script>
+
 </html>

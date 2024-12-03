@@ -3,6 +3,7 @@ import inspect
 from pathlib import Path
 from config.settings import ROOT_DIR
 from bottle import request, response
+from config.settings import DEFAULT_LEVEL
 import json
 
 PY_EXT: int = -3
@@ -78,6 +79,19 @@ def get_api_functions(module):
         name: func
         for name, func in inspect.getmembers(module, inspect.isfunction)
         if not name == 'template'
+    }
+
+def get_code_level_function(module, level):
+    """
+    Get requested code level source.
+    """
+    # if level == DEFAULT_LEVEL:
+    #     level = 'trigger'
+
+    return {
+        name: func
+        for name, func in inspect.getmembers(module, inspect.isfunction)
+        if name.startswith(f'{level}_')
     }
 
 class JsonResponse:

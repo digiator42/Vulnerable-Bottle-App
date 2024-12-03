@@ -10,4 +10,11 @@ def trigger_xss(user_input):
         return medium_xss(user_input)
 
 def medium_xss(input):
+    """
+    This will disable script tag for medium level:
+    instead of injecting script tag directly into html
+    """
     return input['input'].replace('<script>', '')
+
+def high_xss(input):
+    pass

@@ -143,5 +143,5 @@ def add_routes(app):
     add_root_routes(app)
     add_trigger_routes(app)
     add_api_routes(app)
-    for route in app.routes:
-        print(route.rule)
+    # for route in app.routes:
+    #     print(route.rule)

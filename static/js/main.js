@@ -11,13 +11,6 @@ dropdown.addEventListener("change", function () {
     }
 });
 
-function logsWindow() {
-    url = window.location.href;
-    chunks = url.split('/');
-    chunks[chunks.length - 1];
-    window.open(`/api/logs?vuln=${chunks[chunks.length - 1]}`, "", "width=600,height=400");
-}
-
 async function fetchSecurityLevel() {
     return await fetch(`/api/security_level`, {
         method: "GET",
