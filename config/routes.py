@@ -1,9 +1,10 @@
 from typing import Callable, Dict
 from bottle import template, template, static_file, request, redirect
 from utils.main import get_routes, get_trigger_functions, get_user_input, get_template, add_log, PY_EXT
+from bs4 import BeautifulSoup
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
-from bs4 import BeautifulSoup
+from .api import logs, security_level
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
@@ -35,15 +36,6 @@ def serve_static(file: str):
 
 def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
-
-def logs():
-    try:
-        vuln = request.query.get('vuln')
-        with open(f'./logs/{vuln}.log', 'r') as f:
-            logs = f.read()
-            return template('_logs', output=logs, vuln=vuln)
-    except Exception as e:
-        return str(e)
     
 def xss_view(view, func):
     """
@@ -123,6 +115,7 @@ def add_routes(app):
     app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)
     app.route('/api/logs', callback=logs)
+    app.route('/api/security_level', callback=security_level)
     
     app.hook('before_request')(session_middleware)
     
