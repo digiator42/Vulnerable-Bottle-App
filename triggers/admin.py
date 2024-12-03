@@ -1,7 +1,5 @@
-from bottle import request
 
-def trigger_admin(username):
-    password = request.GET.get('password') or request.POST.get('password')
-    if username == "admin" and password == "1234":
+def trigger_admin(input):
+    if input['username'] == "admin" and input['password'] == "1234":
         return "Access Granted!"
     return "Access Denied!"

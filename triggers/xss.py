@@ -10,6 +10,4 @@ def trigger_xss(user_input):
         return medium_xss(user_input)
 
 def medium_xss(input):
-    if not input:
-        return ''
-    return input.replace('<script>', '')
+    return input['input'].replace('<script>', '')

@@ -3,8 +3,8 @@
 <div class="form-container">
     <h1>Insecure File Access</h1>
     <form method="POST" action="/trigger/file_read/read_file">
-        <label for="filepath">File Path:</label><br>
-        <input type="text" id="filepath" name="filepath" placeholder="e.g., /etc/passwd" required>
+        <label for="input">File Path:</label><br>
+        <input type="text" id="input" name="input" placeholder="e.g., /etc/passwd" required>
         <br><br>
         <button type="submit">Read File</button>
     </form>

@@ -15,23 +15,34 @@ def _render_template(view: str, func: Callable):
     """
     Renders a template with valid output of a trigger function.
     """
-    user_input = get_user_input()
+    user_input: Dict = get_user_input()
+    
     if _valid_user_input(user_input):
         log_file = func.__name__.replace('trigger_', '')
         add_log(log_file, user_input)
         output = func(user_input)
+        # try:
+        #     output = func(user_input)
+        # except Exception as e:
+        #     print(e)
+        #     output = str(e)
     else:
         output = 'invalid input'
+        
     return template(view[:PY_EXT], output=output)
 
-def _valid_user_input(user_input: str):
+def _valid_user_input(input: Dict):
     """
     Validates user input.
     """
-    input = user_input.strip() if user_input else None
-    if not input:
-        return False
-    return True
+    print("--------------> ", input)
+    if input:
+        for user_input in input.values():
+            valid_input = user_input.strip() if user_input else None
+            if not valid_input:
+                return False
+        return True
+    return False
 
 def serve_static(file: str):
     return static_file(file, root='./static')
@@ -46,8 +57,10 @@ def xss_view(view, func):
     """
     def get_xss_template():
         user_input = get_user_input()
+        
         if _valid_user_input(user_input):
             add_log(view[:PY_EXT], user_input)
+            
         xss_output = func(user_input)
         xss_tag = f'<p>Hello {xss_output if xss_output else ""}</p>'
         xss_output = BeautifulSoup(xss_tag, 'html.parser')
@@ -123,8 +136,6 @@ def add_routes(app):
     app.route('/', callback=main_view)
     app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)
-    # app.route('/api/logs', callback=logs)
-    # app.route('/api/security_level', callback=security_level)
     
     app.hook('before_request')(session_middleware)
     

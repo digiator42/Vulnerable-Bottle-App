@@ -1,9 +1,9 @@
 % rebase('_base.tpl', title='Main')
 
 <h1>Send Email</h1>
-<form action="/email/email_injection" method="post">
-    <label for="to">To:</label>
-    <input type="email" id="to" name="to" required><br><br>
+<form action="/trigger/email_injection/email_injection" method="post">
+    <label for="email">To:</label>
+    <input type="email" id="email" name="email" required><br><br>
 
     <label for="subject">Subject:</label>
     <input type="text" id="subject" name="subject" required><br><br>

@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Dict
 
 def create_admin_table():
     connection = sqlite3.connect("data.db")
@@ -23,10 +24,10 @@ def create_admin_table():
     result = cursor.fetchone()
     connection.close()
 
-def trigger_sql_injection(username):
+def trigger_sql_injection(input: Dict):
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
-    query = f"SELECT * FROM users WHERE username = '{username}';"
+    query = f"SELECT * FROM users WHERE username = '{input['username']}';"
     try:
         cursor.execute(query)
     except sqlite3.OperationalError as e:

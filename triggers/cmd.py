@@ -2,7 +2,7 @@ import os
 import subprocess
 
 def trigger_cmd(user_input):
-    os.system(user_input)
+    os.system(user_input['input'])
     return user_input
 
 def trigger_subprocess_cmd(user_input):

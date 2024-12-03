@@ -8,10 +8,13 @@ import json
 PY_EXT: int = -3
 TPL_EXT: int = -4
 
+email_injection = ['email', 'subject', 'message']
+
 input = [
-    'username', 'command', 'input', 'data', 'amount', 
-    'path', 'requests', 'filepath', 'file', 'url'
+    'username', 'password', 'input',
 ]
+
+input.extend(email_injection)
 
 def get_template(template_name, **kwargs):
     """
@@ -34,12 +37,15 @@ def get_user_input():
     """
     Get user input from the request object.
     """
+    input_dict = {}
     for usr_input in input:
         if request.GET.get(usr_input):
-            return request.GET.get(usr_input)
+            input_dict[usr_input] = request.GET.get(usr_input)
+            
         if request.POST.get(usr_input):
-            return request.POST.get(usr_input)
-
+            input_dict[usr_input] = request.POST.get(usr_input)
+    
+    return input_dict
 def get_routes(ext: int=TPL_EXT):
     """
     Get all routes from the views, triggers directory
@@ -108,4 +114,4 @@ class JsonResponse:
         
 def add_log(vuln, input):
     with open(f'./logs/{vuln}.log', 'a') as f:
-        f.write(input + '\n')
+        f.write(str(input) + '\n')
