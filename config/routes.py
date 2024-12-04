@@ -7,6 +7,7 @@ from utils.main import (
 from bs4 import BeautifulSoup
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
+from importlib import import_module
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
@@ -16,7 +17,7 @@ def _render_template(view: str, func: Callable):
     Renders a template with valid output of a trigger function.
     """
     user_input: Dict = get_user_input()
-    
+
     if _valid_user_input(user_input):
         log_file = func.__name__.replace('trigger_', '')
         add_log(log_file, user_input)
@@ -35,7 +36,7 @@ def _valid_user_input(input: Dict):
     """
     Validates user input.
     """
-    print("--------------> ", input)
+    print("--------------> input", input)
     if input:
         for user_input in input.values():
             valid_input = user_input.strip()
@@ -100,7 +101,7 @@ def session_middleware():
         session.save()
 
 def add_api_routes(app):
-    api_module = __import__(f'config.api', fromlist=['api'])
+    api_module = import_module(f'config.api')
     api_functions: Dict[str, Callable] = get_api_functions(api_module)
     for name, func in api_functions.items():
         app.route(f'/api/{name}', callback=func)
@@ -111,7 +112,7 @@ def add_trigger_routes(app):
     then creates routes for each trigger function.
     """
     for trigger, view in TRIGGER_ROUTES.items():
-        trigger_module = __import__(f'triggers.{trigger}', fromlist=['trigger'])
+        trigger_module = import_module(f'triggers.{trigger}')
 
         trigger_functions: Dict[str, Callable] = get_trigger_functions(trigger_module)
 

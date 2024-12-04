@@ -1,7 +1,8 @@
 from bottle import request, template
-from utils.main import JsonResponse, get_code_level_function, get_trigger_functions
+from utils.main import JsonResponse, get_code_level_function
 import inspect
 from config.settings import DEFAULT_LEVEL
+from importlib import import_module
 
 
 def logs():
@@ -31,25 +32,30 @@ def level_code():
     Returns:
         template: view with source code.
     """
+    session = request.environ.get('beaker.session')
+    vuln: str = request.query.get('vuln')
+    
+    security_level = session['level']
+    # source of vulnerability without level query
+    # e.g. subprocess_cmd?level=weak -> subprocess_cmd
+    source_vuln = vuln.replace(f'?level={security_level}', '')
+    
+    # pointing to source_vuln before removing *_ if needed
+    vuln = source_vuln
+    
+    if source_vuln.find('_') != -1:
+        vuln = source_vuln.split('_')[-1] #subprocess_cmd -> cmd
+    
+    
     try:
-        session = request.environ.get('beaker.session')
-        vuln: str = request.query.get('vuln')
-        
-        # source of vulnerability without level query
-        # e.g. subprocess_cmd?level=weak -> subprocess_cmd
-        source_vuln = vuln.replace(f'?level={session['level']}', '')
-        
-        # pointing to source_vuln before removing *_ if needed
-        vuln = source_vuln
-        
-        if source_vuln.find('_') != -1:
-            vuln = source_vuln.split('_')[-1] #subprocess_cmd -> cmd
-        
-        security_level = session['level']
-        
         # fetch pure trigger moudle cmd, xss etc...
-        module = __import__(f'triggers.{vuln}', fromlist='triggers')
+        module = import_module(f'triggers.{vuln}')
         
+    except ImportError as e:
+        print(f'Module import error: {e}')
+        return template('_code', output=f'No module for {vuln}', vuln=vuln)
+        
+    try:
         # return all trigger functions relying on security level
         func_dict = get_code_level_function(module, security_level)
 
@@ -61,6 +67,7 @@ def level_code():
         func_source = inspect.getsource(func)
         
         return template('_code', output=func_source, vuln=vuln)
+    
     except Exception as e:
-        print(e)
+        print(f'Unexpected error {e}')
         return template('_code', output=f'No source code for {vuln} yet', vuln=vuln)
