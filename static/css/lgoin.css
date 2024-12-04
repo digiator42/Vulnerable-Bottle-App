@@ -7,6 +7,9 @@ html, body {
     background-color: rgb(206, 206, 204);
   }
 
+h1 {
+    margin-right: 20px;
+}
 
 form {
     background: linear-gradient(135deg, #494848, #575757);

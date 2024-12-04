@@ -5,6 +5,9 @@ from config.settings import DEFAULT_LEVEL
 
 
 def logs():
+    """"
+    Get logs for a specific vulnerability.
+    """
     try:
         session = request.environ.get('beaker.session')
         vuln: str = request.query.get('vuln')
@@ -13,7 +16,8 @@ def logs():
         with open(f'./logs/{vuln}.log', 'r') as f:
             logs = f.read()
             return template('_logs', output=logs, vuln=vuln)
-    except Exception as _:
+    except Exception as e:
+        print(e)
         return template('_logs', output=f'No logs for {vuln} yet', vuln=vuln)
 
 def security_level():

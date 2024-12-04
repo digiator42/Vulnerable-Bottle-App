@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Welcome admin, login</h1>
+    <h1>Welcome, <br>login please</h1>
     <form class="form-container" action="/login" method="post">
         Username: <input name="username" type="text" /><br>
         Password: <input name="password" type="password" /><br>
