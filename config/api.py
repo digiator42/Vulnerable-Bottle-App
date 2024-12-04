@@ -53,7 +53,7 @@ def level_code():
         
     except ImportError as e:
         print(f'Module import error: {e}')
-        return template('_code', output=f'No module for {vuln}', vuln=vuln)
+        return template('_code', output=f'No module for {vuln_module}', vuln=vuln_module)
         
     try:
         # return all trigger functions relying on security level
