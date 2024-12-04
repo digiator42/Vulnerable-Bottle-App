@@ -2,7 +2,7 @@
 
 <div class="form-container">
     <h1>Directory Traversal</h1>
-    <form method="POST" action="/directory_traversal">
+    <form method="POST" action="/trigger/directory-traversal/directory_traversal">
         <label for="input">Enter File Path:</label><br>
         <input type="text" id="input" name="input" placeholder="e.g., ../../etc/passwd" required>
         <br><br>

@@ -16,16 +16,16 @@
         <a href="/xss">Cross-Site Scripting (XSS)</a>
         <a href="/sqli">SQL Injection</a>
         <a href="/admin">Admin Access</a>
-        <a href="/file_read">Insecure File Access</a>
+        <a href="/file-read">Insecure File Access</a>
         <a href="/csrf">CSRF</a>
-        <a href="/open_redirect">Open Redirect</a>
+        <a href="/open-redirect">Open Redirect</a>
         <a href="/ssrf">Server-Side Request Forgery</a>
-        <a href="/directory_traversal">Directory Traversal</a>
+        <a href="/directory-traversal">Directory Traversal</a>
         <a href="/buffer">Buffer Overflow</a>
         <a href="/crypto">Crypto</a>
         <a href="/deserialization">Deserialization</a>
         <a href="/dos">DOS Simulation</a>
-        <a href="/email">Email Injection</a>
+        <a href="/email-injection">Email Injection</a>
         <a href="/jwt">JWT</a>
         <a href="/lfi">Local File Injection</a>
         <a href="/rfi">Remote File Injection</a>
@@ -61,7 +61,13 @@
 <script>
     url = window.location.href;
     chunks = url.split('/');
-    vuln = chunks[chunks.length - 1];
+
+    if (url.indexOf('trigger') !== -1) {
+        vuln = url.substr(url.indexOf('trigger') + 8);
+    }
+    else {
+        vuln = chunks[chunks.length - 1];
+    }
 
     function logsWindow() {
         window.open(`/api/logs?vuln=${vuln}`, "", "width=600,height=400");

@@ -1,7 +1,7 @@
 from bottle import request
 import requests
 
-def trigger_fetch():
+def trigger_ssrf():
     url = request.query.url
     
     try:

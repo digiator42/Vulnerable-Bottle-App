@@ -3,6 +3,7 @@ from utils.main import JsonResponse, get_code_level_function
 import inspect
 from config.settings import DEFAULT_LEVEL
 from importlib import import_module
+import re
 
 
 def logs():
@@ -36,20 +37,19 @@ def level_code():
     vuln: str = request.query.get('vuln')
     
     security_level = session['level']
-    # source of vulnerability without level query
-    # e.g. subprocess_cmd?level=weak -> subprocess_cmd
+
     source_vuln = vuln.replace(f'?level={security_level}', '')
     
-    # pointing to source_vuln before removing *_ if needed
-    vuln = source_vuln
-    
-    if source_vuln.find('_') != -1:
-        vuln = source_vuln.split('_')[-1] #subprocess_cmd -> cmd
-    
+    # for instanc cmd/cmd or only cmd
+    vuln_module = source_vuln
+    vuln_func = source_vuln
+
+    if source_vuln.find('/') != -1:
+        vuln_module, vuln_func = source_vuln.split('/')
     
     try:
         # fetch pure trigger moudle cmd, xss etc...
-        module = import_module(f'triggers.{vuln}')
+        module = import_module(f'triggers.{vuln_module}')
         
     except ImportError as e:
         print(f'Module import error: {e}')
@@ -58,16 +58,24 @@ def level_code():
     try:
         # return all trigger functions relying on security level
         func_dict = get_code_level_function(module, security_level)
-
+        
+        # need for root route if it has hython
+        vuln_func = vuln_func.replace('-', '_')
+        
         if security_level == DEFAULT_LEVEL:
-            func = func_dict[f'trigger_{source_vuln}'] #e.g. trigger_xss
+            pattern = f'trigger_{vuln_func}'
+            trigger_pattern = re.compile(rf"{pattern}")
+
+            # gets one function starts with trigger_
+            func = [value for key, value in func_dict.items() if trigger_pattern.match(key)][0]
         else:
-            func = func_dict[f'{security_level}_{source_vuln}'] #e.g. medium_xss
+            func = func_dict[f'{security_level}_{vuln_func}'] #e.g. medium_xss
         
         func_source = inspect.getsource(func)
         
-        return template('_code', output=func_source, vuln=vuln)
+        return template('_code', output=func_source, vuln=vuln_func)
     
     except Exception as e:
         print(f'Unexpected error {e}')
-        return template('_code', output=f'No source code for {vuln} yet', vuln=vuln)
+        output = f'No source code for {vuln_func} at level {security_level} yet'
+        return template('_code', output=output, vuln=vuln_func)

@@ -7,7 +7,7 @@ def trigger_cmd(user_input):
 
 def trigger_subprocess_cmd(user_input):
     try:
-        result = subprocess.run(user_input, shell=True, check=True, \
+        result = subprocess.run(user_input['input'], shell=True, check=True, \
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         return result.stdout or result.stderr
     except subprocess.CalledProcessError as e:

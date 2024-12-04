@@ -24,7 +24,7 @@ def create_admin_table():
     result = cursor.fetchone()
     connection.close()
 
-def trigger_sql_injection(input: Dict):
+def trigger_sqli(input: Dict):
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
     query = f"SELECT * FROM users WHERE username = '{input['username']}';"
