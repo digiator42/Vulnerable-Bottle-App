@@ -61,13 +61,13 @@
 <script>
     url = window.location.href;
     chunks = url.split('/');
-    chunks[chunks.length - 1];
-    
+    vuln = chunks[chunks.length - 1];
+
     function logsWindow() {
-        window.open(`/api/logs?vuln=${chunks[chunks.length - 1]}`, "", "width=600,height=400");
+        window.open(`/api/logs?vuln=${vuln}`, "", "width=600,height=400");
     }
     function codeWindow() {
-        window.open(`/api/level_code?vuln=${chunks[chunks.length - 1]}`, "", "width=600,height=400");
+        window.open(`/api/level_code?vuln=${vuln}`, "", "width=600,height=400");
     }
 </script>
 

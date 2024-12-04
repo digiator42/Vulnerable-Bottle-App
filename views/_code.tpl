@@ -30,7 +30,7 @@
 
 <body>
     % if output:
-    <h2>{{ vuln }} logs</h2>
+    <h2>{{ vuln }} source code</h2>
     <pre class="output">{{ output }}</pre>
     % end
 </body>

@@ -85,8 +85,8 @@ def get_code_level_function(module, level):
     """
     Get requested code level source.
     """
-    # if level == DEFAULT_LEVEL:
-    #     level = 'trigger'
+    if level == DEFAULT_LEVEL:
+        level = 'trigger'
 
     return {
         name: func
