@@ -28,7 +28,7 @@ def _render_template(view: str, func: Callable):
         #     print(e)
         #     output = str(e)
     else:
-        output = 'invalid input'
+        output = ''
         
     return template(view[:PY_EXT], output=output)
 

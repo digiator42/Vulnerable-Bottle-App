@@ -42,6 +42,7 @@
                     <option value="" disabled selected>Select Level</option>
                     <option value="?level=weak">Weak</option>
                     <option value="?level=medium">Medium</option>
+                    <option value="?level=high">High</option>
                 </select>
             </div>
 
@@ -61,16 +62,17 @@
 <script>
     url = window.location.href;
     chunks = url.split('/');
-
+    pureVuln = chunks[chunks.length - 1];
+    
     if (url.indexOf('trigger') !== -1) {
         vuln = url.substr(url.indexOf('trigger') + 8);
     }
     else {
-        vuln = chunks[chunks.length - 1];
+        vuln = pureVuln;
     }
 
     function logsWindow() {
-        window.open(`/api/logs?vuln=${vuln}`, "", "width=600,height=400");
+        window.open(`/api/logs?vuln=${pureVuln}`, "", "width=600,height=400");
     }
     function codeWindow() {
         window.open(`/api/level_code?vuln=${vuln}`, "", "width=600,height=400");

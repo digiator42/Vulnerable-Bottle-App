@@ -7,7 +7,9 @@ HOST = "localhost"
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_LEVEL = "weak"
 MEDIUM_LEVEL = "medium"
-LEVELS = (DEFAULT_LEVEL, MEDIUM_LEVEL)
+HIGH_LEVEL = "high"
+
+LEVELS = (DEFAULT_LEVEL, MEDIUM_LEVEL, HIGH_LEVEL)
 
 # Session settings
 session_opts = {
