@@ -10,7 +10,7 @@
 </div>
 <div class="form-container">
     <form method="POST" action="/trigger/cmd/subprocess_cmd">
-        <label for="input">Enter a Command:</label><br>
+        <label for="input">Ping IP:</label><br>
         <input type="text" id="input" name="input" placeholder="e.g., ls" required>
         <button type="submit">Run Command</button>
     </form>
