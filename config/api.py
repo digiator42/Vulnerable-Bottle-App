@@ -15,6 +15,9 @@ def logs():
         vuln: str = request.query.get('vuln')
         vuln = vuln.replace(f'?level={session['level']}', '')
         
+        if not vuln:
+            return template('_logs', output='🙂', vuln=vuln)
+        
         with open(f'./logs/{vuln}.log', 'r') as f:
             logs = f.read()
             return template('_logs', output=logs, vuln=vuln)
