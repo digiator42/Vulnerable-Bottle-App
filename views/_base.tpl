@@ -77,6 +77,13 @@
     function codeWindow() {
         window.open(`/api/level_code?vuln=${vuln}`, "", "width=600,height=400");
     }
+
+    let titleTag = document.getElementsByTagName('title');
+
+    if(titleTag) { 
+        let h1Text = document.querySelector('h1').innerText;
+        titleTag[0].innerText += " - " + h1Text;
+    }
 </script>
 
 </html>
