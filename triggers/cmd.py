@@ -44,7 +44,7 @@ def medium_subprocess_cmd(user_input):
 
 def high_subprocess_cmd(user_input):
     """
-    Medium level of cmd injection
+    High level of cmd injection
     """
     bad_chars = [';', '&', '|']
     cleared_input = user_input['input']

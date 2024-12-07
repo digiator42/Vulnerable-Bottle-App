@@ -1,6 +1,6 @@
 % rebase('_base.tpl', title='Main')
 
-<h2>Admin Login</h2>
+<h1>Admin Login</h1>
 <form action="/trigger/admin/admin" method="post">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required><br><br>

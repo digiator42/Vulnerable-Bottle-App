@@ -18,7 +18,13 @@ def _render_template(view: str, func: Callable):
     """
     user_input: Dict = get_user_input()
 
-    if _valid_user_input(user_input):
+    if view[:PY_EXT] == 'file-upload':
+        if not user_input:
+            output = ''
+        else:
+            output = func(user_input)
+
+    elif _valid_user_input(user_input):
         log_file = func.__name__.replace('trigger_', '')
         add_log(log_file, user_input)
         output = func(user_input)
@@ -48,6 +54,9 @@ def _valid_user_input(input: Dict):
 
 def serve_static(file: str):
     return static_file(file, root='./static')
+
+def serve_media(file):
+    return static_file(file, root='./media')
 
 def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
@@ -135,6 +144,7 @@ def add_routes(app):
     Adds all routes to the app.
     """
     app.route('/static/<file:path>', callback=serve_static)
+    app.route('/media/<file:path>', callback=serve_media)
     app.route('/', callback=main_view)
     app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)

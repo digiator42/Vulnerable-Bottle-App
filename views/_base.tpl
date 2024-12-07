@@ -17,6 +17,7 @@
         <a href="/sqli">SQL Injection</a>
         <a href="/admin">Admin Access</a>
         <a href="/buffer">Buffer Overflow</a>
+        <a href="/file-upload">File Upload</a>
         <!-- <a href="/file-read">Insecure File Access</a> -->
         <!-- <a href="/csrf">CSRF</a> -->
         <!-- <a href="/open-redirect">Open Redirect</a> -->
@@ -63,7 +64,7 @@
     url = window.location.href;
     chunks = url.split('/');
     pureVuln = chunks[chunks.length - 1];
-    
+
     if (url.indexOf('trigger') !== -1) {
         vuln = url.substr(url.indexOf('trigger') + 8);
     }
@@ -80,7 +81,7 @@
 
     let titleTag = document.getElementsByTagName('title');
 
-    if(titleTag) { 
+    if (titleTag) {
         let h1Text = document.querySelector('h1').innerText;
         titleTag[0].innerText += " - " + h1Text;
     }
