@@ -1,6 +1,6 @@
 import os
 import subprocess
-from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, HIGH_LEVEL
+from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
 from typing import Dict
 
@@ -17,8 +17,8 @@ def trigger_subprocess_cmd(user_input: Dict):
     elif session.get('level') == MEDIUM_LEVEL:
         return medium_subprocess_cmd(user_input)
     
-    elif session.get('level') == HIGH_LEVEL:
-        return high_subprocess_cmd(user_input)
+    elif session.get('level') == STRONG_LEVEL:
+        return strong_subprocess_cmd(user_input)
         
     
 def medium_cmd():
@@ -42,7 +42,7 @@ def medium_subprocess_cmd(user_input):
 
     return _exec_subprocess_cmd({'input': cleared_input},  show_result=True)
 
-def high_subprocess_cmd(user_input):
+def strong_subprocess_cmd(user_input):
     """
     High level of cmd injection
     """

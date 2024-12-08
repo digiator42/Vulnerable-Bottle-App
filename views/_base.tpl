@@ -43,7 +43,7 @@
                     <option value="" disabled selected>Select Level</option>
                     <option value="?level=weak">Weak</option>
                     <option value="?level=medium">Medium</option>
-                    <option value="?level=high">High</option>
+                    <option value="?level=strong">Strong</option>
                 </select>
             </div>
 
@@ -73,10 +73,10 @@
     }
 
     function logsWindow() {
-        window.open(`/api/logs?vuln=${pureVuln}`, "", "width=600,height=400");
+        window.open(`/api/logs?vuln=${pureVuln}`, "", "width=700,height=400");
     }
     function codeWindow() {
-        window.open(`/api/level_code?vuln=${vuln}`, "", "width=600,height=400");
+        window.open(`/api/level_code?vuln=${vuln}`, "", "width=700,height=400");
     }
 
     let titleTag = document.getElementsByTagName('title');

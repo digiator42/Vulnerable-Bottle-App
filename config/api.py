@@ -13,7 +13,7 @@ def logs():
     try:
         session = request.environ.get('beaker.session')
         vuln: str = request.query.get('vuln')
-        vuln = vuln.replace(f'?level={session['level']}', '')
+        vuln = vuln.replace(f'?level={session["level"]}', '')
         vuln = vuln.replace('-', '_')
         
         if not vuln:

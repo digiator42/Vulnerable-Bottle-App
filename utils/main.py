@@ -29,10 +29,12 @@ def get_template(template_name, **kwargs):
         FileNotFoundError: If the template file does not exist.
         KeyError: If a placeholder in the template is not provided in kwargs.
     """
-    
-    with open(f"views/{template_name}.tpl") as f:
-        template = f.read()
-    return template.format(**kwargs)
+    try:
+        with open(f"views/{template_name}.tpl") as f:
+            template = f.read()
+        return template.format(**kwargs)
+    except FileExistsError | KeyError as e:
+        print(e)
 
 def get_user_input():
     """
@@ -105,7 +107,6 @@ class JsonResponse:
         self.data = data
         self.status = status
 
-        # Set the content type and status code in the bottle response
         response.content_type = 'application/json'
         response.status = self.status
 

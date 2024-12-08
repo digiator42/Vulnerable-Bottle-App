@@ -1,15 +1,24 @@
 import os
 
+# app settings
 DEBUG = True
 RELOADER = True
 PORT = 6060
 HOST = "localhost"
+
+# root directory
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# static files & uploads
+STATIC_DIR = './static'
+MEDIA_DIR = './media'
+
+# levels
 DEFAULT_LEVEL = "weak"
 MEDIUM_LEVEL = "medium"
-HIGH_LEVEL = "high"
+STRONG_LEVEL = "strong"
 
-LEVELS = (DEFAULT_LEVEL, MEDIUM_LEVEL, HIGH_LEVEL)
+LEVELS = (DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL)
 
 # Session settings
 session_opts = {
