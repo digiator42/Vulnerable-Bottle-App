@@ -40,7 +40,7 @@ def medium_file_upload(user_input: Dict[str, FileUpload]):
 
 def strong_file_upload(user_input: Dict[str, FileUpload]):
     """
-    High level of file upload
+    Strong level of file upload
     """
     file = user_input['input']
     file_name = file.filename

@@ -1,5 +1,4 @@
 import ctypes
-import random
 
 MAX_LEN = 15
 
