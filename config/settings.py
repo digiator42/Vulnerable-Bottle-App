@@ -3,8 +3,8 @@ import os
 # app settings
 DEBUG = True
 RELOADER = True
-PORT = 6060
-HOST = "localhost"
+PORT = 8080
+HOST = "0.0.0.0"
 
 # root directory
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
