@@ -1,17 +1,19 @@
 import ctypes
 import random
 
+MAX_LEN = 15
+
 def trigger_buffer_overflow(user_input):
     input = user_input['input']
-    if not input.isdigit():
-        return "invalid input"
-    d_input = int(input)
-    buffer = (ctypes.c_char * d_input)()
     
-    for i in range(d_input):
-        buffer[i] = b'A' 
+    buffer = (ctypes.c_char * MAX_LEN)()
+    
     try:
-        buffer[d_input + random.randint(-5, 2)] = b'B'
-    except IndexError as e:
-        return ("overflow:", e)
-    return ("buffer:", bytes(buffer))
+        for i in range(len(input)):
+            buffer[i] = input[i].encode('utf-8')
+    except TypeError as e:
+        return e
+    except IndexError:
+        return 'Buffer overflow at index: ' + str(i)
+    
+    return 'Hello ' + buffer.value.decode('utf-8', 'ignore')

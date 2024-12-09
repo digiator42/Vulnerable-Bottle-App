@@ -33,7 +33,7 @@ def get_template(template_name, **kwargs):
         with open(f"views/{template_name}.tpl") as f:
             template = f.read()
         return template.format(**kwargs)
-    except FileExistsError | KeyError as e:
+    except (FileExistsError, KeyError) as e:
         print(e)
 
 def get_user_input():

@@ -80,6 +80,6 @@ def level_code():
         return template('_code', output=func_source, vuln=vuln_func)
     
     except Exception as e:
-        print(f'Unexpected error {e}')
+        print(f'error {e} not found')
         output = f'No source code for {vuln_func} at level {security_level} yet'
         return template('_code', output=output, vuln=vuln_func)
