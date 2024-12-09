@@ -1,20 +1,43 @@
 from bottle import request
-from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL
+from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
+import re
 
 def trigger_xss(user_input):
     session = request.environ.get('beaker.session')
     
     if session.get('level') == DEFAULT_LEVEL:
-        return user_input
+        return user_input['input']
+    
     elif session.get('level') == MEDIUM_LEVEL:
         return medium_xss(user_input)
+    
+    elif session.get('level') == STRONG_LEVEL:
+        return strong_xss(user_input)
 
 def medium_xss(input):
     """
     This will disable script tag for medium level:
-    instead of injecting script tag directly into html
     """
-    return input['input'].replace('<script>', '')
+    
+    # match <script> tag | case insensitive
+    return re.sub(r'(?i)<script.*?>', '', input['input'])
 
-def high_xss(input):
-    pass
+def strong_xss(input):
+    """
+    This will remove all possible XSS vectors by escaping special characters
+    """
+    substitutions = {
+        # '<.*?>': '',
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        '/': '&#x2F;'
+    }
+    
+    sanitized_input = input['input']
+    for key, value in substitutions.items():
+        sanitized_input = re.sub(key, value, sanitized_input)
+
+    return sanitized_input
