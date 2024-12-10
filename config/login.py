@@ -38,8 +38,9 @@ def login():
 
 def logout():
     session = request.environ['beaker.session']
-    session['logged_in'] = False
-    session['username'] = ''
+    # session['logged_in'] = False
+    del session['username']
+    del session['logged_in']
     
     # Since it's vulnerable, deleting session is not needed in order to 
     # display weak_msg and good_msg

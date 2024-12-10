@@ -94,8 +94,8 @@ def root_view(view):
 
 def session_middleware():
     session = request.environ.get('beaker.session')
-    
-    if not request.path.startswith('/login') and not request.path.startswith('/static'):
+
+    if not request.path == '/login' and not request.path.startswith('/static'):
         user = 'logged_in' in session
         if not user:
             return redirect('/login')
