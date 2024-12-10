@@ -38,7 +38,7 @@ def login():
 
 def logout():
     session = request.environ['beaker.session']
-    # session['logged_in'] = False
+
     del session['username']
     del session['logged_in']
     
