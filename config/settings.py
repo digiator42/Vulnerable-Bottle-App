@@ -34,5 +34,5 @@ database_users = {
     "Bob": {"role": "user", "password": "3899dcbab79f92af727c2190bbd8abc5"},
     "Charlie": {"role": "user", "password": "8afa847f50a716e64932d995c8e7435a"},
     "David": {"role": "user", "password": "25f9e794323b453885f5181f1b624d0b"},
-    "Eve": {"role": "user", "password": "54bf3dc2c4f98fabdf78b7216c0ae888455d009a"} # sha1
+    "Eve": {"role": "admin", "password": "54bf3dc2c4f98fabdf78b7216c0ae888455d009a"} # sha1
 }

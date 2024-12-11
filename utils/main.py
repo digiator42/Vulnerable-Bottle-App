@@ -12,7 +12,7 @@ TPL_EXT: int = -4
 email_injection = ['email', 'subject', 'message']
 
 input = [
-    'username', 'password', 'input',
+    'username', 'password', 'input', 'role',
 ]
 
 input.extend(email_injection)

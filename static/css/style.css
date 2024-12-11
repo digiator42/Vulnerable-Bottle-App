@@ -190,6 +190,7 @@ form {
 
 form input[type="text"],
 form input[type="password"],
+form input[type="role"],
 form input[type="email"],
 form textarea {
     width: 90%;
