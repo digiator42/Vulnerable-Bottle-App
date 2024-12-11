@@ -19,7 +19,7 @@
             <span>{{output}}</span>
             % end
         % else:
-            {{output}}
+        <pre>{{output}}</pre>
         % end
         </pre>
     </div>
