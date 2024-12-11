@@ -27,3 +27,12 @@ session_opts = {
     'session.auto': True,
     'session.cookie_expires': True,
 }
+
+database_users = {
+    "admin": {"role": "admin", "password": "e85eee9629076b118449949f1162fc7a"},
+    "Alice": {"role": "user", "password": "0571749e2ac330a7455809c6b0e7af90"},
+    "Bob": {"role": "user", "password": "3899dcbab79f92af727c2190bbd8abc5"},
+    "Charlie": {"role": "user", "password": "8afa847f50a716e64932d995c8e7435a"},
+    "David": {"role": "user", "password": "25f9e794323b453885f5181f1b624d0b"},
+    "Eve": {"role": "user", "password": "54bf3dc2c4f98fabdf78b7216c0ae888455d009a"} # sha1
+}

@@ -11,9 +11,8 @@ def logs():
     Get logs for a specific vulnerability.
     """
     try:
-        session = request.environ.get('beaker.session')
         vuln: str = request.query.get('vuln')
-        vuln = vuln.replace(f'?level={session["level"]}', '')
+        vuln = re.sub(r'\?.*', '', vuln)
         vuln = vuln.replace('-', '_')
         
         if not vuln:
@@ -41,8 +40,8 @@ def level_code():
     vuln: str = request.query.get('vuln')
     
     security_level = session['level']
-
-    source_vuln = vuln.replace(f'?level={security_level}', '')
+    
+    source_vuln = re.sub(r'\?.*', '', vuln)
     
     # for instanc cmd/cmd or only cmd
     vuln_module = source_vuln

@@ -5,16 +5,20 @@
     <form method="POST" action="/trigger/sqli/sqli">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" placeholder="e.g., admin' OR 1=1 --" required>
-        <br><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        <button type="submit">Login</button>
+        <br>
+        <br>
+        <button type="submit">Search</button>
     </form>
     <div>
-        % if output:
+        % if isinstance(output, list):
         <br>
-        <pre class="output">{{output}}</pre>
+        <pre class="output" style="display: flex; flex-direction: column;">
+            % for output in output:
+            <span>{{output}}</span>
+            % end
+        % else:
+            {{output}}
         % end
+        </pre>
     </div>
 </div>
