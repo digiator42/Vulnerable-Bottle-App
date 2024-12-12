@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <h2>All routes</h2>
+    <h2>Routes</h2>
     <pre class="output">
     % for route, method in routes:
         % if method == 'GET':

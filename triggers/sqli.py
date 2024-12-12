@@ -43,47 +43,31 @@ def trigger_sqli(input: Dict):
     with sqlite3.connect("data.db") as connection:
         cursor = connection.cursor()
         
-        query = f"""
-            SELECT * 
-            FROM users 
-            WHERE username = '{input['username']}';
-        """
-        
+        query = f"SELECT * FROM users WHERE username = '{input['username']}';"
+        print(query)
         try:
             cursor.execute(query)
         except sqlite3.OperationalError as e:
             return str(e)
+        
         result = cursor.fetchall()
-        if result:
-            if len(result) > 1:
-                return result
-            return f'username: {result[0][1]}, role: {result[0][3]}'
-    
-    return ''
+        
+    return _exec_sqli(result)
 
 def medium_sqli(input: Dict):
-    connection = sqlite3.connect("data.db")
-    cursor = connection.cursor()
+    with sqlite3.connect("data.db") as connection:
+        cursor = connection.cursor()
 
-    query = f"SELECT * FROM users WHERE username = '{input['username']}' AND role = ?;"
+        query = f"SELECT * FROM users WHERE username = '{input['username']}' AND role = 'user';"
 
-    print(query)
-    
-    try:
-        cursor.execute(query, (input.get('role', 'user'),))
-    except Exception as e:
-        return str(e)
+        try:
+            cursor.execute(query)
+        except Exception as e:
+            return str(e)
 
-    result = cursor.fetchall()
-    connection.close()
+        result = cursor.fetchall()
 
-    if result:
-        if result:
-            if len(result) > 1:
-                return result
-            return f'username: {result[0][1]}, role: {result[0][3]}'
-    
-    return ''
+    return _exec_sqli(result)
 
 def detect_sqli(input: Dict):
     # common SQL injections
@@ -99,29 +83,22 @@ def detect_sqli(input: Dict):
     return False
 
 def strong_sqli(input: Dict):
-    connection = sqlite3.connect("data.db")
-    cursor = connection.cursor()
+    with sqlite3.connect("data.db") as connection:
+        cursor = connection.cursor()
 
-    if detect_sqli(input['username']):
-        return ""
+        if detect_sqli(input['username']):
+            return ""
 
-    query = "SELECT * FROM users WHERE username = ? AND role = ?;"
+        query = "SELECT * FROM users WHERE username = ? AND role = ?;"
 
-    try:
-        cursor.execute(query, (input['username'], input.get('role', 'user')))
-    except sqlite3.OperationalError as e:
-        return str(e)
+        try:
+            cursor.execute(query, (input['username'], input.get('role', 'user')))
+        except sqlite3.OperationalError as e:
+            return str(e)
 
-    result = cursor.fetchall()
-    connection.close()
+        result = cursor.fetchall()
 
-    if result:
-        if result:
-            if len(result) > 1:
-                return result
-            return f'username: {result[0][1]}'
-    
-    return ''
+    return _exec_sqli(result)
 
 def get_db_info():
     connection = sqlite3.connect("data.db")
@@ -133,3 +110,13 @@ def get_db_info():
     
     connection.close()
     print(tables, '\n', users)
+
+def _exec_sqli(result):
+    if result:
+        if len(result) > 1:
+            return result
+        return f'username: {result[0][1]}'
+    
+    return ''
+
+# ' OR '1'='1' AND role = 'admin' --

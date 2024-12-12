@@ -62,8 +62,9 @@ def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
 
 def routes_view():
-    routes = [route.rule for route in request.app.routes if route.rule.startswith('/trigger')]
-    methods = [route.method for route in request.app.routes if route.rule.startswith('/trigger')]
+    routes = [route.rule for route in request.app.routes]
+    methods = [route.method for route in request.app.routes]
+
     return template("_routes", routes=zip(routes, methods))
 
 def xss_view(view, func):
@@ -142,7 +143,7 @@ def add_root_routes(app):
     Add routes for all views in the views directory.
     """
     for route, view in ROOT_ROUTES.items():
-        app.route(f'/{route}', method=["GET", "POST"])(root_view(view))
+        app.route(f'/{route}', method=["GET"])(root_view(view))
 
 def add_routes(app):
     """
@@ -160,5 +161,3 @@ def add_routes(app):
     add_root_routes(app)
     add_trigger_routes(app)
     add_api_routes(app)
-    # for route in app.routes:
-    #     print(route.rule)
