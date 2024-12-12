@@ -18,7 +18,7 @@
         <a href="/admin">Brute Force</a>
         <a href="/buffer">Buffer Overflow</a>
         <a href="/file-upload">File Upload</a>
-        <!-- <a href="/file-read">Insecure File Access</a> -->
+        <a href="/file-read">Insecure File Access</a>
         <!-- <a href="/csrf">CSRF</a> -->
         <!-- <a href="/open-redirect">Open Redirect</a> -->
         <!-- <a href="/ssrf">Server-Side Request Forgery</a> -->

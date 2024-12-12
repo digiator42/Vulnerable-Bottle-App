@@ -4,7 +4,8 @@ env
 __pycache__/
 instance/
 standards*
-data*
+/data/
+*.db
 venv/
 .env
 *.log

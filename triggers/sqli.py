@@ -44,7 +44,7 @@ def trigger_sqli(input: Dict):
         cursor = connection.cursor()
         
         query = f"SELECT * FROM users WHERE username = '{input['username']}';"
-        print(query)
+
         try:
             cursor.execute(query)
         except sqlite3.OperationalError as e:
