@@ -31,7 +31,7 @@ def check_ban(ip):
             ATTEMPS[ip]['count'] = 1
     return False
 
-def ban_ip(ip, duration=10):
+def ban_ip(ip, duration=300):
     # sets ban duraion to 5 mins
     BANNED_IPS[ip] = time.time() + duration
 

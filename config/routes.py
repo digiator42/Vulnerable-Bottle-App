@@ -60,7 +60,12 @@ def serve_media(file):
 
 def main_view():
     return template("_home", username=request.environ.get('beaker.session')['username'])
-    
+
+def routes_view():
+    routes = [route.rule for route in request.app.routes if route.rule.startswith('/trigger')]
+    methods = [route.method for route in request.app.routes if route.rule.startswith('/trigger')]
+    return template("_routes", routes=zip(routes, methods))
+
 def xss_view(view, func):
     """
     gets xss template and concatenate xss tag with user input,
@@ -146,6 +151,7 @@ def add_routes(app):
     app.route('/static/<file:path>', callback=serve_static)
     app.route('/media/<file:path>', callback=serve_media)
     app.route('/', callback=main_view)
+    app.route('/routes', callback=routes_view)
     app.route('/login', method=['GET', 'POST'], callback=login)
     app.route('/logout', callback=logout)
     

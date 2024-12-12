@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
     <style>
         html,
         body {
@@ -21,7 +18,11 @@
         .output {
             background-color: white;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            align-items: flex-start;
         }
 
         h2 {
@@ -32,10 +33,20 @@
 </head>
 
 <body>
-    % if output:
-    <h2>{{ vuln }} source code</h2>
-    <pre class="output"><code class="python">{{ output }}</code></pre>
+    <h2>All routes</h2>
+    <pre class="output">
+    % for route, method in routes:
+        % if method == 'GET':
+        <span style="color: green; border: 1px solid rgb(32, 151, 47); width: 100%;">
+            {{ route }} : {{ method }}
+        </span>
+        % else:
+        <span style="color: blue; border: 1px solid rgb(145, 149, 173); width: 100%;">
+            {{ route }} : {{ method }}
+        </span>
+        % end
     % end
+    </pre>
 </body>
 
 </html>

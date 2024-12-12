@@ -12,13 +12,12 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Vulnerabilities</h2>
-        <!-- ends with ** is done -->
-        <a href="/cmd">Command Injection **</a> 
-        <a href="/xss">Cross-Site Scripting (XSS) **</a>
+        <a href="/cmd">Command Injection</a> 
+        <a href="/xss">Cross-Site Scripting (XSS)</a>
         <a href="/sqli">SQL Injection</a>
-        <a href="/admin">Brute Force **</a>
-        <a href="/buffer">Buffer Overflow **</a>
-        <a href="/file-upload">File Upload **</a>
+        <a href="/admin">Brute Force</a>
+        <a href="/buffer">Buffer Overflow</a>
+        <a href="/file-upload">File Upload</a>
         <!-- <a href="/file-read">Insecure File Access</a> -->
         <!-- <a href="/csrf">CSRF</a> -->
         <!-- <a href="/open-redirect">Open Redirect</a> -->
