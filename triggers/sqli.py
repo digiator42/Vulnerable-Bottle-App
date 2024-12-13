@@ -15,7 +15,8 @@ def create_admin_table():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL,
                 password TEXT NOT NULL,
-                role TEXT NOT NULL
+                role TEXT NOT NULL,
+                balance INTEGER DEFAULT 999999
             )
         ''')
 

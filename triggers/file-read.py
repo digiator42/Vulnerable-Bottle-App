@@ -1,7 +1,6 @@
 from typing import Dict
 from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
-import os
 
 def trigger_file_read(input: Dict):
     level = request.environ.get('beaker.session')['level']

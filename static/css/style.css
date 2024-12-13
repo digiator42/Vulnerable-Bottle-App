@@ -188,10 +188,7 @@ form {
     color: white;
 }
 
-form input[type="text"],
-form input[type="password"],
-form input[type="role"],
-form input[type="email"],
+form input,
 form textarea {
     width: 90%;
     padding: 10px;

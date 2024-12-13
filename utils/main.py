@@ -11,11 +11,13 @@ TPL_EXT: int = -4
 
 email_injection = ['email', 'subject', 'message']
 
+csrf = ['amount', 'recipient']
+
 input = [
     'username', 'password', 'input', 'role',
 ]
 
-input.extend(email_injection)
+input.extend(email_injection + csrf)
 
 def get_template(template_name, **kwargs):
     """
