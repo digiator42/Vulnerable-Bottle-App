@@ -1,10 +1,11 @@
 from bottle import request, template
 from utils.main import JsonResponse, get_code_level_function
-import inspect
-from config.settings import DEFAULT_LEVEL
+from config.settings import DEFAULT_LEVEL, STRONG_LEVEL
 from importlib import import_module
+import inspect
 import re
-
+import hashlib
+import secrets
 
 def logs():
     """"
@@ -82,3 +83,14 @@ def level_code():
         print(f'error {e} not found')
         output = f'No source code for {vuln_func} at level {security_level} yet'
         return template('_code', output=output, vuln=vuln_func)
+    
+def generate_csrf_token():
+    session = request.environ.get('beaker.session')
+    
+    csrf_token = hashlib.md5(session['username'].encode()).hexdigest()
+    
+    if session['level'] == STRONG_LEVEL:
+        csrf_token = secrets.token_urlsafe(32)
+        session['csrf_token'] = csrf_token
+    
+    return JsonResponse({'csrf_token': csrf_token}).render()

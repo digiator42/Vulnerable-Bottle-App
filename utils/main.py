@@ -11,7 +11,7 @@ TPL_EXT: int = -4
 
 email_injection = ['email', 'subject', 'message']
 
-csrf = ['amount', 'recipient']
+csrf = ['amount', 'recipient', 'csrf_token']
 
 input = [
     'username', 'password', 'input', 'role',

@@ -3,6 +3,7 @@
 <div class="form-container">
     <h1>Cross-Site Request Forgery (CSRF)</h1>
     <form method="POST" action="/trigger/csrf/csrf">
+        <input type="hidden" name="csrf_token" value="">
         <label for="amount">Transfer Amount:</label><br>
         <input type="number" id="amount" name="amount" required>
         <br><br>
@@ -21,3 +22,16 @@
         % end
     </div>
 </div>
+<script>
+
+    document.onload = getCsrfToken();
+
+    async function getCsrfToken() {
+        await fetch(`/api/generate_csrf_token`)
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('input[name="csrf_token"]').value = data.csrf_token;
+            })
+            .catch(error => console.error('Error fetching CSRF token:', error));
+    }
+</script>
