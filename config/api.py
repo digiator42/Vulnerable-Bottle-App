@@ -63,21 +63,28 @@ def level_code():
         # return all trigger functions relying on security level
         func_dict = get_code_level_function(module, security_level)
         
-        # need for root route if it has hython
+        # needed for root route if it has hython
         vuln_func = vuln_func.replace('-', '_')
         
         if security_level == DEFAULT_LEVEL:
+            # necessary in case of multiple functions starts with trigger_
             pattern = f'trigger_{vuln_func}'
             trigger_pattern = re.compile(rf"{pattern}")
 
-            # gets one function starts with trigger_
-            func = [value for key, value in func_dict.items() if trigger_pattern.match(key)][0]
+            # gets functions starts with trigger_ or _exec
+            func = [
+                value 
+                for key, value in func_dict.items() 
+                if trigger_pattern.match(key) or key.startswith('_exec')
+            ]
         else:
-            func = func_dict[f'{security_level}_{vuln_func}'] #e.g. medium_xss
+            func = list(func_dict.values()) #e.g. medium_xss, _exec_xss
         
-        func_source = inspect.getsource(func)
+        func_source = ''
+        for function in func[::-1]:
+            func_source += '\n\n' + inspect.getsource(function)
         
-        return template('_code', output=func_source, vuln=vuln_func)
+        return template('_code', output=func_source.lstrip(), vuln=vuln_func)
     
     except Exception as e:
         print(f'error {e} not found')

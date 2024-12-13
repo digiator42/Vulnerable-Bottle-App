@@ -95,7 +95,7 @@ def get_code_level_function(module, level):
     return {
         name: func
         for name, func in inspect.getmembers(module, inspect.isfunction)
-        if name.startswith(f'{level}_')
+        if name.startswith(f'{level}_') or name.startswith('_exec')
     }
 
 class JsonResponse:

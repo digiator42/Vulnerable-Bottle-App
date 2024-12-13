@@ -34,6 +34,8 @@ def medium_csrf(input: Dict):
     if csrf_token != generate_csrf_token(session['username']):
         return "CSRF token invalid"
     
+    return _exec_csrf(input)
+    
 
 def strong_csrf(input: Dict):
     csrf_token = input['csrf_token']
