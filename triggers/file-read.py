@@ -39,3 +39,10 @@ def strong_file_read(input: Dict):
     
     if not requested_path.startswith(base_dir):
         return "Access denied: Invalid file path"
+
+    try:
+        with open(requested_path, 'r') as file:
+            content = file.read()
+        return content
+    except Exception as e:
+        return str(e)
