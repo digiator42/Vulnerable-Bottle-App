@@ -1,6 +1,6 @@
 import time
 from bottle import request, response
-from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
+from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 import math
 
 BANNED_IPS = {}
@@ -12,14 +12,15 @@ def trigger_admin(input):
     session = request.environ.get('beaker.session')
     level = session['level']
     
-    if level == MEDIUM_LEVEL:
+    if level == DEFAULT_LEVEL:
+        return weak_admin(input)
+    
+    elif level == MEDIUM_LEVEL:
         return medium_admin(input)
     
     elif level == STRONG_LEVEL:
         return strong_admin(input)
     
-    return _check_credentials(input)
-
 def check_ban(ip):
     if ip in BANNED_IPS:
         # if withing the ban period, it's banned
@@ -57,6 +58,9 @@ def check_brute_force(ip):
 
     return False
 
+def weak_admin(input):
+    return _exec_credentials(input)
+
 def medium_admin(input):
     ip = request.remote_addr
 
@@ -66,7 +70,7 @@ def medium_admin(input):
         response.status = 429
         return f"Too many attempts. Try again after {TIME_PERIOD - remaining_time} secs"
 
-    return _check_credentials(input)
+    return _exec_credentials(input)
 
 def strong_admin(input):
     ip = request.remote_addr
@@ -82,9 +86,9 @@ def strong_admin(input):
         response.status = 429
         return f"Too many attempts. Try again after {TIME_PERIOD - remaining_time} secs"
     
-    return _check_credentials(input)
+    return _exec_credentials(input)
 
-def _check_credentials(input):
+def _exec_credentials(input):
     if input['username'] == "admin" and input['password'] == "1234":
         return "Access Granted!"
     return "Access Denied!"

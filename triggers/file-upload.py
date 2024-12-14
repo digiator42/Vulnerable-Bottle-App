@@ -11,7 +11,7 @@ def trigger_file_upload(user_input: Dict[str, FileUpload]):
     security_level = session.get('level')
     
     if security_level == DEFAULT_LEVEL:
-        return _exec_file_upload(user_input)
+        return weak_file_upload(user_input)
     
     elif security_level == MEDIUM_LEVEL:
         return medium_file_upload(user_input)
@@ -19,6 +19,11 @@ def trigger_file_upload(user_input: Dict[str, FileUpload]):
     elif security_level == STRONG_LEVEL:
         return strong_file_upload(user_input)
 
+def weak_file_upload(user_input: Dict[str, FileUpload]):
+    """
+    Weak level of file upload
+    """
+    return _exec_file_upload(user_input)
 
 def medium_file_upload(user_input: Dict[str, FileUpload]):
     """

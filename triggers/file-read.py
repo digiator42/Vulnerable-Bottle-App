@@ -6,15 +6,16 @@ import os
 
 def trigger_file_read(input: Dict):
     level = request.environ.get('beaker.session')['level']
-        
-    file_path = input['input']
     
     if level == MEDIUM_LEVEL:
         return medium_file_read(input)
-    
     elif level == STRONG_LEVEL:
         return strong_file_read(input)
-    
+    else:
+        return weak_file_read(input)
+
+def weak_file_read(input: Dict):
+    file_path = input['input']
     try:
         with open(file_path, 'r') as file:
             content = file.read()

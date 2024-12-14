@@ -1,7 +1,7 @@
 from bottle import Bottle, run
 from config.settings import HOST, PORT, DEBUG, RELOADER
 from config.routes import add_routes
-from triggers.sqli import create_admin_table
+from utils.main import create_admin_table
 from beaker.middleware import SessionMiddleware
 from config.settings import session_opts
 

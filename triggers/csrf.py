@@ -1,22 +1,24 @@
 from typing import Dict
 import sqlite3
 from bottle import request
-from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
+from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 import hashlib
 
 
 def trigger_csrf(input: Dict):
-    
-    session = request.environ.get('beaker.session')
-    
+    session = request.environ.get('beaker.session')    
     level = session['level']
     
-    if level == MEDIUM_LEVEL:
+    if level == DEFAULT_LEVEL:
+        return weak_csrf(input)
+    
+    elif level == MEDIUM_LEVEL:
         return medium_csrf(input)
     
     elif level == STRONG_LEVEL:
         return strong_csrf(input)
     
+def weak_csrf(input):
     return _exec_csrf(input)
 
 def medium_csrf(input: Dict):

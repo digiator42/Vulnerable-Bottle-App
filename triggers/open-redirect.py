@@ -3,6 +3,7 @@ from typing import Dict
 from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
 from urllib.parse import urlparse
+from config.settings import DEFAULT_LEVEL
 
 ALLOWED_DOMAIN = "portswigger.net"
 
@@ -12,9 +13,13 @@ def trigger_open_redirect(input: Dict):
     if security_level == MEDIUM_LEVEL:
         return medium_open_redirect(input)
     
-    if security_level == STRONG_LEVEL:
+    elif security_level == STRONG_LEVEL:
         return strong_open_redirect(input)
     
+    else:
+        return weak_open_redirect(input)
+    
+def weak_open_redirect(input: Dict):
     return redirect(input['input'])
 
 def medium_open_redirect(input: Dict):

@@ -8,19 +8,22 @@ def trigger_cmd_injection(user_input: Dict):
     session = request.environ.get('beaker.session')
     
     if session.get('level') == DEFAULT_LEVEL:
-        return _exec_cmd_injection(user_input, show_result=True)
+        return weak_cmd_injection(user_input)
     
     elif session.get('level') == MEDIUM_LEVEL:
         return medium_cmd_injection(user_input)
     
     elif session.get('level') == STRONG_LEVEL:
         return strong_cmd_injection(user_input)
-
+    
+def weak_cmd_injection(user_input):
+    return _exec_cmd_injection(user_input, show_result=True)
+    
 def medium_cmd_injection(user_input):
     """
     Medium level of cmd injection
     """
-    bad_chars = [';', '&']
+    bad_chars = [';', '&', '|']
     cleared_input: str = user_input['input']
 
     if not cleared_input.startswith('ping'):
@@ -33,9 +36,13 @@ def medium_cmd_injection(user_input):
 
 def strong_cmd_injection(user_input):
     """
-    High level of cmd injection
+    Strong level of cmd injection
     """
-    bad_chars = [';', '&', '|']
+    bad_chars = [
+        ';', '&', '|', '&&', '||', '`', '$(', '<', '>', '>>', '<<', '*', '?', 
+        '[', ']', '{', '}', '\\'
+    ]
+    
     cleared_input = user_input['input']
 
     if not cleared_input.startswith('ping'):

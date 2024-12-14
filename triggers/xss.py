@@ -2,17 +2,24 @@ from bottle import request
 from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 import re
 
-def trigger_xss(user_input):
+def trigger_xss(input):
     session = request.environ.get('beaker.session')
     
     if session.get('level') == DEFAULT_LEVEL:
-        return user_input['input']
+        return weak_xss(input)
     
     elif session.get('level') == MEDIUM_LEVEL:
-        return medium_xss(user_input)
+        return medium_xss(input)
     
     elif session.get('level') == STRONG_LEVEL:
-        return strong_xss(user_input)
+        return strong_xss(input)
+
+def weak_xss(input):
+    """
+    This enables xss
+    """
+    
+    return input['input']
 
 def medium_xss(input):
     """

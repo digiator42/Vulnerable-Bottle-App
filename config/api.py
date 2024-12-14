@@ -39,7 +39,6 @@ def level_code():
     """
     session = request.environ.get('beaker.session')
     vuln: str = request.query.get('vuln')
-    
     security_level = session['level']
     
     source_vuln = re.sub(r'\?.*', '', vuln)
@@ -51,7 +50,6 @@ def level_code():
     if source_vuln.find('/') != -1:
         vuln_module, vuln_func = source_vuln.split('/')
     
-    print('---------> >> ', vuln_module, vuln_func)
     try:
         # fetch pure trigger moudle cmd, xss etc...
         module = import_module(f'triggers.{vuln_module}')
@@ -62,24 +60,7 @@ def level_code():
         
     # return all trigger functions relying on security level
     func_dict = get_code_level_function(module, security_level)
-
-    # needed for root route if it has hython
-    vuln_func = vuln_func.replace('-', '_')
-    
-    if security_level == DEFAULT_LEVEL:
-        # necessary in case of multiple functions starts with trigger_
-        pattern = f'trigger_{vuln_func}'
-        trigger_pattern = re.compile(rf"{pattern}")
-
-        # gets functions starts with trigger_ or _exec
-        source_func = [
-            value 
-            for key, value in func_dict.items() 
-            if trigger_pattern.match(key) or key.startswith('_exec')
-        ]
-    else:
-        print('---------->>>>> ', func_dict.values())
-        source_func = list(func_dict.values()) #e.g. medium_xss, _exec_xss
+    source_func = list(func_dict.values()) #e.g. medium_xss, _exec_xss
     
     if source_func:
         func_code = ''

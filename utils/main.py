@@ -3,7 +3,8 @@ import inspect
 from pathlib import Path
 from config.settings import ROOT_DIR
 from bottle import request, response
-from config.settings import DEFAULT_LEVEL
+from config.settings import database_users
+import sqlite3
 import json
 
 PY_EXT: int = -3
@@ -89,9 +90,6 @@ def get_code_level_function(module, level):
     """
     Get requested code level source.
     """
-    if level == DEFAULT_LEVEL:
-        level = 'trigger'
-
     return {
         name: func
         for name, func in inspect.getmembers(module, inspect.isfunction)
@@ -133,3 +131,41 @@ class JsonResponse:
 def add_log(vuln, input):
     with open(f'./logs/{vuln}.log', 'a') as f:
         f.write(str(input) + '\n')
+        
+def create_admin_table():
+    with sqlite3.connect("data.db") as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, username TEXT, password TEXT)"
+        )
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
+                password TEXT NOT NULL,
+                role TEXT NOT NULL,
+                balance INTEGER DEFAULT 999999
+            )
+        ''')
+
+        cursor.execute("SELECT * FROM users WHERE username = 'admin'")
+        
+        if cursor.fetchone() is None:
+            for name, data in database_users.items():
+                cursor.execute(
+                    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+                    (name, data['password'], data['role'])
+                )
+
+        connection.commit()
+
+def get_db_info():
+    connection = sqlite3.connect("data.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    cursor.execute("SELECT * FROM users;")
+    users = cursor.fetchall()
+    
+    connection.close()
+    print(tables, '\n', users)

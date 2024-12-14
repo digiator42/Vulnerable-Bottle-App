@@ -1,35 +1,9 @@
 import sqlite3
 from typing import Dict
-from config.settings import database_users, MEDIUM_LEVEL, STRONG_LEVEL
+from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
 import re
 
-def create_admin_table():
-    with sqlite3.connect("data.db") as connection:
-        cursor = connection.cursor()
-        cursor.execute(
-            "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, username TEXT, password TEXT)"
-        )
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL,
-                password TEXT NOT NULL,
-                role TEXT NOT NULL,
-                balance INTEGER DEFAULT 999999
-            )
-        ''')
-
-        cursor.execute("SELECT * FROM users WHERE username = 'admin'")
-        
-        if cursor.fetchone() is None:
-            for name, data in database_users.items():
-                cursor.execute(
-                    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
-                    (name, data['password'], data['role'])
-                )
-
-        connection.commit()
 
 def trigger_sqli(input: Dict):
     
@@ -40,7 +14,10 @@ def trigger_sqli(input: Dict):
         return medium_sqli(input)
     elif security_level == STRONG_LEVEL:
         return strong_sqli(input)
-    
+    else:
+        return weak_sqli(input)
+
+def weak_sqli(input: Dict):
     with sqlite3.connect("data.db") as connection:
         cursor = connection.cursor()
         
@@ -101,17 +78,6 @@ def strong_sqli(input: Dict):
 
     return _exec_sqli(result)
 
-def get_db_info():
-    connection = sqlite3.connect("data.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = cursor.fetchall()
-    cursor.execute("SELECT * FROM users;")
-    users = cursor.fetchall()
-    
-    connection.close()
-    print(tables, '\n', users)
-
 def _exec_sqli(result):
     if result:
         if len(result) > 1:
@@ -119,5 +85,3 @@ def _exec_sqli(result):
         return f'username: {result[0][1]}'
     
     return ''
-
-# ' OR '1'='1' AND role = 'admin' --
