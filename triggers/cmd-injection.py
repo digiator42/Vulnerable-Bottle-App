@@ -4,30 +4,19 @@ from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
 from typing import Dict
 
-def trigger_cmd(user_input: Dict):
-    os.system(user_input['input'])
-    return user_input
-
-def trigger_subprocess_cmd(user_input: Dict):
+def trigger_cmd_injection(user_input: Dict):
     session = request.environ.get('beaker.session')
     
     if session.get('level') == DEFAULT_LEVEL:
-        return _exec_subprocess_cmd(user_input, show_result=True)
+        return _exec_cmd_injection(user_input, show_result=True)
     
     elif session.get('level') == MEDIUM_LEVEL:
-        return medium_subprocess_cmd(user_input)
+        return medium_cmd_injection(user_input)
     
     elif session.get('level') == STRONG_LEVEL:
-        return strong_subprocess_cmd(user_input)
-        
-    
-def medium_cmd():
-    """
-    test code api
-    """
-    pass
+        return strong_cmd_injection(user_input)
 
-def medium_subprocess_cmd(user_input):
+def medium_cmd_injection(user_input):
     """
     Medium level of cmd injection
     """
@@ -40,9 +29,9 @@ def medium_subprocess_cmd(user_input):
     for char in bad_chars:
         cleared_input = cleared_input.replace(char, '')
 
-    return _exec_subprocess_cmd({'input': cleared_input},  show_result=True)
+    return _exec_cmd_injection({'input': cleared_input},  show_result=True)
 
-def strong_subprocess_cmd(user_input):
+def strong_cmd_injection(user_input):
     """
     High level of cmd injection
     """
@@ -55,9 +44,9 @@ def strong_subprocess_cmd(user_input):
     for char in bad_chars:
         cleared_input = cleared_input.replace(char, '')
 
-    return _exec_subprocess_cmd({'input': cleared_input})
+    return _exec_cmd_injection({'input': cleared_input})
 
-def _exec_subprocess_cmd(user_input, show_result=False):
+def _exec_cmd_injection(user_input, show_result=False):
     try:
         result = subprocess.run(user_input['input'], shell=True, check=True, \
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)

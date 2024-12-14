@@ -12,7 +12,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Vulnerabilities</h2>
-        <a href="/cmd">Command Injection</a> 
+        <a href="/cmd-injection">Command Injection</a>
         <a href="/xss">Cross-Site Scripting (XSS)</a>
         <a href="/sqli">SQL Injection</a>
         <a href="/admin">Brute Force</a>
