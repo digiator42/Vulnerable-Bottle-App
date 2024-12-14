@@ -2,7 +2,7 @@
 
 <div>
     <h1>File Upload Vulnerabilty</h1>
-    <form enctype="multipart/form-data" action="/trigger/file-upload/file_upload" method="POST">
+    <form enctype="multipart/form-data" action="/file-upload/file_upload" method="POST">
         Upload an Image
         <br><br>
         <input name="input" type="file" accept=".jpg, .jpeg, .png"><br>

@@ -1,7 +1,7 @@
 % rebase('_base.tpl', title='Main')
 
 <h1>Admin Login</h1>
-<form action="/trigger/admin/admin" method="post">
+<form action="/admin/admin" method="post">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required><br><br>
     <label for="password">Password:</label>
@@ -9,5 +9,5 @@
     <button type="submit">Login</button>
 </form>
 % if output:
-    {{output}}
+{{output}}
 % end

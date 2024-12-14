@@ -2,7 +2,7 @@
 
 <div class="form-container">
     <h1>SQL Injection</h1>
-    <form method="POST" action="/trigger/sqli/sqli">
+    <form method="POST" action="/sqli/sqli">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" placeholder="e.g., admin' OR 1=1" required>
         <br><br>

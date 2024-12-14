@@ -51,6 +51,7 @@ def level_code():
     if source_vuln.find('/') != -1:
         vuln_module, vuln_func = source_vuln.split('/')
     
+    print('---------> >> ', vuln_module, vuln_func)
     try:
         # fetch pure trigger moudle cmd, xss etc...
         module = import_module(f'triggers.{vuln_module}')
@@ -59,37 +60,37 @@ def level_code():
         print(f'Module import error: {e}')
         return template('_code', output='🙂', vuln=vuln_module)
         
-    try:
-        # return all trigger functions relying on security level
-        func_dict = get_code_level_function(module, security_level)
-        
-        # needed for root route if it has hython
-        vuln_func = vuln_func.replace('-', '_')
-        
-        if security_level == DEFAULT_LEVEL:
-            # necessary in case of multiple functions starts with trigger_
-            pattern = f'trigger_{vuln_func}'
-            trigger_pattern = re.compile(rf"{pattern}")
+    # return all trigger functions relying on security level
+    func_dict = get_code_level_function(module, security_level)
 
-            # gets functions starts with trigger_ or _exec
-            func = [
-                value 
-                for key, value in func_dict.items() 
-                if trigger_pattern.match(key) or key.startswith('_exec')
-            ]
-        else:
-            func = list(func_dict.values()) #e.g. medium_xss, _exec_xss
-        
-        func_source = ''
-        for function in func[::-1]:
-            func_source += '\n\n' + inspect.getsource(function)
-        
-        return template('_code', output=func_source.lstrip(), vuln=vuln_func)
+    # needed for root route if it has hython
+    vuln_func = vuln_func.replace('-', '_')
     
-    except Exception as e:
-        print(f'error {e} not found')
-        output = f'No source code for {vuln_func} at level {security_level} yet'
-        return template('_code', output=output, vuln=vuln_func)
+    if security_level == DEFAULT_LEVEL:
+        # necessary in case of multiple functions starts with trigger_
+        pattern = f'trigger_{vuln_func}'
+        trigger_pattern = re.compile(rf"{pattern}")
+
+        # gets functions starts with trigger_ or _exec
+        source_func = [
+            value 
+            for key, value in func_dict.items() 
+            if trigger_pattern.match(key) or key.startswith('_exec')
+        ]
+    else:
+        print('---------->>>>> ', func_dict.values())
+        source_func = list(func_dict.values()) #e.g. medium_xss, _exec_xss
+    
+    if source_func:
+        func_code = ''
+        for function in source_func[::-1]:
+            func_code += '\n\n' + inspect.getsource(function)
+            
+        return template('_code', output=func_code.lstrip(), vuln=vuln_func)
+    
+    output = f'No source code for {vuln_func} at level {security_level} yet'
+    return template('_code', output=output, vuln=vuln_func)
+    
     
 def generate_csrf_token():
     session = request.environ.get('beaker.session')

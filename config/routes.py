@@ -132,7 +132,7 @@ def add_trigger_routes(app):
         trigger_functions: Dict[str, Callable] = get_trigger_functions(trigger_module)
 
         for func_name, func in trigger_functions.items():
-            route_path = f"/trigger/{trigger}/{func_name.replace('trigger_', '')}"
+            route_path = f"/{trigger}/{func_name.replace('trigger_', '')}"
             if func_name == 'trigger_xss':
                 app.route(route_path, method=["GET", "POST"])(xss_view(view, func))
                 continue

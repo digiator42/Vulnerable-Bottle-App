@@ -62,17 +62,17 @@
 <script>
     url = window.location.href;
     chunks = url.split('/');
-    pureVuln = chunks[chunks.length - 1];
+    func_name = chunks[chunks.length - 1];
 
-    if (url.indexOf('trigger') !== -1) {
-        vuln = url.substr(url.indexOf('trigger') + 8);
+    if (chunks.length > 4) {
+        vuln = chunks.slice(-2).join('/');
     }
     else {
-        vuln = pureVuln;
+        vuln = func_name;
     }
 
     function logsWindow() {
-        window.open(`/api/logs?vuln=${pureVuln}`, "", "width=700,height=400");
+        window.open(`/api/logs?vuln=${func_name}`, "", "width=700,height=400");
     }
     function codeWindow() {
         window.open(`/api/level_code?vuln=${vuln}`, "", "width=700,height=400");
