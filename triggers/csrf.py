@@ -38,7 +38,6 @@ def medium_csrf(input: Dict):
     
     return _exec_csrf(input)
     
-
 def strong_csrf(input: Dict):
     csrf_token = input['csrf_token']
     session = request.environ.get('beaker.session')
