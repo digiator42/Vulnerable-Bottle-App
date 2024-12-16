@@ -1,5 +1,6 @@
 from bottle import request, redirect, request, template, response
 from .settings import DEFAULT_LEVEL
+from utils.main import add_crypto_user
 
 USERS = {
     'admin': 'password123',
@@ -16,7 +17,7 @@ def login():
             request.environ['beaker.session']['logged_in'] = True
             request.environ['beaker.session']['username'] = username
             response.set_cookie('session_id', request.environ['beaker.session'].id)
-            
+            add_crypto_user()
             return redirect('/')
         else:
             session = request.environ.get('beaker.session')

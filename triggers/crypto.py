@@ -3,7 +3,7 @@ from typing import Dict
 from config.settings import MEDIUM_LEVEL, STRONG_LEVEL, KEY
 import hashlib
 from bottle import request
-from bcrypt import hashpw, gensalt, checkpw
+from bcrypt import checkpw
 import sqlite3
 from cryptography.fernet import Fernet
 
