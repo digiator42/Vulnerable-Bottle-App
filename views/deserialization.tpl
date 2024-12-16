@@ -7,3 +7,9 @@
     <br>
     <input type="submit" value="Deserialize">
 </form>
+<div>
+    % if output:
+    <br>
+    <pre class="output">{{output}}</pre>
+    % end
+</div>

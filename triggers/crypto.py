@@ -50,7 +50,7 @@ def strong_crypto(data: Dict):
 
         if not result:
             return "User not found!"
-        # it could be str
+
         encrypted_password_hash: bytes = result[0].encode()
 
     cipher_suite = Fernet(KEY)
