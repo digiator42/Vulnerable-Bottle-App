@@ -16,19 +16,19 @@
         <a href="/xss">Cross-Site Scripting (XSS)</a>
         <a href="/sqli">SQL Injection</a>
         <a href="/admin">Brute Force</a>
-        <a href="/buffer">Buffer Overflow</a>
         <a href="/file-upload">File Upload</a>
         <a href="/file-read">Insecure File Access</a>
         <a href="/csrf">CSRF</a>
-        <a href="/open-redirect">Open Redirect</a>
         <a href="/ssrf">Server-Side Request Forgery</a>
-        <!-- <a href="/crypto">Crypto</a>
-        <a href="/deserialization">Deserialization</a>
-        <a href="/dos">DOS Simulation</a>
-        <a href="/email-injection">Email Injection</a>
-        <a href="/jwt">JWT</a>
-        <a href="/lfi">Local File Injection</a>
-        <a href="/rfi">Remote File Injection</a> -->
+        <a href="/open-redirect">Open Redirect</a>
+        <a href="/buffer">Buffer Overflow</a>
+        <a href="/crypto">Crypto</a>
+        <!-- <a href="/deserialization">Deserialization</a> -->
+        <!-- <a href="/dos">DOS Simulation</a> -->
+        <!-- <a href="/email-injection">Email Injection</a> -->
+        <!-- <a href="/jwt">JWT</a> -->
+        <!-- <a href="/lfi">Local File Injection</a> -->
+        <!-- <a href="/rfi">Remote File Injection</a> -->
     </div>
 
     <!-- Main Content -->

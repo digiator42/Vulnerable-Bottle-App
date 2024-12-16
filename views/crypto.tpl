@@ -2,8 +2,8 @@
 
 <h1>Trigger Crypto</h1>
 <form action="/crypto/crypto" method="post">
-    <label for="input">Enter Data:</label>
-    <input type="text" id="input" name="input" required>
+    <label for="password">Verify Password:</label>
+    <input type="text" id="password" name="password" required>
     <button type="submit">Submit</button>
 </form>
 % if output:

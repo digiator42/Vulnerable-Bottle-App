@@ -3,9 +3,11 @@ import inspect
 from pathlib import Path
 from config.settings import ROOT_DIR
 from bottle import request, response
-from config.settings import database_users
+from config.settings import database_users, KEY
 import sqlite3
 import json
+from cryptography.fernet import Fernet
+from bcrypt import hashpw, gensalt
 
 PY_EXT: int = -3
 TPL_EXT: int = -4
@@ -156,8 +158,29 @@ def create_admin_table():
                     "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
                     (name, data['password'], data['role'])
                 )
-
+            add_crypto_user(connection)
+            
         connection.commit()
+    
+
+def add_crypto_user(conn):
+    username = 'admin'
+    password = 'test'
+
+    cipher_suite = Fernet(KEY)
+    # Hash the password
+    bcrypt_hash = hashpw(password.encode(), gensalt())
+    # Encrypt the bcrypt hash with Fernet
+    encrypted_hash = cipher_suite.encrypt(bcrypt_hash)
+
+    cursor = conn.cursor()
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS users_hashed_pass (id INTEGER PRIMARY KEY, username TEXT, encrypted_password_hash TEXT)"
+    )
+    cursor.execute(
+        "INSERT INTO users_hashed_pass (username, encrypted_password_hash) VALUES (?, ?)",
+        (username, encrypted_hash.decode())
+    )
 
 def get_db_info():
     connection = sqlite3.connect("data.db")
