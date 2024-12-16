@@ -23,7 +23,7 @@
         <a href="/open-redirect">Open Redirect</a>
         <a href="/buffer">Buffer Overflow</a>
         <a href="/crypto">Crypto</a>
-        <!-- <a href="/deserialization">Deserialization</a> -->
+        <a href="/deserialization">Deserialization</a>
         <!-- <a href="/dos">DOS Simulation</a> -->
         <!-- <a href="/email-injection">Email Injection</a> -->
         <!-- <a href="/jwt">JWT</a> -->
