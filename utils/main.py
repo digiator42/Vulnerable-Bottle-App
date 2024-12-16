@@ -174,7 +174,7 @@ def add_crypto_user():
         cursor.execute(
             "CREATE TABLE IF NOT EXISTS users_hashed_pass (id INTEGER PRIMARY KEY, username TEXT, encrypted_password_hash TEXT)"
         )
-        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+        cursor.execute("SELECT * FROM users_hashed_pass WHERE username = ?", (username,))
 
         if cursor.fetchone() is None:
             cursor.execute(
