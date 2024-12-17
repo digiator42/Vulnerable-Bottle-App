@@ -15,7 +15,7 @@ def generate_jwt_token():
     
     payload = {
         'username': username,
-        'exp': datetime.utcnow() + timedelta(hours=1)
+        'exp': datetime.now(datetime.timezone.utc) + timedelta(hours=1)
     }
     
     jwt_token = jwt.encode(payload, KEY, algorithm='HS256')
