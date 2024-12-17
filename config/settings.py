@@ -3,7 +3,7 @@ import os
 # app settings
 DEBUG = True
 RELOADER = True
-PORT = 8088
+PORT = 8000
 HOST = "0.0.0.0"
 
 # root directory

@@ -2,7 +2,7 @@ from bottle import request, redirect, request, template, response
 from .settings import DEFAULT_LEVEL, KEY
 from utils.main import add_crypto_user
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 USERS = {
@@ -15,7 +15,7 @@ def generate_jwt_token():
     
     payload = {
         'username': username,
-        'exp': datetime.now(datetime.timezone.utc) + timedelta(hours=1)
+        'exp': datetime.now(timezone.utc) + timedelta(hours=1)
     }
     
     jwt_token = jwt.encode(payload, KEY, algorithm='HS256')

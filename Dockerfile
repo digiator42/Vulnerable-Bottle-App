@@ -5,5 +5,4 @@ WORKDIR /app
 COPY . /app
 RUN pip install -r requirements.txt
 
-EXPOSE 8080
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--workers=2", "-b", "0.0.0.0:8000", "app:app"]
