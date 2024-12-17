@@ -18,3 +18,18 @@ This application is intentionally insecure. It may also contain **`unintentional
 - **File Upload Vulnerabilities**
 
 ---
+
+## App Routes
+
+- Each route accept both `GET` and `POST` requests for hands-on exploration, Except for root views only GET
+- There is no restrinctions on GET or POST requests, the data will be collected wether it's query or body data
+
+### For Instance:
+
+**`/xss/xss`**
+- **GET**: Query parameters, body data (Raw, Form-date & x-www-form-urlencoded).
+    - http://localhost:8000/xss/xss?input=\<script>alert(1)\</script>
+    - data = {'input': '\<script>alert(1)\</script>'}
+- **POST**: Query parameters, body data (Raw, Form-date & x-www-form-urlencoded).
+    - same as GET
+---
