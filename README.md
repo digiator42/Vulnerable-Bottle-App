@@ -4,3 +4,17 @@ intentionally vulnerable web application built with the lightweight [Bottle fram
 
 **Disclaimer:**  
 This application is intentionally insecure. It may also contain **`unintentional vulnerabilities`**. The author is not responsible for any misuse of this application. Use it only in a controlled environment for learning purposes.
+---
+
+## Features and Vulnerabilities
+
+- **Injection Attacks**: SQL Injection, Command Injection
+- **Broken Authentication**: Weak password storage, exposed credentials & database
+- **CSRF (Cross-Site Request Forgery)**: Missing CSRF protection
+- **Sensitive Data Exposure**
+- **XSS (Cross-Site Scripting)**
+- **Insecure Deserialization**
+- **SSRF (Server-Side Request Forgery)**
+- **File Upload Vulnerabilities**
+
+---
