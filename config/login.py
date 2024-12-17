@@ -15,7 +15,7 @@ def generate_jwt_token():
     
     payload = {
         'username': username,
-        'exp': datetime.utcnow() + timedelta(minutes=5)
+        'exp': datetime.utcnow() + timedelta(hours=1)
     }
     
     jwt_token = jwt.encode(payload, KEY, algorithm='HS256')
@@ -44,9 +44,9 @@ def login():
                             
             if level and level == DEFAULT_LEVEL:
                 if username in USERS:
-                    weak_msg = "invalid password, Please try again"
+                    weak_msg = "Invalid password, Please try again"
                 else:
-                    weak_msg = "invalid username, Please try again"
+                    weak_msg = "Invalid username, Please try again"
                 msg = weak_msg
             else:
                 good_msg = "Invalid credentials. Please try again."
