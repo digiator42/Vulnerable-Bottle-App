@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
 from importlib import import_module
+import markdown
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
@@ -59,7 +60,10 @@ def serve_media(file):
     return static_file(file, root='./media')
 
 def main_view():
-    return template("_home", username=request.environ.get('beaker.session')['username'])
+    with open('./README.md', 'r') as f:
+        html_content = markdown.markdown(f.read())
+    temp = get_template('_home', instructions=html_content, username=request.environ.get('beaker.session')['username'])
+    return template(temp)
 
 def routes_view():
     routes = [route.rule for route in request.app.routes]
