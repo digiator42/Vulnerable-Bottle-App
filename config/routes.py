@@ -62,7 +62,10 @@ def serve_media(file):
 def main_view():
     with open('./README.md', 'r') as f:
         html_content = markdown.markdown(f.read())
-    temp = get_template('_home', instructions=html_content, username=request.environ.get('beaker.session')['username'])
+    
+    username = request.environ.get('beaker.session')['username']
+    temp = get_template('_home', instructions=html_content, username=username)
+    
     return template(temp)
 
 def routes_view():

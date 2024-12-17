@@ -1,4 +1,3 @@
-import os
 import subprocess
 from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request

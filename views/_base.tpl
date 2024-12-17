@@ -25,8 +25,6 @@
         <a href="/crypto">Crypto</a>
         <a href="/deserialization">Deserialization</a>
         <a href="/jwt">JWT</a>
-        <!-- <a href="/lfi">Local File Injection</a> -->
-        <!-- <a href="/rfi">Remote File Injection</a> -->
     </div>
 
     <!-- Main Content -->

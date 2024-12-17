@@ -1,6 +1,7 @@
 # Vulnerable Bottle App
 
-Intentionally vulnerable web application built with the lightweight [Bottle framework](https://bottlepy.org/). This project is designed for educational purposes to help learners understand and practice web application security concepts, including but not limited to OWASP Top 10 vulnerabilities.
+Intentionally vulnerable web application built with the lightweight [Bottle framework](https://bottlepy.org/).   
+It's designed for educational purposes to help learners (including me) understand and practice web application security concepts, including but not limited to OWASP Top 10 vulnerabilities.
 
 **Disclaimer:**  
 This application is **`intentionally insecure`**. It may also contain **`unintentional vulnerabilities`**. The author is not responsible for any misuse of this application. Use it only in a controlled environment for learning purposes.
@@ -30,19 +31,18 @@ This route demonstrates Cross-Site Scripting (XSS) vulnerabilities.
 
 #### **Supported Methods**
 - **GET**  
-Query parameters, body data (Raw, Form-date & x-www-form-urlencoded)..  
+Query parameters   
+Acually you can send payload with get request and it works, but let's keep it simple
   - URL: `http://localhost:8000/xss/xss?input=<script>alert(1)</script>`
+
+- **POST**  
+body data (Raw, Form-date & x-www-form-urlencoded)  
   - Body
     ```json
     {
       "input": "<script>alert(1)</script>"
     }
     ```
-
-- **POST**  
-Query parameters, body data (Raw, Form-date & x-www-form-urlencoded)..  
-
-  Same as `GET`.  
 
 ## Running the Application
 
