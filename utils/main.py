@@ -12,15 +12,13 @@ from bcrypt import hashpw, gensalt
 PY_EXT: int = -3
 TPL_EXT: int = -4
 
-email_injection = ['email', 'subject', 'message']
-
 csrf = ['amount', 'recipient', 'csrf_token']
 
 input = [
-    'username', 'password', 'input', 'role',
+    'username', 'password', 'input', 'role', 'jwt'
 ]
 
-input.extend(email_injection + csrf)
+input.extend(csrf)
 
 def get_template(template_name, **kwargs):
     """

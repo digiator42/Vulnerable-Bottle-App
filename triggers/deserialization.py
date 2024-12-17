@@ -4,7 +4,6 @@ from typing import Dict
 from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
 import json
-from utils.main import JsonResponse
 
 def trigger_deserialization(serialized_input: Dict):
     level = request.environ.get('beaker.session')['level']    

@@ -10,4 +10,5 @@ venv/
 .env
 *.log
 media/*
+code-style.md
 .vscode

@@ -1,11 +1,13 @@
 from bottle import request, template
 from utils.main import JsonResponse, get_code_level_function
-from config.settings import DEFAULT_LEVEL, STRONG_LEVEL
+from config.settings import STRONG_LEVEL, KEY
 from importlib import import_module
 import inspect
 import re
 import hashlib
 import secrets
+import jwt
+from datetime import datetime, timedelta
 
 def logs():
     """"
@@ -83,3 +85,8 @@ def generate_csrf_token():
         session['csrf_token'] = csrf_token
     
     return JsonResponse({'csrf_token': csrf_token}).render()
+
+def get_jwt_token():
+    jwt_token = request.environ['beaker.session']['jwt_token']
+    
+    return JsonResponse({'token': jwt_token}).render()

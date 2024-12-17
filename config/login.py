@@ -1,12 +1,27 @@
 from bottle import request, redirect, request, template, response
-from .settings import DEFAULT_LEVEL
+from .settings import DEFAULT_LEVEL, KEY
 from utils.main import add_crypto_user
+import jwt
+from datetime import datetime, timedelta
+
 
 USERS = {
     'admin': 'password123',
     'user1': 'mypassword'
 }
 
+def generate_jwt_token():
+    username = request.environ.get('beaker.session')['username']
+    
+    payload = {
+        'username': username,
+        'exp': datetime.utcnow() + timedelta(minutes=5)
+    }
+    
+    jwt_token = jwt.encode(payload, KEY, algorithm='HS256')
+    request.environ['beaker.session']['jwt_token'] = jwt_token
+    print('---------------> >>> ', jwt_token)
+    
 def login():
     if request.environ.get('beaker.session').get('logged_in'):
         return redirect('/')
@@ -17,7 +32,11 @@ def login():
             request.environ['beaker.session']['logged_in'] = True
             request.environ['beaker.session']['username'] = username
             response.set_cookie('session_id', request.environ['beaker.session'].id)
+            # for crypto vulnerability
             add_crypto_user()
+            # only for jwt vulnerabilty
+            generate_jwt_token()
+            
             return redirect('/')
         else:
             session = request.environ.get('beaker.session')
