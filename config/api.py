@@ -6,8 +6,8 @@ import inspect
 import re
 import hashlib
 import secrets
-import jwt
-from datetime import datetime, timedelta
+import os
+
 
 def logs():
     """"
@@ -21,6 +21,7 @@ def logs():
         if not vuln:
             return template('_logs', output='🙂', vuln=vuln)
         
+        os.makedirs('./logs', exist_ok=True)
         with open(f'./logs/{vuln}.log', 'r') as f:
             logs = f.read()
             return template('_logs', output=logs, vuln=vuln)
