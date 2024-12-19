@@ -62,9 +62,7 @@ def main_view():
     with open('./README.md', 'r') as f:
         html_content = markdown.markdown(f.read())
     
-    username = request.environ.get('beaker.session')['username']
-    temp = get_template('_home', instructions=html_content, username=username)
-    
+    temp = get_template('_home', instructions=html_content)    
     return template(temp)
 
 def routes_view():

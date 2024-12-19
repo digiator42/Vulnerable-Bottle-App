@@ -22,14 +22,14 @@ input = [
 input.extend(csrf)
 
 SECRET_KEY = """
-eyJhZG1pbiI6eyJyb2xlIjoiYWRtaW4iLCJwYXNzd29yZCI6ImU4NWVlZTk2MjkwNzZiMTE4NDQ5OTQ5
-ZjExNjJmYzdhIn0sIkFsaWNlIjp7InJvbGUiOiJ1c2VyIiwicGFzc3dvcmQiOiIwNTcxNzQ5ZTJhYzMz
-MGE3NDU1ODA5YzZiMGU3YWY5MCJ9LCJCb2IiOnsicm9sZSI6InVzZXIiLCJwYXNzd29yZCI6IjM4OTlk
-Y2JhYjc5ZjkyYWY3MjdjMjE5MGJiZDhhYmM1In0sIkNoYXJsaWUiOnsicm9sZSI6InVzZXIiLCJwYXNz
-d29yZCI6IjhhZmE4NDdmNTBhNzE2ZTY0OTMyZDk5NWM4ZTc0MzVhIn0sIkRhdmlkIjp7InJvbGUiOiJ1
-c2VyIiwicGFzc3dvcmQiOiIyNWY5ZTc5NDMyM2I0NTM4ODVmNTE4MWYxYjYyNGQwYiJ9LCJFdmUiOnsi
-cm9sZSI6ImFkbWluIiwicGFzc3dvcmQiOiI1NGJmM2RjMmM0Zjk4ZmFiZGY3OGI3MjE2YzBhZTg4ODQ1
-NWQwMDlhIn19====================================================================
+eyJhZG1pbiI6eyJyb2xlIjoiYWRtaW4iLCJwYXNzd29yZCI6ImU4NWVlZTk2MjkwNzZiMTE4NDQ
+5OTQ5ZjExNjJmYzdhIn0sImFsaWNlIjp7InJvbGUiOiJ1c2VyIiwicGFzc3dvcmQiOiIwNTcxNz
+Q5ZTJhYzMzMGE3NDU1ODA5YzZiMGU3YWY5MCJ9LCJib2IiOnsicm9sZSI6InVzZXIiLCJwYXNzd
+29yZCI6IjM4OTlkY2JhYjc5ZjkyYWY3MjdjMjE5MGJiZDhhYmM1In0sImNoYXJsaWUiOnsicm9s
+ZSI6InVzZXIiLCJwYXNzd29yZCI6IjhhZmE4NDdmNTBhNzE2ZTY0OTMyZDk5NWM4ZTc0MzVhIn0
+sImRhdmlkIjp7InJvbGUiOiJ1c2VyIiwicGFzc3dvcmQiOiIyNWY5ZTc5NDMyM2I0NTM4ODVmNT
+E4MWYxYjYyNGQwYiJ9LCJldmUiOnsicm9sZSI6ImFkbWluIiwicGFzc3dvcmQiOiI1NGJmM2RjM
+mM0Zjk4ZmFiZGY3OGI3MjE2YzBhZTg4ODQ1NWQwMDlhIn19============================
 """
 
 def get_template(template_name, **kwargs):
@@ -148,7 +148,7 @@ def get_data():
     decoded = base64.urlsafe_b64decode(SECRET_KEY.encode()).decode('utf-8')    
     return json.loads(decoded)
 
-def create_admin_table():
+def create_database_tables():
     with sqlite3.connect("data.db") as connection:
         cursor = connection.cursor()
         cursor.execute(

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vulnerable App</title>
+    <title>Vulnerable Bottle App</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
@@ -29,6 +29,7 @@
 
     <!-- Main Content -->
     <div class="main-content">
+        <h3></h3>
         <div class="form-container">
 
             {{ !base }}
@@ -43,6 +44,8 @@
             </div>
 
         </div>
+    </div>
+    <div>
         <div class="help-div" onclick="helpWindow()">
             <a type="button">help</a>
         </div>
@@ -80,12 +83,25 @@
         window.open(`/api/level_code?vuln=${vuln}`, "", "width=700,height=400");
     }
 
+    // Set title
     let titleTag = document.getElementsByTagName('title');
 
     if (titleTag) {
         let h1Text = document.querySelector('h1').innerText;
         titleTag[0].innerText += " - " + h1Text;
     }
+
+    // welcome message
+    let cookies = document.cookie.split(';');
+    let username = '';
+
+    for (cookie of cookies) {
+        if (cookie.trim().startsWith('vbausername')) {
+            username = cookie.split('=')[1];
+        }
+    }
+
+    document.querySelector('h3').innerText = 'Logged in as ' + username;
 </script>
 
 </html>

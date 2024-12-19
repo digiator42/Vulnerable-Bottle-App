@@ -3,6 +3,8 @@ from .settings import DEFAULT_LEVEL, KEY
 from utils.main import add_crypto_user
 import jwt
 from datetime import datetime, timedelta, timezone
+import sqlite3
+import hashlib
 
 
 USERS = {
@@ -20,6 +22,38 @@ def generate_jwt_token():
     
     jwt_token = jwt.encode(payload, KEY, algorithm='HS256')
     request.environ['beaker.session']['jwt_token'] = jwt_token
+
+def verify_user(username, password):
+    with sqlite3.connect('data.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+        row = cursor.fetchone()
+        # Absense of username
+        if not row:
+            set_error_msg('username')
+            return False
+        # Pass
+        stored_pass = row[2]
+        
+    if username == 'eve':
+        if stored_pass and stored_pass == hashlib.sha1(password.encode()).hexdigest():
+            return True
+    else:
+        if stored_pass and stored_pass == hashlib.md5(password.encode()).hexdigest():
+            return True
+        
+    set_error_msg('password')
+    return False
+        
+def set_error_msg(keyword: str):
+    session = request.environ.get('beaker.session')
+    level = session.get('level')
+    global FAIL_LOGIN_MSG
+    
+    if level and level == DEFAULT_LEVEL:
+        FAIL_LOGIN_MSG = f"Invalid {keyword}, Please try again"
+    else:
+        FAIL_LOGIN_MSG = "Invalid credentials. Please try again."
     
 def login():
     if request.environ.get('beaker.session').get('logged_in'):
@@ -27,10 +61,11 @@ def login():
     if request.method == 'POST':
         username = request.forms.get('username')
         password = request.forms.get('password')
-        if username in USERS and USERS[username] == password:
+        
+        if verify_user(username, password):
             request.environ['beaker.session']['logged_in'] = True
             request.environ['beaker.session']['username'] = username
-            response.set_cookie('session_id', request.environ['beaker.session'].id)
+            response.set_cookie('vbausername', username)
             # for crypto vulnerability
             add_crypto_user()
             # only for jwt vulnerabilty
@@ -38,22 +73,10 @@ def login():
             
             return redirect('/')
         else:
-            session = request.environ.get('beaker.session')
-            level = session.get('level')
-                            
-            if level and level == DEFAULT_LEVEL:
-                if username in USERS:
-                    weak_msg = "Invalid password, Please try again"
-                else:
-                    weak_msg = "Invalid username, Please try again"
-                msg = weak_msg
-            else:
-                good_msg = "Invalid credentials. Please try again."
-                msg = good_msg
-            
-            return template("_login", output=msg)
+            return template('_login', output=FAIL_LOGIN_MSG)
     
-    return template('_login', output="")
+    # Display login page
+    return template('_login', output='')
 
 def logout():
     session = request.environ['beaker.session']
