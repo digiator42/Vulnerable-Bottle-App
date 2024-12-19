@@ -8,18 +8,18 @@ ATTEMPS = {}
 TIME_PERIOD = 60
 MAX_ATTEMPTS = 5
 
-def trigger_admin(input):
+def trigger_brute_force(input):
     session = request.environ.get('beaker.session')
     level = session['level']
     
     if level == DEFAULT_LEVEL:
-        return weak_admin(input)
+        return weak_brute_force(input)
     
     elif level == MEDIUM_LEVEL:
-        return medium_admin(input)
+        return medium_brute_force(input)
     
     elif level == STRONG_LEVEL:
-        return strong_admin(input)
+        return strong_brute_force(input)
     
 def check_ban(ip):
     if ip in BANNED_IPS:
@@ -58,10 +58,10 @@ def check_brute_force(ip):
 
     return False
 
-def weak_admin(input):
+def weak_brute_force(input):
     return _exec_credentials(input)
 
-def medium_admin(input):
+def medium_brute_force(input):
     ip = request.remote_addr
 
     if check_brute_force(ip):
@@ -72,7 +72,7 @@ def medium_admin(input):
 
     return _exec_credentials(input)
 
-def strong_admin(input):
+def strong_brute_force(input):
     ip = request.remote_addr
     
     # check wether the ip is banned or unlock the ban

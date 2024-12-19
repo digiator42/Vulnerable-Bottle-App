@@ -45,9 +45,10 @@ def level_code():
     vuln: str = request.query.get('vuln')
     security_level = session['level']
     
+    # clear any query
     source_vuln = re.sub(r'\?.*', '', vuln)
     
-    # for instanc cmd/cmd or only cmd
+    # Module and function names might differ, below matches both cases
     vuln_module = source_vuln
     vuln_func = source_vuln
     if source_vuln.find('/') != -1:
@@ -94,8 +95,8 @@ def get_jwt_token():
 
 def help():
     vuln: str = request.query.get('vuln')
+    vuln = re.sub(r'\?.*', '', vuln)    
     vuln = vuln.replace('_', '-')
-    print('---------->> ', vuln)
     
     try:
         with open(f'./help/{vuln}.md', 'r') as f:
