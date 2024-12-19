@@ -43,7 +43,6 @@ def _valid_user_input(input: Dict):
     """
     Validates user input.
     """
-    print("--------------> input", input)
     if input:
         for user_input in input.values():
             valid_input = user_input.strip()

@@ -20,7 +20,6 @@ def generate_jwt_token():
     
     jwt_token = jwt.encode(payload, KEY, algorithm='HS256')
     request.environ['beaker.session']['jwt_token'] = jwt_token
-    print('---------------> >>> ', jwt_token)
     
 def login():
     if request.environ.get('beaker.session').get('logged_in'):
