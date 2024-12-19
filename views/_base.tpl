@@ -43,6 +43,9 @@
             </div>
 
         </div>
+        <div class="help-div" onclick="helpWindow()">
+            <a type="button">help</a>
+        </div>
         <div class="code-div" onclick="codeWindow()">
             <a type="button">code</a>
         </div>
@@ -67,6 +70,9 @@
         vuln = func_name;
     }
 
+    function helpWindow() {
+        window.open(`/api/help?vuln=${func_name}`, "", "width=900,height=700");
+    }
     function logsWindow() {
         window.open(`/api/logs?vuln=${func_name}`, "", "width=700,height=400");
     }
