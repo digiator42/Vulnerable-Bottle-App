@@ -3,9 +3,10 @@ import inspect
 from pathlib import Path
 from config.settings import ROOT_DIR
 from bottle import request, response
-from config.settings import database_users, KEY
+from config.settings import KEY
 import sqlite3
 import json
+import base64
 from cryptography.fernet import Fernet
 from bcrypt import hashpw, gensalt
 
@@ -19,6 +20,17 @@ input = [
 ]
 
 input.extend(csrf)
+
+SECRET_KEY = """
+eyJhZG1pbiI6eyJyb2xlIjoiYWRtaW4iLCJwYXNzd29yZCI6ImU4NWVlZTk2MjkwNzZiMTE4NDQ5OTQ5
+ZjExNjJmYzdhIn0sIkFsaWNlIjp7InJvbGUiOiJ1c2VyIiwicGFzc3dvcmQiOiIwNTcxNzQ5ZTJhYzMz
+MGE3NDU1ODA5YzZiMGU3YWY5MCJ9LCJCb2IiOnsicm9sZSI6InVzZXIiLCJwYXNzd29yZCI6IjM4OTlk
+Y2JhYjc5ZjkyYWY3MjdjMjE5MGJiZDhhYmM1In0sIkNoYXJsaWUiOnsicm9sZSI6InVzZXIiLCJwYXNz
+d29yZCI6IjhhZmE4NDdmNTBhNzE2ZTY0OTMyZDk5NWM4ZTc0MzVhIn0sIkRhdmlkIjp7InJvbGUiOiJ1
+c2VyIiwicGFzc3dvcmQiOiIyNWY5ZTc5NDMyM2I0NTM4ODVmNTE4MWYxYjYyNGQwYiJ9LCJFdmUiOnsi
+cm9sZSI6ImFkbWluIiwicGFzc3dvcmQiOiI1NGJmM2RjMmM0Zjk4ZmFiZGY3OGI3MjE2YzBhZTg4ODQ1
+NWQwMDlhIn19====================================================================
+"""
 
 def get_template(template_name, **kwargs):
     """
@@ -131,7 +143,11 @@ class JsonResponse:
 def add_log(vuln, input):
     with open(f'./logs/{vuln}.log', 'a') as f:
         f.write(str(input) + '\n')
-        
+
+def get_data():
+    decoded = base64.urlsafe_b64decode(SECRET_KEY.encode()).decode('utf-8')    
+    return json.loads(decoded)
+
 def create_admin_table():
     with sqlite3.connect("data.db") as connection:
         cursor = connection.cursor()
@@ -151,11 +167,11 @@ def create_admin_table():
         cursor.execute("SELECT * FROM users WHERE username = 'admin'")
         
         if cursor.fetchone() is None:
-            for name, data in database_users.items():
+            for name, data in get_data().items():
                 cursor.execute(
                     "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
                     (name, data['password'], data['role'])
-                )            
+                )
         connection.commit()
     
 def add_crypto_user():
