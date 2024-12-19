@@ -2,9 +2,6 @@
 
 <h1>JWT</h1>
 <form action="/jwt/jwt" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
     <input type="hidden" name="jwt" id="jwt" value="50cent">

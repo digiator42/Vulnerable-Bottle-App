@@ -47,13 +47,13 @@
     </div>
     <div>
         <div class="help-div" onclick="helpWindow()">
-            <a type="button">help</a>
+            <a type="button">Help</a>
         </div>
         <div class="code-div" onclick="codeWindow()">
-            <a type="button">code</a>
+            <a type="button">Code</a>
         </div>
         <div class="logs-div" onclick="logsWindow()">
-            <a type="button">logs</a>
+            <a type="button">Logs</a>
         </div>
         <div class="logout-div">
             <a type="button" href="/logout">Logout</a>

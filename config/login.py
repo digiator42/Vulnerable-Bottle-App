@@ -61,7 +61,7 @@ def login():
     if request.method == 'POST':
         username = request.forms.get('username')
         password = request.forms.get('password')
-        
+        # Is is valid user
         if verify_user(username, password):
             request.environ['beaker.session']['logged_in'] = True
             request.environ['beaker.session']['username'] = username
@@ -72,8 +72,8 @@ def login():
             generate_jwt_token()
             
             return redirect('/')
-        else:
-            return template('_login', output=FAIL_LOGIN_MSG)
+        # Nope
+        return template('_login', output=FAIL_LOGIN_MSG)
     
     # Display login page
     return template('_login', output='')

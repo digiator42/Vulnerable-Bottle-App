@@ -5,6 +5,7 @@ from typing import Dict
 import json
 from bottle import request
 import jwt
+from config.login import verify_user
 
 def trigger_jwt(input: Dict):
     
@@ -18,7 +19,7 @@ def trigger_jwt(input: Dict):
         return weak_jwt(input)
 
 def weak_jwt(input: Dict):
-    _, password, jwt_token = [value for value in input.values()]
+    password, jwt_token = [value for value in input.values()]
     
     if jwt_token:
         decoded_payload = weak_decode_jwt(jwt_token)
@@ -26,7 +27,7 @@ def weak_jwt(input: Dict):
         if decoded_payload and 'username' in decoded_payload:
             jwt_username = decoded_payload['username']
             
-            if jwt_username in USERS and USERS[jwt_username] == password:
+            if verify_user(jwt_username, password):
                 return f'Logged in as {jwt_username} (using JWT)'
             return 'Invalid login', 401
 
@@ -44,7 +45,7 @@ def weak_decode_jwt(jwt):
         return None
     
 def medium_jwt(input: Dict):
-    _, password, jwt_token = [value for value in input.values()]
+    password, jwt_token = [value for value in input.values()]
 
     if jwt_token:
         decoded_payload = medium_decode_jwt(jwt_token)
@@ -52,11 +53,11 @@ def medium_jwt(input: Dict):
         # Incase of exception
         if isinstance(decoded_payload, str) and decoded_payload.startswith('Error'):
             return decoded_payload
-        # Is valid payload
+        # Is it valid payload
         if decoded_payload and 'username' in decoded_payload:
             jwt_username = decoded_payload.get('username')
         
-            if jwt_username in USERS and USERS[jwt_username] == password:
+            if verify_user(jwt_username, password):
                 return f'Logged in as {jwt_username} (using JWT)'
             return 'Wrong credentials'
         
@@ -89,7 +90,7 @@ def medium_decode_jwt(jwt_token):
         return f'Error: {str(e)}'
     
 def strong_jwt(input: Dict):
-    _, password, jwt_token = [value for value in input.values()]
+    password, jwt_token = [value for value in input.values()]
 
     try:
         if jwt_token:
@@ -99,7 +100,7 @@ def strong_jwt(input: Dict):
         if decoded_payload and 'username' in decoded_payload:
             jwt_username = decoded_payload.get('username')
         
-            if jwt_username in USERS and USERS[jwt_username] == password:
+            if verify_user(jwt_username, password):
                 return f'Logged in as {jwt_username} (using JWT)'
             
             return 'Wrong credentials'
