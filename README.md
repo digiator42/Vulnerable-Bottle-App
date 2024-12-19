@@ -20,20 +20,18 @@ This application is **`intentionally insecure`**. It may also contain **`uninten
 
 ## App Routes
 
-- Each route accept both `GET` and `POST` requests for hands-on exploration, Except for root views only GET
+- Each route accept both `GET` and `POST` requests for hands-on exploration, Except for root views only accept `GET` requests
 - There is no restrinctions on GET or POST requests, the data will be collected wether it's query or body data
 
 ### For Instance:
 
-### Route: `/xss/xss`
-
-This route demonstrates Cross-Site Scripting (XSS) vulnerabilities.
+### Route: `/xss/xss`   
 
 #### **Supported Methods**
 - **GET**  
 Query parameters   
+  - URL: `http://localhost:8000/xss/xss?input=<script>alert(1)</script>`   
 Acually you can send payload with get request and it works, but let's keep it simple
-  - URL: `http://localhost:8000/xss/xss?input=<script>alert(1)</script>`
 
 - **POST**  
 body data (Raw, Form-date & x-www-form-urlencoded)  
@@ -44,17 +42,17 @@ body data (Raw, Form-date & x-www-form-urlencoded)
     }
     ```
 
-## Running the Application
+## Running the Application   
 
 - Run the application:
     ```bash
-    cd /Vulnerable-Bottle-App
+    git clone ...
+    cd ./Vulnerable-Bottle-App
     docker build -t vuln-app .
     docker run -p 8000:8000 vuln-app
     ```
 
 - Browse http://localhost:8000
-- It can be run with development server instead of gunicorn. **`python3 app.py`**
 
 ## Logs:
 Input logs are included for educational purposes in **`./logs`** folder and can be displayed in frontend
