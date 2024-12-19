@@ -153,11 +153,11 @@ body {
     text-decoration: none;
 }
 
-.code-div {
+.code-div{
     position: absolute;
     bottom: 10px;
     right: 210px;
-    background-color: #878484;
+    background-color: #0c054e;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -167,6 +167,24 @@ body {
 }
 
 .code-div a {
+    color: white;
+    text-decoration: none;
+}
+
+.help-div{
+    position: absolute;
+    bottom: 10px;
+    right: 300px;
+    background-color: #055313;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.help-div a {
     color: white;
     text-decoration: none;
 }

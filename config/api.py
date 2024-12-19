@@ -1,12 +1,13 @@
 from bottle import request, template
-from utils.main import JsonResponse, get_code_level_function
-from config.settings import STRONG_LEVEL, KEY
+from utils.main import JsonResponse, get_code_level_function, get_template
+from config.settings import STRONG_LEVEL
 from importlib import import_module
 import inspect
 import re
 import hashlib
 import secrets
 import os
+import markdown
 
 
 def logs():
@@ -49,7 +50,6 @@ def level_code():
     # for instanc cmd/cmd or only cmd
     vuln_module = source_vuln
     vuln_func = source_vuln
-
     if source_vuln.find('/') != -1:
         vuln_module, vuln_func = source_vuln.split('/')
     
@@ -91,3 +91,17 @@ def get_jwt_token():
     jwt_token = request.environ['beaker.session']['jwt_token']
     
     return JsonResponse({'token': jwt_token}).render()
+
+def help():
+    vuln: str = request.query.get('vuln')
+    vuln = vuln.replace('_', '-')
+    print('---------->> ', vuln)
+    
+    try:
+        with open(f'./help/{vuln}.md', 'r') as f:
+            html_content = markdown.markdown(f.read())
+    except FileNotFoundError as e:
+        return str(e)
+    
+    temp = get_template('_help', instructions=html_content)
+    return template(temp)
