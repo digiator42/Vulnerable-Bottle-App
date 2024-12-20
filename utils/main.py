@@ -7,6 +7,7 @@ from config.settings import KEY
 import sqlite3
 import json
 import base64
+import os
 from cryptography.fernet import Fernet
 from bcrypt import hashpw, gensalt
 

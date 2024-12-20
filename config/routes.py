@@ -28,12 +28,13 @@ def _render_template(view: str, func: Callable):
     elif _valid_user_input(user_input):
         log_file = func.__name__.replace('trigger_', '')
         add_log(log_file, user_input)
-        output = func(user_input)
-        # try:
-        #     output = func(user_input)
-        # except Exception as e:
-        #     print(e)
-        #     output = str(e)
+        try:
+            output = func(user_input)
+        except Exception as e:
+            import traceback
+            print(e)
+            traceback.print_exc()
+            output = 'Error:' + str(e)
     else:
         output = ''
         

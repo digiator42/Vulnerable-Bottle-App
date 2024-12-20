@@ -19,7 +19,8 @@ def trigger_jwt(input: Dict):
         return weak_jwt(input)
 
 def weak_jwt(input: Dict):
-    password, jwt_token = [value for value in input.values()]
+    password = input.get('password')
+    jwt_token = input.get('jwt')
     
     if jwt_token:
         decoded_payload = weak_decode_jwt(jwt_token)
