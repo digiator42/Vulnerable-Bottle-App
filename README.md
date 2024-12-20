@@ -21,7 +21,7 @@ This application is **`intentionally insecure`**. It may also contain **`uninten
 ## App Routes
 
 - Each route accept both `GET` and `POST` requests for hands-on exploration, Except for root views only accept `GET` requests
-- There is no restrinctions on GET or POST requests, the data will be collected wether it's query or body data (exclude main login page)
+- There is no restrictions on GET or POST requests, the data will be collected whether it's query or body data (exclude main login page)
 
 ### For Instance:
 
