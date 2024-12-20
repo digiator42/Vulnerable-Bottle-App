@@ -31,7 +31,7 @@ def _is_valid_url(url, allowed_domains):
     return any(domain.endswith(allowed) for allowed in allowed_domains)
 
 def _exec_ssrf(input: Dict):
-    url = input['input']
+    url = input.get('input')
 
     try:
         response = requests.get(url, timeout=5)

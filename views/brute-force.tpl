@@ -1,6 +1,6 @@
 % rebase('_base.tpl', title='Main')
 
-<h1>Admin Login</h1>
+<h1>Login</h1>
 <form action="/brute-force/brute_force" method="post">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required><br><br>

@@ -20,10 +20,10 @@ def trigger_open_redirect(input: Dict):
         return weak_open_redirect(input)
     
 def weak_open_redirect(input: Dict):
-    return redirect(input['input'])
+    return redirect(input.get('input'))
 
 def medium_open_redirect(input: Dict):
-    url = input['input']
+    url = input.get('input')
     
     parsed_url = urlparse(url)
 
@@ -33,7 +33,7 @@ def medium_open_redirect(input: Dict):
     return "Invalid redirect URL"
 
 def strong_open_redirect(input: Dict):
-    url = input['input']
+    url = input.get('input')
     
     parsed_url = urlparse(url)
 

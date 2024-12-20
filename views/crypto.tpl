@@ -1,6 +1,6 @@
 % rebase('_base.tpl', title='Page Title')
 
-<h1>Trigger Crypto</h1>
+<h1>Crypto</h1>
 <form action="/crypto/crypto" method="post">
     <label for="password">Verify Password:</label>
     <input type="password" id="password" name="password" required>

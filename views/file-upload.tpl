@@ -1,7 +1,7 @@
 % rebase('_base.tpl')
 
-<div>
-    <h1>File Upload Vulnerabilty</h1>
+<div  class="form-container">
+    <h1>File Upload</h1>
     <form enctype="multipart/form-data" action="/file-upload/file_upload" method="POST">
         Upload an Image
         <br><br>

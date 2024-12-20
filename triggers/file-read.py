@@ -15,7 +15,7 @@ def trigger_file_read(input: Dict):
         return weak_file_read(input)
 
 def weak_file_read(input: Dict):
-    file_path = input['input']
+    file_path = input.get('input')
     try:
         with open(file_path, 'r') as file:
             content = file.read()
@@ -25,7 +25,7 @@ def weak_file_read(input: Dict):
 
 def medium_file_read(input: Dict):
    
-    file_path = input['input']    
+    file_path = input.get('input')    
 
     try:
         with open('/var/www/' + file_path, 'r') as file:
@@ -36,7 +36,7 @@ def medium_file_read(input: Dict):
     
 def strong_file_read(input: Dict):
     base_dir = '/var/www/'
-    requested_path = os.path.realpath(os.path.join(base_dir, input['input']))
+    requested_path = os.path.realpath(os.path.join(base_dir, input.get('input')))
     
     if not requested_path.startswith(base_dir):
         return "Access denied: Invalid file path"

@@ -31,7 +31,10 @@ This application is **`intentionally insecure`**. It may also contain **`uninten
 - **GET**  
 Query parameters   
   - URL: `http://localhost:8000/xss/xss?input=<script>alert(1)</script>`   
-Acually you can send payload with get request and it works, but let's keep it simple
+  - Also you can combine multi different query params:  
+  `http://localhost:8000/xss/xss?level=medium&input=<script>alert(1)</script>`  
+  this will change level to medium before making the request.   
+  - you can also send payload with get request and it works, but let's keep it simple
 
 - **POST**  
 body data (Raw, Form-date & x-www-form-urlencoded)  
@@ -46,7 +49,7 @@ body data (Raw, Form-date & x-www-form-urlencoded)
 
 - Run the application:
     ```bash
-    git clone ...
+    git clone https://github.com/digiator42/Vulnerable-Bottle-App
     cd ./Vulnerable-Bottle-App
     docker build -t vuln-app .
     docker run -p 8000:8000 vuln-app

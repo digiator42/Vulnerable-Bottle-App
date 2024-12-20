@@ -45,7 +45,8 @@ def weak_decode_jwt(jwt):
         return None
     
 def medium_jwt(input: Dict):
-    password, jwt_token = [value for value in input.values()]
+    password = input.get('password')
+    jwt_token = input.get('jwt')
 
     if jwt_token:
         decoded_payload = medium_decode_jwt(jwt_token)
@@ -87,25 +88,27 @@ def medium_decode_jwt(jwt_token):
         return 'Error: Invalid algorithm'
     except Exception as e:
         print(e)
-        return f'Error: {str(e)}'
+        return f'Invalid JWT'
     
 def strong_jwt(input: Dict):
-    password, jwt_token = [value for value in input.values()]
+    password = input.get('password')
+    jwt_token = input.get('jwt')
 
     try:
         if jwt_token:
             # can be enhance with iat
             decoded_payload = jwt.decode(jwt_token, KEY, algorithms=['HS256'], options={'require': ['exp']})
 
-        if decoded_payload and 'username' in decoded_payload:
-            jwt_username = decoded_payload.get('username')
+            if decoded_payload and 'username' in decoded_payload:
+                jwt_username = decoded_payload.get('username')
         
             if verify_user(jwt_username, password):
                 return f'Logged in as {jwt_username} (using JWT)'
             
             return 'Wrong credentials'
+        return 'Invalid JWT'
         
     except jwt.ExpiredSignatureError as e:
         return 'Token has expired, login again'
     except Exception as e:
-        return f'error: {str(e)}'
+        return f'Invalid Jwt'

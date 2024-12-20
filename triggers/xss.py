@@ -19,7 +19,7 @@ def weak_xss(input):
     This enables xss
     """
     
-    return input['input']
+    return input.get('input')
 
 def medium_xss(input):
     """
@@ -27,7 +27,7 @@ def medium_xss(input):
     """
     
     # match <script> tag | case insensitive
-    return re.sub(r'(?i)<script.*?>', '', input['input'])
+    return re.sub(r'(?i)<script.*?>', '', input.get('input'))
 
 def strong_xss(input):
     """
@@ -43,7 +43,7 @@ def strong_xss(input):
         '/': '&#x2F;'
     }
     
-    sanitized_input = input['input']
+    sanitized_input = input.get('input')
     for key, value in substitutions.items():
         sanitized_input = re.sub(key, value, sanitized_input)
 
