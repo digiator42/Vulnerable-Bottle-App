@@ -141,6 +141,7 @@ class JsonResponse:
         )
         
 def add_log(vuln, input):
+    os.makedirs('./logs', exist_ok=True)
     with open(f'./logs/{vuln}.log', 'a') as f:
         f.write(str(input) + '\n')
 
