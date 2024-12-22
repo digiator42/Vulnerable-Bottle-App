@@ -198,14 +198,3 @@ def add_crypto_user():
                 (username, encrypted_hash.decode())
             )
         connection.commit()
-
-def get_db_info():
-    connection = sqlite3.connect("data.db")
-    cursor = connection.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = cursor.fetchall()
-    cursor.execute("SELECT * FROM users;")
-    users = cursor.fetchall()
-    
-    connection.close()
-    print(tables, '\n', users)

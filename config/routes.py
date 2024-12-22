@@ -9,6 +9,7 @@ from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
 from importlib import import_module
 import markdown
+import traceback
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
 ROOT_ROUTES = get_routes()
@@ -31,8 +32,6 @@ def _render_template(view: str, func: Callable):
         try:
             output = func(user_input)
         except Exception as e:
-            import traceback
-            print(e)
             traceback.print_exc()
             output = 'Error:' + str(e)
     else:
