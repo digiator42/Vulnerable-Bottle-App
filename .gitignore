@@ -12,4 +12,4 @@ venv/
 media/*
 code-style.md
 .vscode
-help
+*.txt
