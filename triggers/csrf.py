@@ -19,24 +19,22 @@ def trigger_csrf(input: Dict):
         return strong_csrf(input)
     
 def weak_csrf(input):
-    print('---------------')
     return _exec_csrf(input)
 
 def medium_csrf(input: Dict):
 
     csrf_token = input.get('csrf_token')
-    print(request.urlparts)
+
     referer = request.headers.get('Referer')
-    print('-------> ', referer)
+
     # e.g http://localhost:8080
     current_domain = "http://" + request.urlparts.netloc
-    print('-------> ', current_domain)
 
     if not referer or not referer.startswith(current_domain):
         return "Invalid Request"
     
     session = request.environ.get('beaker.session')
-    if csrf_token != _generate_csrf_token(session['username']):
+    if csrf_token != medium_generate_csrf_token(session['username']):
         return "CSRF token invalid"
     
     return _exec_csrf(input)
@@ -45,7 +43,7 @@ def strong_csrf(input: Dict):
     csrf_token = input.get('csrf_token')
     session = request.environ.get('beaker.session')
     
-    if csrf_token != session['csrf_token']:
+    if csrf_token != session.get('csrf_token'):
         return "CSRF token invalid"
     
     return _exec_csrf(input)
@@ -67,5 +65,5 @@ def _exec_csrf(input):
         
     return f'Transferred {amount} to {recipient}, balance {new_balance}'
 
-def _generate_csrf_token(username):
+def medium_generate_csrf_token(username):
     return hashlib.md5(username.encode()).hexdigest()

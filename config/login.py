@@ -17,7 +17,7 @@ def generate_jwt_token():
     
     payload = {
         'username': username,
-        'exp': datetime.now(timezone.utc) + timedelta(hours=1)
+        'exp': datetime.now(timezone.utc) + timedelta(hours=5)
     }
     
     jwt_token = jwt.encode(payload, KEY, algorithm='HS256')
@@ -61,7 +61,6 @@ def login():
     if request.method == 'POST':
         username = request.forms.get('username')
         password = request.forms.get('password')
-        print('----> ', username, password)
         # Is is valid user
         if verify_user(username, password):
             request.environ['beaker.session']['logged_in'] = True
@@ -71,7 +70,6 @@ def login():
             add_crypto_user()
             # only for jwt vulnerabilty
             generate_jwt_token()
-            print('----------> AUTHENTICATED!!')
             return redirect('/')
         # Nope
         return template('_login', output=FAIL_LOGIN_MSG)
