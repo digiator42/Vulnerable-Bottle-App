@@ -1,7 +1,7 @@
 from typing import Dict
 from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
-import os
+from pathlib import Path
 
 
 def trigger_file_read(input: Dict):
@@ -36,7 +36,13 @@ def medium_file_read(input: Dict):
     
 def strong_file_read(input: Dict):
     base_dir = '/var/www/'
-    requested_path = os.path.realpath(os.path.join(base_dir, input.get('input')))
+    
+    try:
+        # Resolving any symlinks
+        requested_path = Path(base_dir, input.get('input')).resolve(strict=True)
+    except OSError as e:
+        print(e)
+        return
     
     if not requested_path.startswith(base_dir):
         return "Access denied: Invalid file path"

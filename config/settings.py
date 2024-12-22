@@ -1,4 +1,4 @@
-import os
+from pathlib import PurePath
 
 # app settings
 DEBUG = True
@@ -7,7 +7,7 @@ PORT = 8000
 HOST = '0.0.0.0'
 
 # root directory
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = PurePath(__file__).parent.parent
 
 # static files & uploads
 STATIC_DIR = './static'
