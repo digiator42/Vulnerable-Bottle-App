@@ -3,7 +3,7 @@
 <div class="form-container">
     <h1>Cross-Site Request Forgery (CSRF)</h1>
     <form method="POST" action="/csrf/csrf">
-        <!-- only for strong level -->
+        <!-- only for medium and strong levels -->
         <input type="hidden" name="csrf_token" value="">
         <label for="amount">Transfer Amount:</label><br>
         <input type="number" id="amount" name="amount" required>

@@ -84,6 +84,7 @@ def generate_csrf_token():
     
     if session['level'] == STRONG_LEVEL:
         csrf_token = secrets.token_urlsafe(32)
+        print('csrf-------->> ', csrf_token)
         session['csrf_token'] = csrf_token
     
     return JsonResponse({'csrf_token': csrf_token}).render()
