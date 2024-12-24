@@ -68,5 +68,5 @@ def _exec_csrf(input):
         
     return f'Transferred {amount} to {recipient}, balance {new_balance}'
 
-def generate_csrf_token(username):
+def medium_generate_csrf_token(username):
     return hashlib.md5(username.encode()).hexdigest()
