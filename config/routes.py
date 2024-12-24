@@ -19,7 +19,6 @@ def _render_template(view: str, func: Callable):
     Renders a template with valid output of a trigger function.
     """
     user_input: Dict = get_user_input()
-
     if view[:PY_EXT] == 'file-upload':
         if not user_input:
             output = ''

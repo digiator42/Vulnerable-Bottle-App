@@ -48,6 +48,7 @@ def strong_crypto(data: Dict):
         cursor.execute("SELECT encrypted_password_hash FROM users_hashed_pass WHERE username = ?", (username,))
         result = cursor.fetchone()
 
+        # Unlikely to happen :)
         if not result:
             return "User not found!"
 
@@ -58,7 +59,7 @@ def strong_crypto(data: Dict):
     stored_password_hash: bytes = cipher_suite.decrypt(encrypted_password_hash)
     
     # is it the same stored password
-    if checkpw(data['password'].encode(), stored_password_hash):
+    if checkpw(data.get('password').encode(), stored_password_hash):
         return "Authentication successful!"
     else:
         return "Authentication failed!"

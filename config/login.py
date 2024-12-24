@@ -70,7 +70,6 @@ def login():
             add_crypto_user()
             # only for jwt vulnerabilty
             generate_jwt_token()
-            
             return redirect('/')
         # Nope
         return template('_login', output=FAIL_LOGIN_MSG)
