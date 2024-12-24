@@ -3,7 +3,6 @@ from typing import Dict
 from config.settings import MEDIUM_LEVEL, STRONG_LEVEL
 from bottle import request
 from urllib.parse import urlparse
-from config.settings import DEFAULT_LEVEL
 
 ALLOWED_DOMAIN = "portswigger.net"
 

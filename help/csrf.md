@@ -18,22 +18,21 @@ The app is divided into three levels: Weak, Medium, and Strong. Each level intro
 - **Description**: Referer ?, not safe, at all..
 - **Info**: Using the normal get req wouldn't work, now there is a check for csrf_token 
 - **Exploit Example**:
-<pre>
   ```bash
   # The csrf_roken is generated with md5 hash using current username 
   # (check the code), so it can be easily generated
   
   # Still you can use GET
-  curl -X POST 'http://localhost:8000/csrf/csrf?level=medium' \
-  -H "Referer: http://localhost:8000" \
+  curl -X POST 'http:/localhost:8000/csrf/csrf?level=medium' \
+  -H "Referer: http:/localhost:8000" \
   -d "amount=32&recipient=dsads&csrf_token={generated_csrf_token}" -b cookies
 
   ```
-</pre>
+
 ---
 
 ### 3. Strong Level
-- **Description**: The csrf_token is safely generated on each request and stored in session.
+- **Description**: The csrf_token is safely generated and stored in session.
 - **Exploit Example**:
 
 ---
