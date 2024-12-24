@@ -32,6 +32,8 @@ def medium_csrf(input: Dict):
 
     if not referer or not referer.startswith(current_domain):
         return "Invalid Request"
+    if not referer or not referer.startswith(current_domain):
+        return "Invalid Request"
     
     session = request.environ.get('beaker.session')
     if csrf_token != medium_generate_csrf_token(session['username']):
@@ -43,6 +45,7 @@ def strong_csrf(input: Dict):
     csrf_token = input.get('csrf_token')
     session = request.environ.get('beaker.session')
     
+    if csrf_token != session.get('csrf_token'):
     if csrf_token != session.get('csrf_token'):
         return "CSRF token invalid"
     
