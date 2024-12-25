@@ -1,5 +1,5 @@
 from typing import Callable, Dict
-from bottle import template, template, static_file, request, redirect
+from bottle import template, template, static_file, request, redirect, FileUpload
 from utils.main import (
     get_routes, get_trigger_functions, get_user_input, 
     get_template, add_log, get_api_functions, PY_EXT
@@ -19,13 +19,8 @@ def _render_template(view: str, func: Callable):
     Renders a template with valid output of a trigger function.
     """
     user_input: Dict = get_user_input()
-    if view[:PY_EXT] == 'file-upload':
-        if not user_input:
-            output = ''
-        else:
-            output = func(user_input)
 
-    elif _valid_user_input(user_input):
+    if _valid_user_input(user_input):
         log_file = func.__name__.replace('trigger_', '')
         add_log(log_file, user_input)
         try:
@@ -44,6 +39,8 @@ def _valid_user_input(input: Dict):
     """
     if input:
         for user_input in input.values():
+            if isinstance(user_input, FileUpload):
+                break
             valid_input = user_input.strip()
             if not valid_input:
                 return False
