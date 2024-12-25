@@ -1,5 +1,8 @@
 from typing import Callable, Dict
-from bottle import template, template, static_file, request, redirect, FileUpload
+from bottle import (
+    template, template, static_file, request,
+    redirect, FileUpload
+)
 from utils.main import (
     get_routes, get_trigger_functions, get_user_input, 
     get_template, add_log, get_api_functions, PY_EXT
