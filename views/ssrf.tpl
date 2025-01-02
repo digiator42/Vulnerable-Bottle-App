@@ -12,7 +12,10 @@
     <div>
         % if output:
         <br>
-        <pre class='output'>{{ output[:120] + '...' if len(output) > 120 else output }}</pre>
+        % if 'Error' in output:
+            <pre class='output'>{{ output[:120] + '...' if len(output) > 120 else output }}</pre>
+        % else:
+            <pre class='output'>{{ output }}</pre>
         % end
     </div>
 </div>
