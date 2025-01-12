@@ -7,11 +7,11 @@ from utils.main import (
     get_routes, get_trigger_functions, get_user_input, 
     get_template, add_log, get_api_functions, PY_EXT
 )
+from utils.markdown_help import md
 from bs4 import BeautifulSoup
 from .login import login, logout
 from .settings import DEFAULT_LEVEL, LEVELS
 from importlib import import_module
-import markdown
 import traceback
 
 TRIGGER_ROUTES = get_routes(PY_EXT)
@@ -59,9 +59,9 @@ def serve_media(file):
 
 def main_view():
     with open('./README.md', 'r') as f:
-        html_content = markdown.markdown(f.read())
+        html = md.render(f.read())
     
-    temp = get_template('_home', instructions=html_content)    
+    temp = get_template('_home', instructions=html)    
     return template(temp)
 
 def routes_view():

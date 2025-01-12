@@ -7,7 +7,7 @@ import re
 import hashlib
 import secrets
 import os
-import markdown
+from utils.markdown_help import md 
 
 
 def logs():
@@ -92,7 +92,7 @@ def get_jwt_token():
     jwt_token = request.environ['beaker.session']['jwt_token']
     
     return JsonResponse({'token': jwt_token}).render()
-
+    
 def help():
     vuln: str = request.query.get('vuln')
     vuln = re.sub(r'\?.*', '', vuln)    
@@ -100,7 +100,7 @@ def help():
     
     try:
         with open(f'./help/{vuln}.md', 'r') as f:
-            html_content = markdown.markdown(f.read())
+            html_content = md.render(f.read())
     except FileNotFoundError as e:
         return str(e)
     
