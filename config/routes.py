@@ -61,8 +61,13 @@ def main_view():
     with open('./README.md', 'r') as f:
         html = md.render(f.read())
     
-    temp = get_template('_home', instructions=html)    
-    return template(temp)
+    temp = get_template('_home', instructions=html)
+    # rm dashboard img
+    soup = BeautifulSoup(temp, 'html.parser')
+    img = soup.find('img')
+    if img:
+        img.decompose()
+    return template(str(soup))
 
 def routes_view():
     routes = [route.rule for route in request.app.routes]

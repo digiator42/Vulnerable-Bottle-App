@@ -46,14 +46,14 @@
 
         </div>
     </div>
-    <div>
-        <div class="help-div" onclick="helpWindow()">
+    <div class="footer">
+        <div class="help-div">
             <a type="button">Help</a>
         </div>
-        <div class="code-div" onclick="codeWindow()">
+        <div class="code-div">
             <a type="button">Code</a>
         </div>
-        <div class="logs-div" onclick="logsWindow()">
+        <div class="logs-div">
             <a type="button">Logs</a>
         </div>
         <div class="logout-div">
@@ -62,47 +62,6 @@
     </div>
 </body>
 <script src="/static/js/main.js" type="module"></script>
-<script>
-    url = window.location.href;
-    chunks = url.split('/');
-    func_name = chunks[chunks.length - 1];
-
-    if (chunks.length > 4) {
-        vuln = chunks.slice(-2).join('/');
-    }
-    else {
-        vuln = func_name;
-    }
-
-    function helpWindow() {
-        window.open(`/api/help?vuln=${func_name}`, "", "width=900,height=700");
-    }
-    function logsWindow() {
-        window.open(`/api/logs?vuln=${func_name}`, "", "width=700,height=400");
-    }
-    function codeWindow() {
-        window.open(`/api/level_code?vuln=${vuln}`, "", "width=700,height=400");
-    }
-
-    // Set title
-    let titleTag = document.getElementsByTagName('title');
-
-    if (titleTag) {
-        let h1Text = document.querySelector('h1').innerText;
-        titleTag[0].innerText += " - " + h1Text;
-    }
-
-    // welcome message
-    let cookies = document.cookie.split(';');
-    let username = '';
-
-    for (cookie of cookies) {
-        if (cookie.trim().startsWith('vbausername')) {
-            username = cookie.split('=')[1];
-        }
-    }
-
-    document.querySelector('h3').innerText = 'Logged in as ' + username;
-</script>
+<script src="/static/js/basic.js" type="text/javascript"></script>
 
 </html>
