@@ -9,17 +9,20 @@ This application is **`intentionally insecure`**. It may also contain **`uninten
 ## Features and Vulnerabilities
 
 - **Injection Attacks**: SQL Injection, Command Injection
-- **Broken Authentication**: Weak password storage, exposed credentials & database
-- **CSRF (Cross-Site Request Forgery)**: Missing CSRF protection
-- **Sensitive Data Exposure**
-- **XSS (Cross-Site Scripting)**
-- **Insecure Deserialization**
 - **SSRF (Server-Side Request Forgery)**
+- **XSRF (Cross-Site Request Forgery)**
+- **XSS (Cross-Site Scripting)**
+- **JWT Failure Verification**
+- **Open Redirect**
+- **Cryptographic Failures**
+- **Insecure File Read**
+- **Broken Authentication**
+- **Insecure Deserialization**
 - **File Upload Vulnerabilities**
 
 
 ## App Routes
-
+- You can find all app routes with possible methods -> http://localhost:8000/routes
 - Each route accept both `GET` and `POST` requests for hands-on exploration, Except for root views only accept `GET` requests
 - There is no restrictions on GET or POST requests, the data will be collected whether it's query or body data (exclude main login page)
 
