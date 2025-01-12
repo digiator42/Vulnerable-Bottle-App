@@ -8,3 +8,4 @@ bcrypt
 gunicorn
 cryptography
 markdown-it-py[plugins]
+pygments
