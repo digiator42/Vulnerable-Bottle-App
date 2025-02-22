@@ -88,15 +88,19 @@ def xss_ssti_view(view, func):
             xss_ssti_output = func(user_input)
             
         xss_ssti_tag = f'<p>Hello <strong>{xss_ssti_output}</strong></p>'
-        xss_ssti_output = BeautifulSoup(xss_ssti_tag, 'html.parser')
+
+        if view[:PY_EXT] == 'ssti':
+            ssti_template = get_template(view[:PY_EXT])
+            ssti_template += xss_ssti_tag
+            return template(ssti_template)
         
+        xss_ssti_output = BeautifulSoup(xss_ssti_tag, 'html.parser')
         xss_ssti_template = get_template(view[:PY_EXT])
         soup = BeautifulSoup(xss_ssti_template, 'html.parser')
         
         xss_ssti_form = soup.find('form')
         xss_ssti_form.insert_after(xss_ssti_output)
-        
-        return template(str(soup).replace('e.g., {{', 'e.g., &#123;&#123;'))
+        return template(str(soup))
     
     return get_xss_ssti_template
 

@@ -15,11 +15,21 @@ def trigger_ssti(input):
     elif session.get('level') == STRONG_LEVEL:
         return strong_ssti(user_input)
     
-def weak_ssti(input):
+def weak_ssti(input: str):
     return input
 
 def medium_ssti(input):
-    return "works"
+    
+    substitutions = {
+        '{': '&#123;',
+        '}': '&#125;',
+    }
+    sanitized_input = input
+    for key, value in substitutions.items():
+        sanitized_input = re.sub(key, value, sanitized_input)
+    return sanitized_input
 
 def strong_ssti(input):
-    return "works"
+    # this is a built bottle function to escape html only
+    # so by adding both it scaping the escape :)
+    return '{{' + f'_escape("{input}")' + '}}'
