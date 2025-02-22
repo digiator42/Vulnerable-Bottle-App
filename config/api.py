@@ -24,7 +24,13 @@ def logs():
         
         os.makedirs('./logs', exist_ok=True)
         with open(f'./logs/{vuln}.log', 'r') as f:
-            logs = f.read()
+            logs = ''
+            ml = 80
+            for line in f:
+                while len(line) > ml:
+                    logs += line[:ml] + '\n' + (' ' * 10)
+                    line = line[ml:]
+                logs += line
             return template('_logs', output=logs, vuln=vuln)
     except Exception as e:
         print(e)
