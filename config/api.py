@@ -97,9 +97,8 @@ def help():
     vuln: str = request.query.get('vuln')
     vuln = re.sub(r'\?.*', '', vuln)    
     vuln = vuln.replace('_', '-')
-    
     try:
-        with open(f'./help/{vuln}.md', 'r') as f:
+        with open(f'./help/{vuln.upper()}.md', 'r') as f:
             html_content = md.render(f.read())
     except FileNotFoundError as e:
         return str(e)

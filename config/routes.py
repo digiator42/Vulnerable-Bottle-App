@@ -75,30 +75,30 @@ def routes_view():
 
     return template("_routes", routes=zip(routes, methods))
 
-def xss_view(view, func):
+def xss_ssti_view(view, func):
     """
-    gets xss template and concatenate xss tag with user input,
+    gets xss_ssti template and concatenate xss_ssti tag with user input,
     and trigger JS scripts
     """
-    def get_xss_template():
+    def get_xss_ssti_template():
         user_input = get_user_input()
-        xss_output = ''
+        xss_ssti_output = ''
         if _valid_user_input(user_input):
             add_log(view[:PY_EXT], user_input)
-            xss_output = func(user_input)
+            xss_ssti_output = func(user_input)
             
-        xss_tag = f'<p>Hello {xss_output}</p>'
-        xss_output = BeautifulSoup(xss_tag, 'html.parser')
+        xss_ssti_tag = f'<p>Hello <strong>{xss_ssti_output}</strong></p>'
+        xss_ssti_output = BeautifulSoup(xss_ssti_tag, 'html.parser')
         
-        xss_template = get_template(view[:PY_EXT])
-        soup = BeautifulSoup(xss_template, 'html.parser')
+        xss_ssti_template = get_template(view[:PY_EXT])
+        soup = BeautifulSoup(xss_ssti_template, 'html.parser')
         
-        xss_form = soup.find('form')
-        xss_form.insert_after(xss_output)
+        xss_ssti_form = soup.find('form')
+        xss_ssti_form.insert_after(xss_ssti_output)
         
-        return template(str(soup))
+        return template(str(soup).replace('e.g., {{', 'e.g., &#123;&#123;'))
     
-    return get_xss_template
+    return get_xss_ssti_template
 
 def trigger_view(view, func):
     return lambda: _render_template(view, func)
@@ -141,8 +141,8 @@ def add_trigger_routes(app):
 
         for func_name, func in trigger_functions.items():
             route_path = f"/{trigger}/{func_name.replace('trigger_', '')}"
-            if func_name == 'trigger_xss':
-                app.route(route_path, method=["GET", "POST"])(xss_view(view, func))
+            if func_name == 'trigger_xss' or func_name == 'trigger_ssti':
+                app.route(route_path, method=["GET", "POST"])(xss_ssti_view(view, func))
                 continue
             app.route(route_path, method=["GET", "POST"])(trigger_view(view, func))
             

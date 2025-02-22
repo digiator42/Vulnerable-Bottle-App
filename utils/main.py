@@ -48,7 +48,7 @@ def get_template(template_name, **kwargs):
     try:
         with open(f"views/{template_name}.tpl") as f:
             template = f.read()
-        return template.format(**kwargs)
+        return template.format(**kwargs) or template
     except (FileExistsError, KeyError) as e:
         print(e)
 
