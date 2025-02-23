@@ -57,13 +57,15 @@ def get_user_input():
     Get user input from the request object.
     """
     input_dict = {}
+    if request.json:
+        input_dict = request.json
+        return input_dict
     for usr_input in input:
         if request.GET.get(usr_input):
             input_dict[usr_input] = request.GET.get(usr_input)
-            
         if request.POST.get(usr_input):
             input_dict[usr_input] = request.POST.get(usr_input)
-    
+            
     return input_dict
 def get_routes(ext: int=TPL_EXT):
     """
