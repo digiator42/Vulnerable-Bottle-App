@@ -39,18 +39,19 @@ def strong_cmd_injection(user_input):
     """
     bad_chars = [
         ';', '&', '|', '&&', '||', '`', '$(', '<', '>', '>>', '<<', '*', '?', 
-        '[', ']', '{', '}', '\\'
+        '[', ']', '{', '}', '\\', '\n', '\r'
     ]
     
-    cleared_input = user_input['input']
+    input = user_input['input']
 
-    if not cleared_input.startswith('ping'):
+    if not input.startswith('ping'):
         return
-        
+    
     for char in bad_chars:
-        cleared_input = cleared_input.replace(char, '')
+        if char in input:
+            return 'Invalid cmd'
 
-    return _exec_cmd_injection({'input': cleared_input})
+    return _exec_cmd_injection({'input': input})
 
 def _exec_cmd_injection(user_input, show_result=False):
     try:
