@@ -11,6 +11,7 @@ This application is **`intentionally insecure`**. It may also contain **`uninten
 - **Injection Attacks**: SQL Injection, Command Injection
 - **SSRF (Server-Side Request Forgery)**
 - **XSRF (Cross-Site Request Forgery)**
+- **SSTI (Server-Side Template Injection)**
 - **XSS (Cross-Site Scripting)**
 - **JWT Failure Verification**
 - **Open Redirect**
@@ -20,6 +21,9 @@ This application is **`intentionally insecure`**. It may also contain **`uninten
 - **Insecure Deserialization**
 - **File Upload Vulnerabilities**
 
+## Login
+  - **Login with username:test & password:test**
+    - jwt and crypto vulnerabilities will not work though.
 
 ## App Routes
 - You can find all app routes with possible methods -> http://localhost:8000/routes
