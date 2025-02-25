@@ -3,6 +3,7 @@ import sqlite3
 from bottle import request
 from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 import hashlib
+import re
 
 
 def trigger_csrf(input: Dict):
@@ -40,6 +41,15 @@ def medium_csrf(input: Dict):
 def strong_csrf(input: Dict):
     csrf_token = input.get('csrf_token')
     session = request.environ.get('beaker.session')
+    referer = request.headers.get('Referer')
+    
+    current_domains = {
+        f'http://{request.urlparts.netloc}/csrf',
+        f'http://{request.urlparts.netloc}/csrf/csrf',
+    }
+    
+    if not referer or re.sub(r'\?.*', '', referer) not in current_domains:
+        return "Invalid Request"
     
     if csrf_token != session.get('csrf_token'):
         return "CSRF token invalid"
