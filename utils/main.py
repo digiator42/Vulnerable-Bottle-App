@@ -17,7 +17,7 @@ TPL_EXT: int = -4
 csrf = ['amount', 'recipient', 'csrf_token']
 
 input = [
-    'username', 'password', 'input', 'role', 'jwt'
+    'username', 'password', 'input', 'role', 'jwt', 'second_name'
 ]
 
 input.extend(csrf)

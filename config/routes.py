@@ -21,6 +21,7 @@ def _render_template(view: str, func: Callable):
     """
     Renders a template with valid output of a trigger function.
     """
+    level = request.environ.get('beaker.session')['level']
     user_input: Dict = get_user_input()
 
     if _valid_user_input(user_input):
@@ -33,8 +34,8 @@ def _render_template(view: str, func: Callable):
             output = 'Error:' + str(e)
     else:
         output = ''
-        
-    return template(view[:PY_EXT], output=output)
+    
+    return template(view[:PY_EXT], output=output, level=level)
 
 def _valid_user_input(input: Dict):
     """
@@ -108,7 +109,12 @@ def trigger_view(view, func):
     return lambda: _render_template(view, func)
 
 def root_view(view):
-    return lambda view=view: template(view, output='')
+    session = request.environ.get('beaker.session')
+    if session:
+        level = session.get('beaker.session')
+    else:
+        level = 'weak'
+    return lambda view=view: template(view, output='', level=level)
 
 def session_middleware():
     session = request.environ.get('beaker.session')
