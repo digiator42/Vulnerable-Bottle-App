@@ -4,6 +4,7 @@ from bottle import request
 from config.settings import DEFAULT_LEVEL, MEDIUM_LEVEL, STRONG_LEVEL
 import hashlib
 import re
+import secrets
 
 
 def trigger_csrf(input: Dict):
@@ -56,6 +57,17 @@ def strong_csrf(input: Dict):
     
     return _exec_csrf(input)
 
+def strong_csrf_generator():
+    """
+    This is just a demonstration.
+    """
+    session = request.environ.get('beaker.session')
+    csrf_token = secrets.token_urlsafe(32)
+    session['csrf_token'] = csrf_token
+
+def medium_csrf_generator(username):
+    return hashlib.md5(username.encode()).hexdigest()
+
 def _exec_csrf(input):
     amount = input['amount']
     recipient = input['recipient']
@@ -72,6 +84,3 @@ def _exec_csrf(input):
             cursor.execute("UPDATE users SET balance = ? WHERE username = ?", (new_balance, session['username']))
         
     return f'Transferred {amount} to {recipient}, balance {new_balance}'
-
-def _generate_csrf_token(username):
-    return hashlib.md5(username.encode()).hexdigest()
