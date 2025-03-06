@@ -55,8 +55,6 @@ body data (Raw, Form-date & x-www-form-urlencoded)
 <br>
 <br>
 
-![Dashboard](./static/img/dashboard.png)
-
 ## Running the Application   
 
 - Run the application:
